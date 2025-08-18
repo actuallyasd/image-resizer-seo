@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SEO Strategy Report – Client</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #fafafa; }
+    h1 { text-align: center; margin-bottom: 30px; }
+    .tabs { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
+    .tab { padding: 10px 20px; cursor: pointer; background: #eee; border-radius: 8px; margin: 5px; transition: 0.3s; }
+    .tab.active { background: #007BFF; color: white; }
+    .content { display: none; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .content.active { display: block; }
+    .section h2 { margin-top: 0; }
+    ul { line-height: 1.6; }
+    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #f0f0f0; }
+    canvas { max-width: 600px; margin: 20px auto; display: block; }
+    .note { font-size: 0.9em; color: #555; margin-top: 20px; }
+    .download-btn { display: block; margin: 20px auto; padding: 10px 20px; background: #28a745; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+    .download-btn:hover { background: #218838; }
+  </style>
+</head>
+<body>
+  <h1>SEO Strategy Report – Client</h1>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="onpage">On-Page SEO</div>
+    <div class="tab" data-tab="technical">Technical SEO</div>
+    <div class="tab" data-tab="keywords">Keyword Research</div>
+    <div class="tab" data-tab="charts">Impact Analysis</div>
+    <div class="tab" data-tab="competitors">Competitor Analysis</div>
+    <div class="tab" data-tab="recommendations">Recommendations</div>
+  </div>
+
+  <!-- On-Page SEO -->
+  <div id="onpage" class="content active">
+    <div class="section">
+      <h2>On-Page SEO</h2>
+      <ul id="onpage-list"></ul>
+    </div>
+  </div>
+
+  <!-- Technical SEO -->
+  <div id="technical" class="content">
+    <div class="section">
+      <h2>Technical SEO</h2>
+      <ul id="technical-list"></ul>
+    </div>
+  </div>
+
+  <!-- Keyword Research -->
+  <div id="keywords" class="content">
+    <div class="section">
+      <h2>Keyword Research</h2>
+      <table id="keyword-table">
+        <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC</th></tr>
+      </table>
+      <div class="note">Data loaded from CSV/JSON file for easy updates.</div>
+    </div>
+  </div>
+
+  <!-- Impact Analysis -->
+  <div id="charts" class="content">
+    <h2>SEO Impact Analysis</h2>
+    <canvas id="seoChart"></canvas>
+  </div>
+
+  <!-- Competitor Analysis -->
+  <div id="competitors" class="content">
+    <div class="section">
+      <h2>Competitor Analysis</h2>
+      <table id="competitor-table">
+        <tr><th>Competitor</th><th>Strength</th><th>Weakness</th><th>Opportunities</th></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Recommendations -->
+  <div id="recommendations" class="content">
+    <div class="section">
+      <h2>Recommendations & Next Steps</h2>
+      <ul id="recommendations-list"></ul>
+    </div>
+  </div>
+
+  <!-- Download Button -->
+  <button class="download-btn" onclick="downloadPDF()">Download Report as PDF</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Load JSON or CSV data (no cost: uses PapaParse for CSV parsing)
+    function loadData() {
+      // Example JSON fetch
+      fetch('data.json')
+        .then(r => r.json())
+        .then(data => populateData(data))
+        .catch(() => console.warn("No JSON file found"));
+
+      // Example CSV fetch for keywords (replace 'keywords.csv' with your file)
+      Papa.parse('keywords.csv', {
+        download: true,
+        header: true,
+        complete: function(results) {
+          const table = document.getElementById('keyword-table');
+          results.data.forEach(row => {
+            if(row.Keyword) {
+              let tr = `<tr><td>${row.Keyword}</td><td>${row.Volume}</td><td>${row.Competition}</td><td>${row.CPC}</td></tr>`;
+              table.insertAdjacentHTML('beforeend', tr);
+            }
+          });
+        }
+      });
+    }
+
+    function populateData(data) {
+      // Onpage
+      const onpageList = document.getElementById('onpage-list');
+      data.tasks?.onpage?.forEach(t => onpageList.insertAdjacentHTML('beforeend', `<li>${t}</li>`));
+
+      // Technical
+      const techList = document.getElementById('technical-list');
+      data.tasks?.technical?.forEach(t => techList.insertAdjacentHTML('beforeend', `<li>${t}</li>`));
+
+      // Recommendations
+      const recList = document.getElementById('recommendations-list');
+      data.recommendations?.forEach(r => recList.insertAdjacentHTML('beforeend', `<li>${r}</li>`));
+
+      // Competitors
+      const compTable = document.getElementById('competitor-table');
+      data.competitors?.forEach(c => {
+        let row = `<tr><td>${c.name}</td><td>${c.strength}</td><td>${c.weakness}</td><td>${c.opportunity}</td></tr>`;
+        compTable.insertAdjacentHTML('beforeend', row);
+      });
+
+      // Chart
+      const ctx = document.getElementById('seoChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: data.impact?.labels || ['Meta', 'Alt Text', 'Schema', 'Speed'],
+          datasets: [{
+            label: 'Impact Level (1-10)',
+            data: data.impact?.values || [8, 6, 9, 7],
+            backgroundColor: ['#007BFF','#28a745','#ffc107','#dc3545']
+          }]
+        },
+        options: { scales: { y: { beginAtZero: true } } }
+      });
+    }
+
+    loadData();
+
+    // PDF Download
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'pt', 'a4');
+      const report = document.body;
+      await html2canvas(report, { scale: 2 }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save('SEO_Report.pdf');
+      });
+    }
+  </script>
+</body>
+</html>
