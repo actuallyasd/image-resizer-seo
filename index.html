@@ -19,7 +19,6 @@
     table { border-collapse: collapse; width: 100%; margin-top: 10px; }
     th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
     th { background: #f0f0f0; }
-    canvas { max-width: 600px; margin: 20px auto; display: block; }
     .note { font-size: 0.9em; color: #555; margin-top: 20px; }
     .download-btn { display: block; margin: 20px auto; padding: 10px 20px; background: #28a745; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
     .download-btn:hover { background: #218838; }
@@ -39,21 +38,17 @@
 
   <!-- On-Page SEO -->
   <div id="onpage" class="content active">
-    <div class="section">
-      <h2>On-Page SEO</h2>
-      <ul id="onpage-list"></ul>
-    </div>
+    <h2>On-Page SEO</h2>
+    <ul id="onpage-list"></ul>
   </div>
 
   <!-- Technical SEO -->
   <div id="technical" class="content">
-    <div class="section">
-      <h2>Technical SEO</h2>
-      <ul id="technical-list"></ul>
-    </div>
+    <h2>Technical SEO</h2>
+    <ul id="technical-list"></ul>
   </div>
 
-  <!-- Keyword Research with Subtabs -->
+  <!-- Keyword Research -->
   <div id="keywords" class="content">
     <h2>Keyword Research</h2>
     <div class="subtabs">
@@ -64,31 +59,32 @@
     </div>
 
     <div id="transactional" class="subcontent active">
+      <input type="file" id="transactional-upload" accept=".csv, .xlsx">
       <table id="transactional-table">
         <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC</th><th>Type</th></tr>
       </table>
     </div>
 
     <div id="informational" class="subcontent">
+      <input type="file" id="informational-upload" accept=".csv, .xlsx">
       <table id="informational-table">
         <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC</th></tr>
       </table>
     </div>
 
     <div id="navigational" class="subcontent">
+      <input type="file" id="navigational-upload" accept=".csv, .xlsx">
       <table id="navigational-table">
         <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC</th></tr>
       </table>
     </div>
 
     <div id="commercial" class="subcontent">
+      <input type="file" id="commercial-upload" accept=".csv, .xlsx">
       <table id="commercial-table">
         <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC</th><th>Type</th></tr>
       </table>
     </div>
-
-    <div class="note">Upload your own CSV/XLSX files for each category below:</div>
-    <input type="file" id="file-input" multiple accept=".csv, .xlsx">
   </div>
 
   <!-- Impact Analysis -->
@@ -99,23 +95,18 @@
 
   <!-- Competitor Analysis -->
   <div id="competitors" class="content">
-    <div class="section">
-      <h2>Competitor Analysis</h2>
-      <table id="competitor-table">
-        <tr><th>Competitor</th><th>Strength</th><th>Weakness</th><th>Opportunities</th></tr>
-      </table>
-    </div>
+    <h2>Competitor Analysis</h2>
+    <table id="competitor-table">
+      <tr><th>Competitor</th><th>Strength</th><th>Weakness</th><th>Opportunities</th></tr>
+    </table>
   </div>
 
   <!-- Recommendations -->
   <div id="recommendations" class="content">
-    <div class="section">
-      <h2>Recommendations & Next Steps</h2>
-      <ul id="recommendations-list"></ul>
-    </div>
+    <h2>Recommendations & Next Steps</h2>
+    <ul id="recommendations-list"></ul>
   </div>
 
-  <!-- Download Button -->
   <button class="download-btn" onclick="downloadPDF()">Download Report as PDF</button>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -124,7 +115,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    // Main tab switching
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -134,7 +124,6 @@
       });
     });
 
-    // Subtab switching (for keyword categories)
     document.querySelectorAll('.subtab').forEach(sub => {
       sub.addEventListener('click', () => {
         document.querySelectorAll('.subtab').forEach(s => s.classList.remove('active'));
@@ -144,63 +133,63 @@
       });
     });
 
-    // File input loader for CSV and XLSX
-    document.getElementById('file-input').addEventListener('change', handleFileUpload);
-
-    function handleFileUpload(event) {
-      const files = event.target.files;
-      for (const file of files) {
+    function setupUpload(inputId, tableId, hasType=false) {
+      document.getElementById(inputId).addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
         const reader = new FileReader();
+
         if (file.name.endsWith('.csv')) {
-          reader.onload = e => parseCSV(e.target.result, file.name);
+          reader.onload = e => parseCSV(e.target.result, tableId, hasType);
           reader.readAsText(file);
         } else if (file.name.endsWith('.xlsx')) {
-          reader.onload = e => parseXLSX(e.target.result, file.name);
+          reader.onload = e => parseXLSX(e.target.result, tableId, hasType);
           reader.readAsArrayBuffer(file);
         }
-      }
+      });
     }
 
-    function parseCSV(content, filename) {
+    function parseCSV(content, tableId, hasType) {
       Papa.parse(content, {
         header: true,
         skipEmptyLines: true,
         complete: function(results) {
-          appendToTable(results.data, filename);
+          appendToTable(results.data, tableId, hasType);
         }
       });
     }
 
-    function parseXLSX(content, filename) {
+    function parseXLSX(content, tableId, hasType) {
       const workbook = XLSX.read(content, { type: 'array' });
       workbook.SheetNames.forEach(sheetName => {
         const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { defval: "" });
-        appendToTable(data, filename + ' - ' + sheetName);
+        appendToTable(data, tableId, hasType);
       });
     }
 
-    function appendToTable(rows, sourceName) {
-      let target = null;
-      if (sourceName.toLowerCase().includes('transactional')) target = document.getElementById('transactional-table');
-      else if (sourceName.toLowerCase().includes('informational')) target = document.getElementById('informational-table');
-      else if (sourceName.toLowerCase().includes('navigational')) target = document.getElementById('navigational-table');
-      else if (sourceName.toLowerCase().includes('commercial')) target = document.getElementById('commercial-table');
-
-      if (!target) return;
-
+    function appendToTable(rows, tableId, hasType) {
+      const target = document.getElementById(tableId);
       rows.forEach(row => {
-        if (row.Keyword) {
-          let extra = '';
-          if (target.id === 'transactional-table' || target.id === 'commercial-table') {
-            extra = `<td>${row.Type || ''}</td>`;
-          }
-          let tr = `<tr><td>${row.Keyword}</td><td>${row.Volume || ''}</td><td>${row.Competition || ''}</td><td>${row.CPC || ''}</td>${extra}</tr>`;
+        const keys = Object.keys(row).map(k => k.toLowerCase());
+        const keyword = row.Keyword || row.keyword || row["Keyword"] || row[keys.find(k => k.includes("keyword"))];
+        const volume = row.Volume || row.volume || row["Avg. monthly searches"] || row[keys.find(k => k.includes("search"))];
+        const competition = row.Competition || row.competition || row[keys.find(k => k.includes("competition"))];
+        const cpc = row.CPC || row.cpc || row["Top of page bid (low range)"] || row[keys.find(k => k.includes("cpc"))];
+        const type = row.Type || row.type || "";
+
+        if (keyword) {
+          let extra = hasType ? `<td>${type}</td>` : '';
+          let tr = `<tr><td>${keyword}</td><td>${volume || ''}</td><td>${competition || ''}</td><td>${cpc || ''}</td>${extra}</tr>`;
           target.insertAdjacentHTML('beforeend', tr);
         }
       });
     }
 
-    // PDF Download
+    setupUpload('transactional-upload','transactional-table', true);
+    setupUpload('informational-upload','informational-table', false);
+    setupUpload('navigational-upload','navigational-table', false);
+    setupUpload('commercial-upload','commercial-table', true);
+
     async function downloadPDF() {
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF('p', 'pt', 'a4');
