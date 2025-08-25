@@ -11,8 +11,11 @@
     .tab.active { background: #007BFF; color: white; }
     .content { display: none; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
     .content.active { display: block; }
-    .section h2 { margin-top: 0; }
-    ul { line-height: 1.6; }
+    .subtabs { display: flex; margin-top: 10px; }
+    .subtab { padding: 6px 12px; cursor: pointer; background: #f0f0f0; border-radius: 6px; margin-right: 5px; transition: 0.3s; }
+    .subtab.active { background: #28a745; color: white; }
+    .subcontent { display: none; margin-top: 15px; }
+    .subcontent.active { display: block; }
     table { border-collapse: collapse; width: 100%; margin-top: 10px; }
     th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
     th { background: #f0f0f0; }
@@ -50,15 +53,42 @@
     </div>
   </div>
 
-  <!-- Keyword Research -->
+  <!-- Keyword Research with Subtabs -->
   <div id="keywords" class="content">
-    <div class="section">
-      <h2>Keyword Research</h2>
-      <table id="keyword-table">
+    <h2>Keyword Research</h2>
+    <div class="subtabs">
+      <div class="subtab active" data-sub="transactional">Transactional</div>
+      <div class="subtab" data-sub="informational">Informational</div>
+      <div class="subtab" data-sub="navigational">Navigational</div>
+      <div class="subtab" data-sub="commercial">Commercial</div>
+    </div>
+
+    <div id="transactional" class="subcontent active">
+      <table id="transactional-table">
+        <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC</th><th>Type</th></tr>
+      </table>
+    </div>
+
+    <div id="informational" class="subcontent">
+      <table id="informational-table">
         <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC</th></tr>
       </table>
-      <div class="note">Data loaded from CSV/JSON file for easy updates.</div>
     </div>
+
+    <div id="navigational" class="subcontent">
+      <table id="navigational-table">
+        <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC</th></tr>
+      </table>
+    </div>
+
+    <div id="commercial" class="subcontent">
+      <table id="commercial-table">
+        <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC</th><th>Type</th></tr>
+      </table>
+    </div>
+
+    <div class="note">Upload your own CSV/XLSX files for each category below:</div>
+    <input type="file" id="file-input" multiple accept=".csv, .xlsx">
   </div>
 
   <!-- Impact Analysis -->
@@ -90,10 +120,11 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    // Tab switching
+    // Main tab switching
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -103,67 +134,72 @@
       });
     });
 
-    // Load JSON or CSV data (no cost: uses PapaParse for CSV parsing)
-    function loadData() {
-      // Example JSON fetch
-      fetch('data.json')
-        .then(r => r.json())
-        .then(data => populateData(data))
-        .catch(() => console.warn("No JSON file found"));
+    // Subtab switching (for keyword categories)
+    document.querySelectorAll('.subtab').forEach(sub => {
+      sub.addEventListener('click', () => {
+        document.querySelectorAll('.subtab').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.subcontent').forEach(sc => sc.classList.remove('active'));
+        sub.classList.add('active');
+        document.getElementById(sub.dataset.sub).classList.add('active');
+      });
+    });
 
-      // Example CSV fetch for keywords (replace 'keywords.csv' with your file)
-      Papa.parse('keywords.csv', {
-        download: true,
+    // File input loader for CSV and XLSX
+    document.getElementById('file-input').addEventListener('change', handleFileUpload);
+
+    function handleFileUpload(event) {
+      const files = event.target.files;
+      for (const file of files) {
+        const reader = new FileReader();
+        if (file.name.endsWith('.csv')) {
+          reader.onload = e => parseCSV(e.target.result, file.name);
+          reader.readAsText(file);
+        } else if (file.name.endsWith('.xlsx')) {
+          reader.onload = e => parseXLSX(e.target.result, file.name);
+          reader.readAsArrayBuffer(file);
+        }
+      }
+    }
+
+    function parseCSV(content, filename) {
+      Papa.parse(content, {
         header: true,
         complete: function(results) {
-          const table = document.getElementById('keyword-table');
-          results.data.forEach(row => {
-            if(row.Keyword) {
-              let tr = `<tr><td>${row.Keyword}</td><td>${row.Volume}</td><td>${row.Competition}</td><td>${row.CPC}</td></tr>`;
-              table.insertAdjacentHTML('beforeend', tr);
-            }
-          });
+          appendToTable(results.data, filename);
         }
       });
     }
 
-    function populateData(data) {
-      // Onpage
-      const onpageList = document.getElementById('onpage-list');
-      data.tasks?.onpage?.forEach(t => onpageList.insertAdjacentHTML('beforeend', `<li>${t}</li>`));
-
-      // Technical
-      const techList = document.getElementById('technical-list');
-      data.tasks?.technical?.forEach(t => techList.insertAdjacentHTML('beforeend', `<li>${t}</li>`));
-
-      // Recommendations
-      const recList = document.getElementById('recommendations-list');
-      data.recommendations?.forEach(r => recList.insertAdjacentHTML('beforeend', `<li>${r}</li>`));
-
-      // Competitors
-      const compTable = document.getElementById('competitor-table');
-      data.competitors?.forEach(c => {
-        let row = `<tr><td>${c.name}</td><td>${c.strength}</td><td>${c.weakness}</td><td>${c.opportunity}</td></tr>`;
-        compTable.insertAdjacentHTML('beforeend', row);
-      });
-
-      // Chart
-      const ctx = document.getElementById('seoChart').getContext('2d');
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: data.impact?.labels || ['Meta', 'Alt Text', 'Schema', 'Speed'],
-          datasets: [{
-            label: 'Impact Level (1-10)',
-            data: data.impact?.values || [8, 6, 9, 7],
-            backgroundColor: ['#007BFF','#28a745','#ffc107','#dc3545']
-          }]
-        },
-        options: { scales: { y: { beginAtZero: true } } }
+    function parseXLSX(content, filename) {
+      const workbook = XLSX.read(content, { type: 'array' });
+      workbook.SheetNames.forEach(sheetName => {
+        const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
+        const headers = data[0];
+        const rows = data.slice(1).map(row => Object.fromEntries(headers.map((h,i)=>[h,row[i]])));
+        appendToTable(rows, filename + ' - ' + sheetName);
       });
     }
 
-    loadData();
+    function appendToTable(rows, sourceName) {
+      let target = null;
+      if (sourceName.toLowerCase().includes('transactional')) target = document.getElementById('transactional-table');
+      else if (sourceName.toLowerCase().includes('informational')) target = document.getElementById('informational-table');
+      else if (sourceName.toLowerCase().includes('navigational')) target = document.getElementById('navigational-table');
+      else if (sourceName.toLowerCase().includes('commercial')) target = document.getElementById('commercial-table');
+
+      if (!target) return;
+
+      rows.forEach(row => {
+        if (row.Keyword) {
+          let extra = '';
+          if (target.id === 'transactional-table' || target.id === 'commercial-table') {
+            extra = `<td>${row.Type || ''}</td>`;
+          }
+          let tr = `<tr><td>${row.Keyword}</td><td>${row.Volume || ''}</td><td>${row.Competition || ''}</td><td>${row.CPC || ''}</td>${extra}</tr>`;
+          target.insertAdjacentHTML('beforeend', tr);
+        }
+      });
+    }
 
     // PDF Download
     async function downloadPDF() {
