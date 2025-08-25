@@ -164,6 +164,7 @@
     function parseCSV(content, filename) {
       Papa.parse(content, {
         header: true,
+        skipEmptyLines: true,
         complete: function(results) {
           appendToTable(results.data, filename);
         }
@@ -173,10 +174,8 @@
     function parseXLSX(content, filename) {
       const workbook = XLSX.read(content, { type: 'array' });
       workbook.SheetNames.forEach(sheetName => {
-        const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
-        const headers = data[0];
-        const rows = data.slice(1).map(row => Object.fromEntries(headers.map((h,i)=>[h,row[i]])));
-        appendToTable(rows, filename + ' - ' + sheetName);
+        const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { defval: "" });
+        appendToTable(data, filename + ' - ' + sheetName);
       });
     }
 
