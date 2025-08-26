@@ -59,28 +59,24 @@
     </div>
 
     <div id="transactional" class="subcontent active">
-      <input type="file" id="transactional-upload" accept=".csv, .xlsx">
       <table id="transactional-table">
         <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC</th><th>Type</th></tr>
       </table>
     </div>
 
     <div id="informational" class="subcontent">
-      <input type="file" id="informational-upload" accept=".csv, .xlsx">
       <table id="informational-table">
         <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC</th></tr>
       </table>
     </div>
 
     <div id="navigational" class="subcontent">
-      <input type="file" id="navigational-upload" accept=".csv, .xlsx">
       <table id="navigational-table">
         <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC</th></tr>
       </table>
     </div>
 
     <div id="commercial" class="subcontent">
-      <input type="file" id="commercial-upload" accept=".csv, .xlsx">
       <table id="commercial-table">
         <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC</th><th>Type</th></tr>
       </table>
@@ -111,7 +107,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
@@ -133,62 +128,34 @@
       });
     });
 
-    function setupUpload(inputId, tableId, hasType=false) {
-      document.getElementById(inputId).addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
+    // Google Sheets link for Transactional
+    const transactionalSheet = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pub?output=csv";
 
-        if (file.name.endsWith('.csv')) {
-          reader.onload = e => parseCSV(e.target.result, tableId, hasType);
-          reader.readAsText(file);
-        } else if (file.name.endsWith('.xlsx')) {
-          reader.onload = e => parseXLSX(e.target.result, tableId, hasType);
-          reader.readAsArrayBuffer(file);
-        }
-      });
-    }
-
-    function parseCSV(content, tableId, hasType) {
-      Papa.parse(content, {
+    function loadSheetCSV(url, tableId, hasType=false) {
+      Papa.parse(url, {
+        download: true,
         header: true,
         skipEmptyLines: true,
         complete: function(results) {
-          appendToTable(results.data, tableId, hasType);
+          const table = document.getElementById(tableId);
+          results.data.forEach(row => {
+            const keyword = row.Keyword || row.keyword;
+            const volume = row.Volume || row["Avg. monthly searches"];
+            const competition = row.Competition;
+            const cpc = row.CPC || row["Top of page bid (low range)"];
+            const type = row.Type || "";
+            if (keyword) {
+              let extra = hasType ? `<td>${type}</td>` : "";
+              let tr = `<tr><td>${keyword}</td><td>${volume || ''}</td><td>${competition || ''}</td><td>${cpc || ''}</td>${extra}</tr>`;
+              table.insertAdjacentHTML("beforeend", tr);
+            }
+          });
         }
       });
     }
 
-    function parseXLSX(content, tableId, hasType) {
-      const workbook = XLSX.read(content, { type: 'array' });
-      workbook.SheetNames.forEach(sheetName => {
-        const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { defval: "" });
-        appendToTable(data, tableId, hasType);
-      });
-    }
-
-    function appendToTable(rows, tableId, hasType) {
-      const target = document.getElementById(tableId);
-      rows.forEach(row => {
-        const keys = Object.keys(row).map(k => k.toLowerCase());
-        const keyword = row.Keyword || row.keyword || row["Keyword"] || row[keys.find(k => k.includes("keyword"))];
-        const volume = row.Volume || row.volume || row["Avg. monthly searches"] || row[keys.find(k => k.includes("search"))];
-        const competition = row.Competition || row.competition || row[keys.find(k => k.includes("competition"))];
-        const cpc = row.CPC || row.cpc || row["Top of page bid (low range)"] || row[keys.find(k => k.includes("cpc"))];
-        const type = row.Type || row.type || "";
-
-        if (keyword) {
-          let extra = hasType ? `<td>${type}</td>` : '';
-          let tr = `<tr><td>${keyword}</td><td>${volume || ''}</td><td>${competition || ''}</td><td>${cpc || ''}</td>${extra}</tr>`;
-          target.insertAdjacentHTML('beforeend', tr);
-        }
-      });
-    }
-
-    setupUpload('transactional-upload','transactional-table', true);
-    setupUpload('informational-upload','informational-table', false);
-    setupUpload('navigational-upload','navigational-table', false);
-    setupUpload('commercial-upload','commercial-table', true);
+    // Load Transactional keywords directly from Google Sheets
+    loadSheetCSV(transactionalSheet, "transactional-table", true);
 
     async function downloadPDF() {
       const { jsPDF } = window.jspdf;
