@@ -16,7 +16,7 @@
     .subtab.active { background: #28a745; color: white; }
     .subcontent { display: none; margin-top: 15px; }
     .subcontent.active { display: block; }
-    iframe { width: 100%; height: 600px; border: none; margin-bottom: 20px; }
+    iframe { width: 100%; height: 600px; border: none; margin-top: 15px; }
     .download-btn { display: block; margin: 20px auto; padding: 10px 20px; background: #28a745; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
     .download-btn:hover { background: #218838; }
   </style>
@@ -55,7 +55,7 @@
       <div class="subtab" data-sub="commercial">Commercial</div>
     </div>
 
-    <!-- Transactional -->
+    <!-- Transactional Keywords -->
     <div id="transactional" class="subcontent active">
       <h3>Core function</h3>
       <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pubhtml?gid=1764063307&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
@@ -67,19 +67,19 @@
       <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pubhtml?gid=1070525027&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
     </div>
 
-    <!-- Informational -->
+    <!-- Informational Keywords -->
     <div id="informational" class="subcontent">
-      <p>Upload or connect your data here later.</p>
+      <p>Upload or embed your Informational keywords here.</p>
     </div>
 
-    <!-- Navigational -->
+    <!-- Navigational Keywords -->
     <div id="navigational" class="subcontent">
-      <p>Upload or connect your data here later.</p>
+      <p>Upload or embed your Navigational keywords here.</p>
     </div>
 
-    <!-- Commercial -->
+    <!-- Commercial Keywords -->
     <div id="commercial" class="subcontent">
-      <p>Upload or connect your data here later.</p>
+      <p>Upload or embed your Commercial keywords here.</p>
     </div>
   </div>
 
@@ -109,7 +109,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    // Tab switching
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -128,7 +127,6 @@
       });
     });
 
-    // PDF Export
     async function downloadPDF() {
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF('p', 'pt', 'a4');
