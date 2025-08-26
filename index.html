@@ -16,10 +16,7 @@
     .subtab.active { background: #28a745; color: white; }
     .subcontent { display: none; margin-top: 15px; }
     .subcontent.active { display: block; }
-    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background: #f0f0f0; }
-    .note { font-size: 0.9em; color: #555; margin-top: 20px; }
+    iframe { width: 100%; height: 600px; border: none; margin-bottom: 20px; }
     .download-btn { display: block; margin: 20px auto; padding: 10px 20px; background: #28a745; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
     .download-btn:hover { background: #218838; }
   </style>
@@ -58,28 +55,31 @@
       <div class="subtab" data-sub="commercial">Commercial</div>
     </div>
 
+    <!-- Transactional -->
     <div id="transactional" class="subcontent active">
-      <table id="transactional-table">
-        <tr><td colspan='6'>Loading...</td></tr>
-      </table>
+      <h3>Core function</h3>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pubhtml?gid=1764063307&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+
+      <h3>User intent</h3>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pubhtml?gid=1096589268&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+
+      <h3>Platform specific</h3>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pubhtml?gid=1070525027&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
     </div>
 
+    <!-- Informational -->
     <div id="informational" class="subcontent">
-      <table id="informational-table">
-        <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC</th></tr>
-      </table>
+      <p>Upload or connect your data here later.</p>
     </div>
 
+    <!-- Navigational -->
     <div id="navigational" class="subcontent">
-      <table id="navigational-table">
-        <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC</th></tr>
-      </table>
+      <p>Upload or connect your data here later.</p>
     </div>
 
+    <!-- Commercial -->
     <div id="commercial" class="subcontent">
-      <table id="commercial-table">
-        <tr><th>Keyword</th><th>Volume</th><th>Competition</th><th>CPC</th><th>Type</th></tr>
-      </table>
+      <p>Upload or connect your data here later.</p>
     </div>
   </div>
 
@@ -106,10 +106,10 @@
   <button class="download-btn" onclick="downloadPDF()">Download Report as PDF</button>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
+    // Tab switching
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -128,52 +128,7 @@
       });
     });
 
-    // Transactional sheets (3 merged)
-    const transactionalSheets = [
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pub?gid=1764063307&single=true&output=csv",
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pub?gid=1096589268&single=true&output=csv",
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pub?gid=1070525027&single=true&output=csv"
-    ];
-
-    const excludeCols = ["Intent","Top of page bid (low range)","Top of page bid (high range)"];
-
-    function loadSheet(url, tableId) {
-      Papa.parse(url, {
-        download: true,
-        header: true,
-        skipEmptyLines: true,
-        complete: function(results) {
-          const table = document.getElementById(tableId);
-          if (table.rows.length === 1 && table.rows[0].cells[0].innerText.includes("Loading")) {
-            table.innerHTML = "";
-          }
-
-          if (table.rows.length === 0 && results.data.length > 0) {
-            let headers = Object.keys(results.data[0]).filter(h => !excludeCols.includes(h));
-            let headerRow = "<tr>" + headers.map(h => `<th>${h}</th>`).join("") + "</tr>";
-            table.insertAdjacentHTML("beforeend", headerRow);
-          }
-
-          results.data.forEach(row => {
-            let cells = Object.keys(row)
-              .filter(h => !excludeCols.includes(h))
-              .map(h => `<td>${row[h]}</td>`).join("");
-            if (cells.trim()) {
-              table.insertAdjacentHTML("beforeend", `<tr>${cells}</tr>`);
-            }
-          });
-        },
-        error: function(err) {
-          console.error("PapaParse error:", err);
-        }
-      });
-    }
-
-    document.getElementById("transactional-table").innerHTML =
-      "<tr><td colspan='6'>Loading...</td></tr>";
-
-    transactionalSheets.forEach(url => loadSheet(url, "transactional-table"));
-
+    // PDF Export
     async function downloadPDF() {
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF('p', 'pt', 'a4');
