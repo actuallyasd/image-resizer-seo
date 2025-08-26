@@ -11,13 +11,13 @@
     .tab.active { background: #007BFF; color: white; }
     .content { display: none; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
     .content.active { display: block; }
-    .subtabs { display: flex; margin-top: 10px; flex-wrap: wrap; }
-    .subtab { padding: 6px 12px; cursor: pointer; background: #f0f0f0; border-radius: 6px; margin: 3px; transition: 0.3s; }
+    .subtabs { display: flex; margin-top: 10px; }
+    .subtab { padding: 6px 12px; cursor: pointer; background: #f0f0f0; border-radius: 6px; margin-right: 5px; transition: 0.3s; }
     .subtab.active { background: #28a745; color: white; }
     .subcontent { display: none; margin-top: 15px; }
     .subcontent.active { display: block; }
     table { border-collapse: collapse; width: 100%; margin-top: 10px; font-size: 14px; }
-    th, td { border: 1px solid #ccc; padding: 6px; text-align: left; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
     th { background: #f0f0f0; }
     .download-btn { display: block; margin: 20px auto; padding: 10px 20px; background: #28a745; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
     .download-btn:hover { background: #218838; }
@@ -38,8 +38,37 @@
   <!-- Keyword Research -->
   <div id="keywords" class="content active">
     <h2>Keyword Research</h2>
-    <div class="subtabs" id="keyword-subtabs"></div>
-    <div id="keyword-contents"></div>
+    <div class="subtabs">
+      <div class="subtab active" data-sub="transactional">Transactional</div>
+      <div class="subtab" data-sub="informational">Informational</div>
+      <div class="subtab" data-sub="navigational">Navigational</div>
+      <div class="subtab" data-sub="commercial">Commercial</div>
+    </div>
+
+    <div id="transactional" class="subcontent active">
+      <table id="transactional-table">
+        <tr>
+          <th>Keyword</th>
+          <th>Avg. monthly searches</th>
+          <th>Competition</th>
+          <th>EUR Top of page bid (low)</th>
+          <th>EUR Top of page bid (high)</th>
+          <th>Type</th>
+        </tr>
+      </table>
+    </div>
+
+    <div id="informational" class="subcontent">
+      <p>No data connected yet for Informational keywords.</p>
+    </div>
+
+    <div id="navigational" class="subcontent">
+      <p>No data connected yet for Navigational keywords.</p>
+    </div>
+
+    <div id="commercial" class="subcontent">
+      <p>No data connected yet for Commercial keywords.</p>
+    </div>
   </div>
 
   <button class="download-btn" onclick="downloadPDF()">Download Report as PDF</button>
@@ -48,107 +77,55 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById(tab.dataset.tab).classList.add('active');
+    // Subtab switching
+    document.querySelectorAll('.subtab').forEach(sub => {
+      sub.addEventListener('click', () => {
+        document.querySelectorAll('.subtab').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.subcontent').forEach(sc => sc.classList.remove('active'));
+        sub.classList.add('active');
+        document.getElementById(sub.dataset.sub).classList.add('active');
       });
     });
 
-    const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pub?output=csv";
+    // Your 3 published Google Sheet links
+    const transactionalSheets = [
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pub?gid=1764063307&single=true&output=csv",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pub?gid=1096589268&single=true&output=csv",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pub?gid=1070525027&single=true&output=csv"
+    ];
 
-    // Sheets you want to display
-    const sheetTabs = ["Core function", "Platform specific", "User intent"];
-
-    function loadSheetCSV(url, sheetName) {
-      Papa.parse(url + "&sheet=" + encodeURIComponent(sheetName), {
+    function loadSheet(url, tableId) {
+      Papa.parse(url, {
         download: true,
         header: true,
         skipEmptyLines: true,
         complete: function(results) {
-          buildTable(results.data, sheetName);
+          const table = document.getElementById(tableId);
+          results.data.forEach(row => {
+            const keyword = row.Keyword || row.keyword;
+            const volume = row["Avg. monthly searches"];
+            const competition = row.Competition;
+            const eurLow = row["EUR top of the page bid (low)"];
+            const eurHigh = row["EUR top of the page bid (high)"];
+            const type = row.Type || "";
+            if (keyword) {
+              let tr = `<tr>
+                <td>${keyword}</td>
+                <td>${volume || ''}</td>
+                <td>${competition || ''}</td>
+                <td>${eurLow || ''}</td>
+                <td>${eurHigh || ''}</td>
+                <td>${type || ''}</td>
+              </tr>`;
+              table.insertAdjacentHTML("beforeend", tr);
+            }
+          });
         }
       });
     }
 
-    function buildTable(rows, sheetName) {
-      const container = document.getElementById("keyword-contents");
-      const tableId = sheetName.replace(/\s+/g, '-').toLowerCase() + "-table";
-
-      // Create subtab
-      const subtab = document.createElement("div");
-      subtab.className = "subtab";
-      subtab.dataset.sub = tableId;
-      subtab.textContent = sheetName;
-      document.getElementById("keyword-subtabs").appendChild(subtab);
-
-      // Create content block
-      const contentDiv = document.createElement("div");
-      contentDiv.id = tableId;
-      contentDiv.className = "subcontent";
-      const table = document.createElement("table");
-      table.innerHTML = `
-        <tr>
-          <th>Keyword</th>
-          <th>Avg. monthly searches</th>
-          <th>Three month change</th>
-          <th>YoY change</th>
-          <th>Competition</th>
-          <th>Competition (indexed value)</th>
-          <th>EUR Top of page bid (low)</th>
-          <th>EUR Top of page bid (high)</th>
-          <th>Type</th>
-        </tr>`;
-      contentDiv.appendChild(table);
-      container.appendChild(contentDiv);
-
-      // Populate rows
-      rows.forEach(row => {
-        const keyword = row["Keyword"] || "";
-        const volume = row["Avg. monthly searches"] || "";
-        const threeMonth = row["Three month change"] || "";
-        const yoy = row["YoY change"] || "";
-        const competition = row["Competition"] || "";
-        const competitionIndex = row["Competition (indexed value)"] || "";
-        const eurLow = row["EUR top of the page bid (low)"] || row["EUR Top of page bid (low)"] || "";
-        const eurHigh = row["EUR top of the page bid (high)"] || row["EUR Top of page bid (high)"] || "";
-        const type = row["Type"] || "";
-
-        if (keyword) {
-          let tr = `<tr>
-            <td>${keyword}</td>
-            <td>${volume}</td>
-            <td>${threeMonth}</td>
-            <td>${yoy}</td>
-            <td>${competition}</td>
-            <td>${competitionIndex}</td>
-            <td>${eurLow}</td>
-            <td>${eurHigh}</td>
-            <td>${type}</td>
-          </tr>`;
-          table.insertAdjacentHTML("beforeend", tr);
-        }
-      });
-
-      // Subtab click behavior
-      subtab.addEventListener("click", () => {
-        document.querySelectorAll(".subtab").forEach(s => s.classList.remove("active"));
-        document.querySelectorAll(".subcontent").forEach(sc => sc.classList.remove("active"));
-        subtab.classList.add("active");
-        contentDiv.classList.add("active");
-      });
-
-      // Activate first tab by default
-      if (document.querySelectorAll(".subtab.active").length === 0) {
-        subtab.classList.add("active");
-        contentDiv.classList.add("active");
-      }
-    }
-
-    // Load all 3 sheets
-    sheetTabs.forEach(sheet => loadSheetCSV(sheetURL, sheet));
+    // Load all 3 sheets into the same Transactional table
+    transactionalSheets.forEach(url => loadSheet(url, "transactional-table"));
 
     async function downloadPDF() {
       const { jsPDF } = window.jspdf;
