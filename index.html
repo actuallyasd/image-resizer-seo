@@ -222,5 +222,26 @@
     makeChart('adobeBacklinks','pie',["Follow","No-Follow"],[600000000,300000000],["#0a84ff","#636366"]);
   </script>
 
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Subtab switching
+    document.querySelectorAll('.subtab').forEach(sub => {
+      sub.addEventListener('click', () => {
+        document.querySelectorAll('.subtab').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.subcontent').forEach(sc => sc.classList.remove('active'));
+        sub.classList.add('active');
+        document.getElementById(sub.dataset.sub).classList.add('active');
+      });
+    });
+  </script>
 </body>
 </html>
