@@ -247,7 +247,7 @@
 
     // Canva charts
     makeChart('canvaTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[11000000,11300000,11500000,11700000,11800000,11900000,12000000],["#0a84ff"]);
-    // Canva continued
+        // Canva continued
     makeChart('canvaIntent','bar',["Transactional","Informational","Navigational","Commercial"],[800000,700000,500000,300000],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
     makeChart('canvaBacklinks','pie',["Follow","No-Follow"],[800000000,400000000],["#0a84ff","#636366"]);
 
@@ -267,7 +267,10 @@
           backgroundColor: ["#0a84ff","#30d158","#ffd60a","#ff453a"]
         }]
       },
-      options: { scales: { y: { beginAtZero: true, ticks: { color: '#aaa' } }, x: { ticks: { color: '#aaa' } } }, plugins: { legend: { labels: { color: '#f5f5f7' } } } }
+      options: { responsive: true, maintainAspectRatio: false, aspectRatio: 2,
+        scales: { y: { beginAtZero: true, ticks: { color: '#aaa' } }, x: { ticks: { color: '#aaa' } } },
+        plugins: { legend: { labels: { color: '#f5f5f7' } } }
+      }
     });
 
     // PDF Download Function
@@ -285,7 +288,9 @@
       });
     }
   </script>
+  <style>
+    canvas { max-width: 400px; max-height: 250px; margin: 15px; display: inline-block; vertical-align: top; }
+    .chart-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+  </style>
 </body>
 </html>
-
-
