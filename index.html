@@ -19,6 +19,13 @@
     iframe { width: 100%; height: 600px; border: none; margin-top: 15px; }
     .download-btn { display: block; margin: 20px auto; padding: 10px 20px; background: #28a745; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
     .download-btn:hover { background: #218838; }
+    .competitor-card { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+    .competitor-card h3 { margin-top: 0; }
+    .view-report { margin-top: 10px; padding: 8px 14px; background: #007BFF; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+    .view-report:hover { background: #0056b3; }
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); }
+    .modal-content { background: #fff; margin: 50px auto; padding: 20px; border-radius: 8px; width: 90%; max-width: 1000px; height: 90%; overflow: auto; }
+    .close-btn { float: right; font-size: 18px; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -59,39 +66,25 @@
     <div id="transactional" class="subcontent active">
       <h3>Core function</h3>
       <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pubhtml?gid=1764063307&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
-
       <h3>User intent</h3>
       <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pubhtml?gid=1096589268&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
-
       <h3>Platform specific</h3>
       <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pubhtml?gid=1070525027&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
     </div>
 
     <!-- Informational Keywords -->
     <div id="informational" class="subcontent">
-      <h3>Prepositions</h3>
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqeNceKSuzCMCNskX1XSyTA-GFN3Xcx8ye2GqGZLMF00duVSdJcLyCccxq-fQwxyHIS9NJMN9z3inD/pubhtml?gid=689662762&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
-
-      <h3>Questions V1</h3>
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqeNceKSuzCMCNskX1XSyTA-GFN3Xcx8ye2GqGZLMF00duVSdJcLyCccxq-fQwxyHIS9NJMN9z3inD/pubhtml?gid=1707919888&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
-
-      <h3>Questions V2</h3>
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqeNceKSuzCMCNskX1XSyTA-GFN3Xcx8ye2GqGZLMF00duVSdJcLyCccxq-fQwxyHIS9NJMN9z3inD/pubhtml?gid=985068758&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+      <p>Upload or embed your Informational keywords here.</p>
     </div>
 
     <!-- Navigational Keywords -->
     <div id="navigational" class="subcontent">
-      <h3>Navigational big brands</h3>
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSYVLKWv9BOHHqE-Lj4izr5ne3lzL58ZT8DFZl5P7ap4HeHmCFxkuZ2H4mfTkHOmrzCyWXg0aj8TU1d/pubhtml?gid=313868502&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
-
-      <h3>Navigational medium competition</h3>
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSYVLKWv9BOHHqE-Lj4izr5ne3lzL58ZT8DFZl5P7ap4HeHmCFxkuZ2H4mfTkHOmrzCyWXg0aj8TU1d/pubhtml?gid=775491972&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+      <p>Upload or embed your Navigational keywords here.</p>
     </div>
 
     <!-- Commercial Keywords -->
     <div id="commercial" class="subcontent">
-      <h3>Commercial Keywords</h3>
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmWxvrBMzEzrBQKc6vCGwfEZvUdRm9JWVxex4xqzVt5kqI_vab5Egoqao3BgUsZNKWrvYyCRvtQKQE/pubhtml?widget=true&amp;headers=false"></iframe>
+      <p>Upload or embed your Commercial keywords here.</p>
     </div>
   </div>
 
@@ -104,9 +97,25 @@
   <!-- Competitor Analysis -->
   <div id="competitors" class="content">
     <h2>Competitor Analysis</h2>
-    <table id="competitor-table">
-      <tr><th>Competitor</th><th>Strength</th><th>Weakness</th><th>Opportunities</th></tr>
-    </table>
+    <div class="competitor-card">
+      <h3>BulkResizePhotos.com</h3>
+      <p><strong>Traffic:</strong> ~7.4K/month</p>
+      <p><strong>Keywords:</strong> ~4.3K</p>
+      <p><strong>Backlinks:</strong> ~31.3K</p>
+      <p><strong>Top Keyword:</strong> bulk image resizer (#1)</p>
+      <p><strong>Strength:</strong> Dominates bulk resizing terms</p>
+      <p><strong>Weakness:</strong> Backlink profile looks inflated/low quality</p>
+      <button class="view-report" onclick="openModal('bulkresizepdf')">View Full Report</button>
+    </div>
+  </div>
+
+  <!-- Modal for BulkResizePhotos -->
+  <div id="bulkresizepdf" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('bulkresizepdf')">&times;</span>
+      <h3>BulkResizePhotos.com – Full SEMrush Report</h3>
+      <iframe src="https://docs.google.com/viewer?embedded=true&url=https://raw.githubusercontent.com/actuallyuasd/image-resizer-seo/main/Semrush-Domain_Overview_(Desktop)-bulkresizephotos_com-1st_Sep_2025.pdf"></iframe>
+    </div>
   </div>
 
   <!-- Recommendations -->
@@ -138,6 +147,13 @@
         document.getElementById(sub.dataset.sub).classList.add('active');
       });
     });
+
+    function openModal(id) {
+      document.getElementById(id).style.display = 'block';
+    }
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
 
     async function downloadPDF() {
       const { jsPDF } = window.jspdf;
