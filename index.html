@@ -220,6 +220,35 @@
   </div>
 
   <script>
+    function makeChart(id, type, labels, data, colors) {
+  const ctx = document.getElementById(id);
+  if (!ctx) return; // prevent errors if canvas doesn't exist
+  new Chart(ctx, {
+    type: type,
+    data: {
+      labels: labels,
+      datasets: [{
+        data: data,
+        backgroundColor: colors,
+        borderColor: colors,
+        fill: type === 'line' ? false : true
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: { color: '#f5f5f7' },
+          display: type !== 'bar' // hide legend for bar charts
+        }
+      },
+      scales: {
+        x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+        y: { ticks: { color: '#aaa' }, grid: { color: '#333' } }
+      }
+    }
+  });
+}
 // BulkResizePhotos charts
 makeChart('trafficChart','line', ["Jan","Feb","Mar","Apr","May","Jun","Jul"], [6000,6200,6500,6700,7000,7300,7400],["#0a84ff"]);
 makeChart('intentChart','bar', ["Transactional","Informational","Navigational","Commercial"],[2000,1500,500,300],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
