@@ -1,105 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>SEO Strategy Report – Client</title>
+  <meta charset="UTF-8" />
+  <title>SEO Strategy Report – Client</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg:#121212; --card:#1c1c1e; --elev:#1e1e1e;
+      --text:#f5f5f7; --muted:#aaa; --blue:#0a84ff; --green:#30d158; --yellow:#ffd60a; --red:#ff453a; --grey:#636366;
+    }
+    *{box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,"San Francisco",Arial,sans-serif;margin:20px;background:var(--bg);color:var(--text)}
+    h1{text-align:center;margin:0 0 24px}
+    .tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:18px}
+    .tab{padding:10px 18px;border-radius:12px;background:var(--elev);cursor:pointer;transition:.2s;color:var(--text)}
+    .tab.active{background:var(--blue);box-shadow:0 4px 12px rgba(10,132,255,.5)}
+    .content{display:none;background:var(--card);padding:20px;border-radius:14px;box-shadow:0 4px 20px rgba(0,0,0,.3);animation:fade .25s ease}
+    .content.active{display:block}
+    @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-<style>
-  /* Base */
-  :root { color-scheme: dark; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", Arial, sans-serif;
-    margin: 20px; background: #121212; color: #f5f5f7;
-  }
-  h1 { text-align: center; margin-bottom: 30px; color: #fff; }
-  h2 { margin: 0 0 16px; }
-  h3 { margin: 0 0 8px; }
+    /* Keyword subtabs */
+    .subtabs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
+    .subtab{padding:6px 12px;border-radius:10px;background:#2c2c2e;color:var(--text);cursor:pointer}
+    .subtab.active{background:var(--green);box-shadow:0 3px 10px rgba(48,209,88,.35)}
+    .subcontent{display:none}
+    .subcontent.active{display:block}
 
-  /* Tabs */
-  .tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
-  .tab {
-    padding: 10px 20px; cursor: pointer; background: #1e1e1e; border-radius: 12px;
-    color: #f5f5f7; transition: .25s box-shadow, .25s background;
-  }
-  .tab.active { background: #0a84ff; color: #fff; box-shadow: 0 4px 12px rgba(10,132,255,.45); }
+    /* Embeds */
+    iframe{width:100%;height:500px;border:none;margin:10px 0;border-radius:10px;background:#2c2c2e}
 
-  /* Sections */
-  .content {
-    display: none; background: #1c1c1e; padding: 20px; border-radius: 14px;
-    box-shadow: 0 4px 20px rgba(0,0,0,.3); animation: fadeIn .35s ease;
-  }
-  .content.active { display: block; }
-  @keyframes fadeIn { from {opacity:0; transform: translateY(8px);} to {opacity:1; transform: none;} }
+    /* Competitor section */
+    .competitor{background:#161618;border-radius:14px;padding:18px;margin:18px 0}
+    .meta{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:12px}
+    .chart-grid{display:grid;grid-template-columns:repeat(3,minmax(260px,1fr));gap:20px}
+    @media (max-width:1000px){.chart-grid{grid-template-columns:repeat(2,minmax(260px,1fr))}}
+    @media (max-width:640px){.chart-grid{grid-template-columns:1fr}}
+    canvas{width:100% !important;height:260px !important;border-radius:12px;background:var(--card);padding:10px}
 
-  /* Subtabs (Keyword Research) */
-  .subtabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 14px; }
-  .subtab {
-    padding: 6px 12px; cursor: pointer; background: #2c2c2e; border-radius: 8px;
-    color: #f5f5f7; transition: .25s box-shadow, .25s background;
-  }
-  .subtab.active { background: #30d158; color: #fff; box-shadow: 0 3px 10px rgba(48,209,88,.35); }
-  .subcontent { display: none; }
-  .subcontent.active { display: block; }
+    .download-btn{display:inline-block;margin-top:14px;padding:10px 18px;border:none;border-radius:10px;background:var(--green);color:#fff;font-weight:700;cursor:pointer}
+    .download-btn:hover{background:#248a3d}
 
-  /* Google Sheets embeds */
-  iframe {
-    width: 100%; height: 520px; border: 0; margin: 10px 0 20px;
-    border-radius: 10px; background: #2c2c2e;
-  }
+    /* Small helper text */
+    .muted{color:var(--muted)}
+  </style>
 
-  /* Competitors */
-  .competitor { padding: 18px; border-radius: 12px; background: #1a1a1c; margin-bottom: 22px; }
-  .kpis { margin: 6px 0 14px; }
-  .kpis p { margin: 4px 0; }
-
-  /* Chart layout */
-  .chart-grid { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
-  canvas {
-    width: 360px !important; height: 220px !important; max-width: none !important; max-height: none !important;
-    background: #1c1c1e; border-radius: 12px; padding: 12px;
-  }
-  #seoChart { width: 100% !important; height: 380px !important; }
-
-  /* Buttons */
-  .download-btn {
-    display: inline-block; margin-top: 12px; padding: 10px 18px; background: #30d158; color: #fff;
-    border: 0; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 600; transition: .25s background;
-  }
-  .download-btn:hover { background: #248a3d; }
-</style>
-
-<!-- Libs -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- libs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
   <h1>SEO Strategy Report – Client</h1>
 
-  <!-- Top Tabs -->
+  <!-- top tabs -->
   <div class="tabs">
     <div class="tab active" data-tab="onpage">On-Page SEO</div>
     <div class="tab" data-tab="technical">Technical SEO</div>
     <div class="tab" data-tab="keywords">Keyword Research</div>
-    <div class="tab" data-tab="charts">Impact Analysis</div>
+    <div class="tab" data-tab="impact">Impact Analysis</div>
     <div class="tab" data-tab="competitors">Competitor Analysis</div>
     <div class="tab" data-tab="recommendations">Recommendations</div>
   </div>
 
-  <!-- On-Page SEO -->
+  <!-- On-Page -->
   <div id="onpage" class="content active">
     <h2>On-Page SEO</h2>
     <ul id="onpage-list">
-      <!-- add your checklist items here -->
+      <!-- populate if you like -->
     </ul>
   </div>
 
-  <!-- Technical SEO -->
+  <!-- Technical -->
   <div id="technical" class="content">
     <h2>Technical SEO</h2>
-    <ul id="technical-list">
-      <!-- add your technical issues here -->
-    </ul>
+    <ul id="technical-list"></ul>
   </div>
 
   <!-- Keyword Research -->
@@ -154,356 +128,277 @@
   </div>
 
   <!-- Impact Analysis -->
-  <div id="charts" class="content">
+  <div id="impact" class="content">
     <h2>SEO Impact Analysis</h2>
     <canvas id="seoChart"></canvas>
   </div>
 
-  <!-- Competitor Analysis -->
+  <!-- Competitors -->
   <div id="competitors" class="content">
     <h2>Competitor Analysis</h2>
 
-    <div class="competitor" id="comp-bulk">
-      <h3>BulkResizePhotos.com</h3>
-      <div class="kpis">
+    <!-- BulkResizePhotos -->
+    <section class="competitor" id="comp-bulk">
+      <div class="meta">
+        <h3>BulkResizePhotos.com</h3>
         <p>Traffic: ~7.4K/month</p>
         <p>Keywords: ~4.3K</p>
         <p>Backlinks: ~31.3K</p>
       </div>
       <div class="chart-grid">
-        <canvas id="trafficChart"></canvas>
-        <canvas id="intentChart"></canvas>
-        <canvas id="backlinkChart"></canvas>
+        <canvas id="bulk-traffic"></canvas>
+        <canvas id="bulk-intent"></canvas>
+        <canvas id="bulk-backlinks"></canvas>
       </div>
-      <button class="download-btn" onclick="downloadSectionPDF('comp-bulk','BulkResizePhotos')">Download BulkResizePhotos Report</button>
-    </div>
+      <button class="download-btn" onclick="downloadSectionPDF('comp-bulk','BulkResizePhotos Report')">Download BulkResizePhotos Report</button>
+    </section>
 
-    <div class="competitor" id="comp-birme">
-      <h3>Birme.net</h3>
-      <div class="kpis">
+    <!-- Birme -->
+    <section class="competitor" id="comp-birme">
+      <div class="meta">
+        <h3>Birme.net</h3>
         <p>Traffic: ~2.1K/month</p>
         <p>Keywords: ~1.2K</p>
         <p>Backlinks: ~5.1K</p>
       </div>
       <div class="chart-grid">
-        <canvas id="birmeTraffic"></canvas>
-        <canvas id="birmeIntent"></canvas>
-        <canvas id="birmeBacklinks"></canvas>
+        <canvas id="birme-traffic"></canvas>
+        <canvas id="birme-intent"></canvas>
+        <canvas id="birme-backlinks"></canvas>
       </div>
-      <button class="download-btn" onclick="downloadSectionPDF('comp-birme','Birme')">Download Birme.net Report</button>
-    </div>
+      <button class="download-btn" onclick="downloadSectionPDF('comp-birme','Birme.net Report')">Download Birme.net Report</button>
+    </section>
 
-    <div class="competitor" id="comp-simple">
-      <h3>SimpleImageResizer.com</h3>
-      <div class="kpis">
+    <!-- SimpleImageResizer -->
+    <section class="competitor" id="comp-simple">
+      <div class="meta">
+        <h3>SimpleImageResizer.com</h3>
         <p>Traffic: ~1.8K/month</p>
         <p>Keywords: ~900</p>
         <p>Backlinks: ~4.8K</p>
       </div>
       <div class="chart-grid">
-        <canvas id="simpleTraffic"></canvas>
-        <canvas id="simpleIntent"></canvas>
-        <canvas id="simpleBacklinks"></canvas>
+        <canvas id="simple-traffic"></canvas>
+        <canvas id="simple-intent"></canvas>
+        <canvas id="simple-backlinks"></canvas>
       </div>
-      <button class="download-btn" onclick="downloadSectionPDF('comp-simple','SimpleImageResizer')">Download SimpleImageResizer Report</button>
-    </div>
+      <button class="download-btn" onclick="downloadSectionPDF('comp-simple','SimpleImageResizer Report')">Download SimpleImageResizer Report</button>
+    </section>
 
-    <div class="competitor" id="comp-red">
-      <h3>RedKetchup.io</h3>
-      <div class="kpis">
+    <!-- RedKetchup -->
+    <section class="competitor" id="comp-red">
+      <div class="meta">
+        <h3>RedKetchup.io</h3>
         <p>Traffic: ~3.2K/month</p>
         <p>Keywords: ~1.6K</p>
         <p>Backlinks: ~6.2K</p>
       </div>
       <div class="chart-grid">
-        <canvas id="redTraffic"></canvas>
-        <canvas id="redIntent"></canvas>
-        <canvas id="redBacklinks"></canvas>
+        <canvas id="red-traffic"></canvas>
+        <canvas id="red-intent"></canvas>
+        <canvas id="red-backlinks"></canvas>
       </div>
-      <button class="download-btn" onclick="downloadSectionPDF('comp-red','RedKetchup')">Download RedKetchup.io Report</button>
-    </div>
+      <button class="download-btn" onclick="downloadSectionPDF('comp-red','RedKetchup.io Report')">Download RedKetchup.io Report</button>
+    </section>
 
-    <div class="competitor" id="comp-ilove">
-      <h3>ILoveIMG.com</h3>
-      <div class="kpis">
+    <!-- ILoveIMG -->
+    <section class="competitor" id="comp-ilove">
+      <div class="meta">
+        <h3>ILoveIMG.com</h3>
         <p>Traffic: ~15K/month</p>
         <p>Keywords: ~7.5K</p>
         <p>Backlinks: ~25K</p>
       </div>
       <div class="chart-grid">
-        <canvas id="iloveTraffic"></canvas>
-        <canvas id="iloveIntent"></canvas>
-        <canvas id="iloveBacklinks"></canvas>
+        <canvas id="ilove-traffic"></canvas>
+        <canvas id="ilove-intent"></canvas>
+        <canvas id="ilove-backlinks"></canvas>
       </div>
-      <button class="download-btn" onclick="downloadSectionPDF('comp-ilove','ILoveIMG')">Download ILoveIMG Report</button>
-    </div>
+      <button class="download-btn" onclick="downloadSectionPDF('comp-ilove','ILoveIMG Report')">Download ILoveIMG Report</button>
+    </section>
 
-    <div class="competitor" id="comp-canva">
-      <h3>Canva.com</h3>
-      <div class="kpis">
+    <!-- Canva -->
+    <section class="competitor" id="comp-canva">
+      <div class="meta">
+        <h3>Canva.com</h3>
         <p>Traffic: ~12M/month</p>
         <p>Keywords: ~2.5M</p>
         <p>Backlinks: ~1.2B</p>
       </div>
       <div class="chart-grid">
-        <canvas id="canvaTraffic"></canvas>
-        <canvas id="canvaIntent"></canvas>
-        <canvas id="canvaBacklinks"></canvas>
+        <canvas id="canva-traffic"></canvas>
+        <canvas id="canva-intent"></canvas>
+        <canvas id="canva-backlinks"></canvas>
       </div>
-      <button class="download-btn" onclick="downloadSectionPDF('comp-canva','Canva')">Download Canva Report</button>
-    </div>
+      <button class="download-btn" onclick="downloadSectionPDF('comp-canva','Canva Report')">Download Canva Report</button>
+    </section>
 
-    <div class="competitor" id="comp-adobe">
-      <h3>Adobe Express</h3>
-      <div class="kpis">
+    <!-- Adobe Express -->
+    <section class="competitor" id="comp-adobe">
+      <div class="meta">
+        <h3>Adobe Express</h3>
         <p>Traffic: ~5.5M/month</p>
         <p>Keywords: ~1.2M</p>
         <p>Backlinks: ~900M</p>
       </div>
       <div class="chart-grid">
-        <canvas id="adobeTraffic"></canvas>
-        <canvas id="adobeIntent"></canvas>
-        <canvas id="adobeBacklinks"></canvas>
+        <canvas id="adobe-traffic"></canvas>
+        <canvas id="adobe-intent"></canvas>
+        <canvas id="adobe-backlinks"></canvas>
       </div>
-      <button class="download-btn" onclick="downloadSectionPDF('comp-adobe','Adobe-Express')">Download Adobe Express Report</button>
-    </div>
+      <button class="download-btn" onclick="downloadSectionPDF('comp-adobe','Adobe Express Report')">Download Adobe Express Report</button>
+    </section>
   </div>
 
   <!-- Recommendations -->
   <div id="recommendations" class="content">
     <h2>Recommendations & Next Steps</h2>
-    <ul id="recommendations-list">
-      <!-- add your prioritized next steps -->
-    </ul>
+    <ul id="recommendations-list"></ul>
   </div>
 
-  <!-- Charts + Interactions -->
   <script>
-    // Flexible chart helper with type-aware options
-    function makeChart(id, type, labels, data, colors, label) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const ctx = el.getContext('2d');
-
-      const baseOptions = {
-        responsive: true,
-        maintainAspectRatio: false
-      };
-
-      const isPie = type === 'pie' || type === 'doughnut';
-      const isBar = type === 'bar';
-      const isLine = type === 'line';
-
-      const options = {
-        ...baseOptions,
-        plugins: {
-          legend: {
-            display: isBar ? false : true,
-            position: isPie ? 'bottom' : 'top',
-            labels: { color: '#f5f5f7' }
-          }
-        },
-        scales: isPie ? {} : {
-          x: { ticks: { color: '#aaa' }, grid: { color: '#2a2a2a' } },
-          y: { ticks: { color: '#aaa' }, grid: { color: '#2a2a2a' }, beginAtZero: true }
-        }
-      };
-
-      new Chart(ctx, {
+    /* ========= Chart helpers ========= */
+    const charts = {};
+    function makeChart(id,type,labels,data,colors,label){
+      const el=document.getElementById(id); if(!el) return;
+      const ctx=el.getContext('2d');
+      charts[id]=new Chart(ctx,{
         type,
-        data: {
-          labels,
-          datasets: [{
-            label: isLine ? (label || 'Organic Traffic') : (label || undefined),
-            data,
-            backgroundColor: Array.isArray(colors) ? colors : [colors],
-            borderColor: isLine ? (Array.isArray(colors) ? colors[0] : colors) : colors,
-            borderWidth: isLine ? 2 : 0,
-            pointRadius: isLine ? 2 : 0,
-            tension: isLine ? 0.35 : 0,
-            fill: !isLine
+        data:{labels,
+          datasets:[{
+            label:label || (type==='line'?'Organic Traffic':undefined),
+            data, backgroundColor:colors, borderColor:colors, fill:type!=='line'
           }]
         },
-        options
+        options:{
+          responsive:true, maintainAspectRatio:false,
+          plugins:{ legend:{ display:type!=='bar', labels:{ color:'#f5f5f7' } } },
+          scales: (type==='pie' || type==='doughnut') ? {} : {
+            x:{ticks:{color:'#aaa'}, grid:{color:'#333'}},
+            y:{ticks:{color:'#aaa'}, grid:{color:'#333'}, beginAtZero:true}
+          }
+        }
+      });
+    }
+    function resizeVisibleCharts(scope=document){
+      Object.entries(charts).forEach(([id,chart])=>{
+        const el = document.getElementById(id);
+        if(el && scope.contains(el)) chart.resize();
       });
     }
 
-    /* Impact Analysis */
-    makeChart('seoChart','bar',
-      ["Meta Titles","Alt Text","Schema","Page Speed"],
-      [8,7,9,6],
-      ["#0a84ff","#30d158","#ffd60a","#ff453a"]
-    );
+    /* ========= Data ========= */
+    const months=["Jan","Feb","Mar","Apr","May","Jun","Jul"];
+    const intentLabels=["Transactional","Informational","Navigational","Commercial"];
 
-    /* Competitor Charts */
-    // BulkResizePhotos
-    makeChart('trafficChart','line',
-      ["Jan","Feb","Mar","Apr","May","Jun","Jul"],
-      [6000,6200,6500,6700,7000,7300,7400],
-      "#0a84ff","Organic Traffic"
-    );
-    makeChart('intentChart','bar',
-      ["Transactional","Informational","Navigational","Commercial"],
-      [2000,1500,500,300],
-      ["#0a84ff","#30d158","#ffd60a","#ff453a"]
-    );
-    makeChart('backlinkChart','pie',
-      ["Follow","No-Follow"],
-      [21000,10300],
-      ["#0a84ff","#636366"]
-    );
+    function buildCompetitorCharts(){
+      // BulkResizePhotos
+      makeChart('bulk-traffic','line',months,[6000,6200,6500,6700,7000,7300,7400],['#0a84ff'],'Organic Traffic');
+      makeChart('bulk-intent','bar',intentLabels,[2000,1500,500,300],['#0a84ff','#30d158','#ffd60a','#ff453a']);
+      makeChart('bulk-backlinks','pie',['Follow','No-Follow'],[21000,10300],['#0a84ff','#636366']);
 
-    // Birme
-    makeChart('birmeTraffic','line',
-      ["Jan","Feb","Mar","Apr","May","Jun","Jul"],
-      [1800,1850,1900,1950,2000,2100,2100],
-      "#0a84ff","Organic Traffic"
-    );
-    makeChart('birmeIntent','bar',
-      ["Transactional","Informational","Navigational","Commercial"],
-      [800,250,100,50],
-      ["#0a84ff","#30d158","#ffd60a","#ff453a"]
-    );
-    makeChart('birmeBacklinks','pie',
-      ["Follow","No-Follow"],
-      [3500,1600],
-      ["#0a84ff","#636366"]
-    );
+      // Birme
+      makeChart('birme-traffic','line',months,[1800,1850,1900,1950,2000,2100,2100],['#0a84ff']);
+      makeChart('birme-intent','bar',intentLabels,[800,250,100,50],['#0a84ff','#30d158','#ffd60a','#ff453a']);
+      makeChart('birme-backlinks','pie',['Follow','No-Follow'],[3500,1600],['#0a84ff','#636366']);
 
-    // SimpleImageResizer
-    makeChart('simpleTraffic','line',
-      ["Jan","Feb","Mar","Apr","May","Jun","Jul"],
-      [1500,1600,1650,1700,1750,1800,1800],
-      "#0a84ff","Organic Traffic"
-    );
-    makeChart('simpleIntent','bar',
-      ["Transactional","Informational","Navigational","Commercial"],
-      [500,250,100,50],
-      ["#0a84ff","#30d158","#ffd60a","#ff453a"]
-    );
-    makeChart('simpleBacklinks','pie',
-      ["Follow","No-Follow"],
-      [3000,1800],
-      ["#0a84ff","#636366"]
-    );
+      // SimpleImageResizer
+      makeChart('simple-traffic','line',months,[1500,1600,1650,1700,1750,1800,1800],['#0a84ff']);
+      makeChart('simple-intent','bar',intentLabels,[500,250,100,50],['#0a84ff','#30d158','#ffd60a','#ff453a']);
+      makeChart('simple-backlinks','pie',['Follow','No-Follow'],[3000,1800],['#0a84ff','#636366']);
 
-    // RedKetchup
-    makeChart('redTraffic','line',
-      ["Jan","Feb","Mar","Apr","May","Jun","Jul"],
-      [2500,2600,2700,2800,3000,3100,3200],
-      "#0a84ff","Organic Traffic"
-    );
-    makeChart('redIntent','bar',
-      ["Transactional","Informational","Navigational","Commercial"],
-      [700,500,200,200],
-      ["#0a84ff","#30d158","#ffd60a","#ff453a"]
-    );
-    makeChart('redBacklinks','pie',
-      ["Follow","No-Follow"],
-      [4000,2200],
-      ["#0a84ff","#636366"]
-    );
+      // RedKetchup
+      makeChart('red-traffic','line',months,[2500,2600,2700,2800,3000,3100,3200],['#0a84ff']);
+      makeChart('red-intent','bar',intentLabels,[700,500,200,200],['#0a84ff','#30d158','#ffd60a','#ff453a']);
+      makeChart('red-backlinks','pie',['Follow','No-Follow'],[4000,2200],['#0a84ff','#636366']);
 
-    // ILoveIMG
-    makeChart('iloveTraffic','line',
-      ["Jan","Feb","Mar","Apr","May","Jun","Jul"],
-      [12000,12500,13000,13500,14000,14500,15000],
-      "#0a84ff","Organic Traffic"
-    );
-    makeChart('iloveIntent','bar',
-      ["Transactional","Informational","Navigational","Commercial"],
-      [3500,2500,1200,800],
-      ["#0a84ff","#30d158","#ffd60a","#ff453a"]
-    );
-    makeChart('iloveBacklinks','pie',
-      ["Follow","No-Follow"],
-      [18000,7000],
-      ["#0a84ff","#636366"]
-    );
+      // ILoveIMG
+      makeChart('ilove-traffic','line',months,[12000,12500,13000,13500,14000,14500,15000],['#0a84ff']);
+      makeChart('ilove-intent','bar',intentLabels,[3500,2500,1200,800],['#0a84ff','#30d158','#ffd60a','#ff453a']);
+      makeChart('ilove-backlinks','pie',['Follow','No-Follow'],[18000,7000],['#0a84ff','#636366']);
 
-    // Canva
-    makeChart('canvaTraffic','line',
-      ["Jan","Feb","Mar","Apr","May","Jun","Jul"],
-      [11000000,11300000,11500000,11700000,11800000,11900000,12000000],
-      "#0a84ff","Organic Traffic"
-    );
-    makeChart('canvaIntent','bar',
-      ["Transactional","Informational","Navigational","Commercial"],
-      [800000,700000,500000,300000],
-      ["#0a84ff","#30d158","#ffd60a","#ff453a"]
-    );
-    makeChart('canvaBacklinks','pie',
-      ["Follow","No-Follow"],
-      [800000000,400000000],
-      ["#0a84ff","#636366"]
-    );
+      // Canva
+      makeChart('canva-traffic','line',months,[11000000,11300000,11500000,11700000,11800000,11900000,12000000],['#0a84ff']);
+      makeChart('canva-intent','bar',intentLabels,[800000,700000,500000,300000],['#0a84ff','#30d158','#ffd60a','#ff453a']);
+      makeChart('canva-backlinks','pie',['Follow','No-Follow'],[800000000,400000000],['#0a84ff','#636366']);
 
-    // Adobe Express
-    makeChart('adobeTraffic','line',
-      ["Jan","Feb","Mar","Apr","May","Jun","Jul"],
-      [5200000,5300000,5400000,5450000,5500000,5520000,5550000],
-      "#0a84ff","Organic Traffic"
-    );
-    makeChart('adobeIntent','bar',
-      ["Transactional","Informational","Navigational","Commercial"],
-      [600000,300000,200000,100000],
-      ["#0a84ff","#30d158","#ffd60a","#ff453a"]
-    );
-    makeChart('adobeBacklinks','pie',
-      ["Follow","No-Follow"],
-      [600000000,300000000],
-      ["#0a84ff","#636366"]
-    );
-
-    // Per-section PDF download
-    async function downloadSectionPDF(sectionId, name) {
-      const node = document.getElementById(sectionId);
-      if (!node) return;
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF('p','pt','a4');
-      const canvas = await html2canvas(node, { scale: 2, backgroundColor: '#121212' });
-      const img = canvas.toDataURL('image/png');
-
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = pageWidth;
-      const imgHeight = canvas.height * (imgWidth / canvas.width);
-
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      pdf.addImage(img, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-
-      while (heightLeft > 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(img, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
-
-      pdf.save(`${name || 'Report'}.pdf`);
+      // Adobe Express
+      makeChart('adobe-traffic','line',months,[5200000,5300000,5400000,5450000,5500000,5520000,5550000],['#0a84ff']);
+      makeChart('adobe-intent','bar',intentLabels,[600000,300000,200000,100000],['#0a84ff','#30d158','#ffd60a','#ff453a']);
+      makeChart('adobe-backlinks','pie',['Follow','No-Follow'],[600000000,300000000],['#0a84ff','#636366']);
     }
 
-    // Tabs
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+    function buildImpactChart(){
+      makeChart('seoChart','bar',["Meta Titles","Alt Text","Schema","Page Speed"],[8,7,9,6],['#0a84ff','#30d158','#ffd60a','#ff453a'],"Impact (1–10)");
+    }
+
+    let competitorsBuilt=false, impactBuilt=false;
+
+    /* ========= Tabs ========= */
+    document.querySelectorAll('.tab').forEach(tab=>{
+      tab.addEventListener('click',()=>{
+        document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+        document.querySelectorAll('.content').forEach(c=>c.classList.remove('active'));
         tab.classList.add('active');
-        document.getElementById(tab.dataset.tab).classList.add('active');
+        const pane=document.getElementById(tab.dataset.tab);
+        pane.classList.add('active');
+
+        if(tab.dataset.tab==='competitors' && !competitorsBuilt){ buildCompetitorCharts(); competitorsBuilt=true; }
+        if(tab.dataset.tab==='impact' && !impactBuilt){ buildImpactChart(); impactBuilt=true; }
+
+        // ensure sizes correct after becoming visible
+        resizeVisibleCharts(pane);
       });
     });
 
-    // Subtabs
-    document.querySelectorAll('.subtab').forEach(sub => {
-      sub.addEventListener('click', () => {
-        document.querySelectorAll('.subtab').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.subcontent').forEach(sc => sc.classList.remove('active'));
+    // Subtabs (keywords)
+    document.querySelectorAll('.subtab').forEach(sub=>{
+      sub.addEventListener('click',()=>{
+        document.querySelectorAll('.subtab').forEach(s=>s.classList.remove('active'));
+        document.querySelectorAll('.subcontent').forEach(sc=>sc.classList.remove('active'));
         sub.classList.add('active');
         document.getElementById(sub.dataset.sub).classList.add('active');
       });
     });
+
+    /* ========= PDF per competitor ========= */
+    async function downloadSectionPDF(sectionId, filename){
+      const el=document.getElementById(sectionId);
+      if(!el) return;
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p','pt','a4');
+      const canvas = await html2canvas(el,{scale:2,backgroundColor:'#ffffff'});
+      const imgData = canvas.toDataURL('image/png');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgW = pageWidth, imgH = canvas.height * (imgW / canvas.width);
+      let y = 0;
+      if(imgH <= pageHeight){
+        pdf.addImage(imgData,'PNG',0,0,imgW,imgH);
+      }else{
+        // paginate
+        let sY = 0;
+        const chunkH = canvas.width * (pageHeight / pageWidth); // source slice height
+        while(sY < canvas.height){
+          const pageCanvas = document.createElement('canvas');
+          pageCanvas.width = canvas.width;
+          pageCanvas.height = Math.min(chunkH, canvas.height - sY);
+          const ctx = pageCanvas.getContext('2d');
+          ctx.drawImage(canvas, 0, sY, canvas.width, pageCanvas.height, 0, 0, pageCanvas.width, pageCanvas.height);
+          const pageImg = pageCanvas.toDataURL('image/png');
+          if(y>0) pdf.addPage();
+          pdf.addImage(pageImg,'PNG',0,0,pageWidth,pageHeight);
+          sY += chunkH; y += pageHeight;
+        }
+      }
+      pdf.save(filename.replace(/\s+/g,'_')+'.pdf');
+    }
+    window.downloadSectionPDF = downloadSectionPDF;
+
+    /* Build charts for the first visible tab (none are charts by default) */
+    // If you want Impact/Competitors built immediately after load, uncomment:
+    // buildImpactChart(); impactBuilt=true;
+    // buildCompetitorCharts(); competitorsBuilt=true;
   </script>
 </body>
 </html>
