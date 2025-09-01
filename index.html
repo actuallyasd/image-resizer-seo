@@ -1,31 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>SEO Strategy Report – Client</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "San Francisco", Arial, sans-serif; margin: 20px; background: #121212; color: #f5f5f7; }
-    h1 { text-align: center; margin-bottom: 30px; color: #ffffff; }
-    .tabs { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-    .tab { padding: 10px 20px; cursor: pointer; background: #1e1e1e; border-radius: 12px; margin: 5px; transition: 0.3s; color: #f5f5f7; }
-    .tab.active { background: #0a84ff; color: white; box-shadow: 0 4px 12px rgba(10,132,255,0.5); }
-    .content { display: none; background: #1c1c1e; padding: 20px; border-radius: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); animation: fadeIn 0.4s ease; }
-    .content.active { display: block; }
-    iframe {
-  width: 100%;
-  height: 500px; /* adjust to 400–600 depending on preference */
-  border: none;
-  margin-top: 15px;
-  border-radius: 10px;
-  background: #2c2c2e;
-}
-    .chart-grid { display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px; margin-top: 15px; }
-    canvas { background: #1c1c1e; border-radius: 12px; padding: 15px; max-width: 300px; max-height: 220px; }
-    .download-btn { display: block; margin: 20px auto; padding: 10px 20px; background: #30d158; color: #fff; border: none; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 600; transition: 0.3s; }
-    .download-btn:hover { background: #248a3d; }
-    @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
+    :root{
+      --bg:#121212; --card:#1c1c1e; --muted:#2c2c2e; --text:#f5f5f7;
+      --blue:#0a84ff; --green:#30d158; --amber:#ffd60a; --red:#ff453a; --grey:#636366;
+      --shadow:0 6px 26px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family:-apple-system, BlinkMacSystemFont, "San Francisco", Arial, sans-serif;
+      margin:20px; background:var(--bg); color:var(--text);
+    }
+    h1{ text-align:center; margin:10px 0 26px; }
+    h2{ margin:0 0 14px }
+    h3{ margin:0 0 8px }
+    p{ margin:2px 0 6px }
+    /* Tabs */
+    .tabs{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-bottom:18px }
+    .tab{
+      padding:10px 18px; cursor:pointer; background:#1e1e1e; color:var(--text);
+      border-radius:12px; transition:.25s; box-shadow:0 1px 0 rgba(255,255,255,.03) inset;
+    }
+    .tab.active{ background:var(--blue); color:#fff; box-shadow:0 6px 14px rgba(10,132,255,.45) }
+    /* Panels */
+    .content{
+      display:none; background:var(--card); border-radius:16px; padding:20px; box-shadow:var(--shadow);
+      animation:fadeIn .35s ease;
+    }
+    .content.active{ display:block }
+    /* Subtabs for KW research */
+    .subtabs{ display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 8px }
+    .subtab{ padding:6px 12px; background:var(--muted); border-radius:10px; cursor:pointer }
+    .subtab.active{ background:var(--green); color:#fff; box-shadow:0 6px 12px rgba(48,209,88,.4) }
+    .subcontent{ display:none; margin-top:8px }
+    .subcontent.active{ display:block }
+    /* Embeds */
+    iframe{
+      width:100%; height:520px; border:none; margin:10px 0 18px; border-radius:12px; background:var(--muted);
+      box-shadow:0 1px 0 rgba(255,255,255,.03) inset;
+    }
+    /* Competitors */
+    .competitor-card{
+      background:var(--card); border-radius:16px; padding:18px; margin:14px 0 22px; box-shadow:var(--shadow)
+    }
+    .stats{ margin-bottom:8px }
+    .chart-grid{
+      display:flex; flex-wrap:wrap; gap:18px; justify-content:flex-start; align-items:flex-start;
+    }
+    .chart-grid canvas{
+      width:300px !important; height:220px !important; background:var(--card); border-radius:12px; padding:8px;
+    }
+    .download-btn{
+      display:inline-block; margin:16px 0 6px; padding:10px 18px; background:var(--green);
+      color:#fff; border:none; border-radius:10px; font-weight:700; cursor:pointer; transition:.2s;
+    }
+    .download-btn:hover{ background:#248a3d }
+    /* Impact chart canvas area */
+    #seoChart{ width:100%; height:360px }
+    @keyframes fadeIn{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)}}
   </style>
-  
+
+  <!-- libs -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -45,7 +84,9 @@
   <!-- On-Page SEO -->
   <div id="onpage" class="content active">
     <h2>On-Page SEO</h2>
-    <ul id="onpage-list"></ul>
+    <ul id="onpage-list">
+      <!-- keep for your own bullets; leaving empty is fine -->
+    </ul>
   </div>
 
   <!-- Technical SEO -->
@@ -57,6 +98,7 @@
   <!-- Keyword Research -->
   <div id="keywords" class="content">
     <h2>Keyword Research</h2>
+
     <div class="subtabs">
       <div class="subtab active" data-sub="transactional">Transactional</div>
       <div class="subtab" data-sub="informational">Informational</div>
@@ -64,41 +106,41 @@
       <div class="subtab" data-sub="commercial">Commercial</div>
     </div>
 
-    <!-- Transactional Keywords -->
+    <!-- Transactional -->
     <div id="transactional" class="subcontent active">
       <h3>Core function</h3>
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pubhtml?gid=1764063307&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pubhtml?gid=1764063307&single=true&widget=true&headers=false"></iframe>
       <h3>User intent</h3>
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pubhtml?gid=1096589268&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pubhtml?gid=1096589268&single=true&widget=true&headers=false"></iframe>
       <h3>Platform specific</h3>
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pubhtml?gid=1070525027&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxxbbDjBgvoT3eaUlmK0od3fD1OCQvWETUnB4BReUZr_joyRd1hH4AR0NipwTO8buReLKIgnVDh50/pubhtml?gid=1070525027&single=true&widget=true&headers=false"></iframe>
     </div>
 
-    <!-- Informational Keywords -->
+    <!-- Informational -->
     <div id="informational" class="subcontent">
       <h3>Prepositions</h3>
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqeNceKSuzCMCNskX1XSyTA-GFN3Xcx8ye2GqGZLMF00duVSdJcLyCccxq-fQwxyHIS9NJMN9z3inD/pubhtml?gid=689662762&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqeNceKSuzCMCNskX1XSyTA-GFN3Xcx8ye2GqGZLMF00duVSdJcLyCccxq-fQwxyHIS9NJMN9z3inD/pubhtml?gid=689662762&single=true&widget=true&headers=false"></iframe>
       <h3>Questions V1</h3>
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqeNceKSuzCMCNskX1XSyTA-GFN3Xcx8ye2GqGZLMF00duVSdJcLyCccxq-fQwxyHIS9NJMN9z3inD/pubhtml?gid=1707919888&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqeNceKSuzCMCNskX1XSyTA-GFN3Xcx8ye2GqGZLMF00duVSdJcLyCccxq-fQwxyHIS9NJMN9z3inD/pubhtml?gid=1707919888&single=true&widget=true&headers=false"></iframe>
       <h3>Questions V2</h3>
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqeNceKSuzCMCNskX1XSyTA-GFN3Xcx8ye2GqGZLMF00duVSdJcLyCccxq-fQwxyHIS9NJMN9z3inD/pubhtml?gid=985068758&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqeNceKSuzCMCNskX1XSyTA-GFN3Xcx8ye2GqGZLMF00duVSdJcLyCccxq-fQwxyHIS9NJMN9z3inD/pubhtml?gid=985068758&single=true&widget=true&headers=false"></iframe>
     </div>
 
-    <!-- Navigational Keywords -->
+    <!-- Navigational -->
     <div id="navigational" class="subcontent">
       <h3>Navigational big brands</h3>
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSYVLKWv9BOHHqE-Lj4izr5ne3lzL58ZT8DFZl5P7ap4HeHmCFxkuZ2H4mfTkHOmrzCyWXg0aj8TU1d/pubhtml?gid=313868502&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSYVLKWv9BOHHqE-Lj4izr5ne3lzL58ZT8DFZl5P7ap4HeHmCFxkuZ2H4mfTkHOmrzCyWXg0aj8TU1d/pubhtml?gid=313868502&single=true&widget=true&headers=false"></iframe>
       <h3>Navigational medium competition</h3>
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSYVLKWv9BOHHqE-Lj4izr5ne3lzL58ZT8DFZl5P7ap4HeHmCFxkuZ2H4mfTkHOmrzCyWXg0aj8TU1d/pubhtml?gid=775491972&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSYVLKWv9BOHHqE-Lj4izr5ne3lzL58ZT8DFZl5P7ap4HeHmCFxkuZ2H4mfTkHOmrzCyWXg0aj8TU1d/pubhtml?gid=775491972&single=true&widget=true&headers=false"></iframe>
     </div>
 
-    <!-- Commercial Keywords -->
+    <!-- Commercial -->
     <div id="commercial" class="subcontent">
       <h3>Commercial Comparison</h3>
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmWxvrBMzEzrBQKc6vCGwfEZvUdRm9JWVxex4xqzVt5kqI_vab5Egoqao3BgUsZNKWrvYyCRvtQKQE/pubhtml?widget=true&amp;headers=false"></iframe>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmWxvrBMzEzrBQKc6vCGwfEZvUdRm9JWVxex4xqzVt5kqI_vab5Egoqao3BgUsZNKWrvYyCRvtQKQE/pubhtml?widget=true&headers=false"></iframe>
     </div>
   </div>
-  
+
   <!-- Impact Analysis -->
   <div id="charts" class="content">
     <h2>SEO Impact Analysis</h2>
@@ -110,108 +152,121 @@
     <h2>Competitor Analysis</h2>
 
     <!-- BulkResizePhotos.com -->
-    <div>
-      <h3>BulkResizePhotos.com</h3>
-      <p>Traffic: ~7.4K/month</p>
-      <p>Keywords: ~4.3K</p>
-      <p>Backlinks: ~31.3K</p>
+    <div id="comp-bulk" class="competitor-card">
+      <div class="stats">
+        <h3>BulkResizePhotos.com</h3>
+        <p>Traffic: ~7.4K/month</p>
+        <p>Keywords: ~4.3K</p>
+        <p>Backlinks: ~31.3K</p>
+      </div>
       <div class="chart-grid">
         <canvas id="trafficChart"></canvas>
         <canvas id="intentChart"></canvas>
         <canvas id="backlinkChart"></canvas>
       </div>
-      <button class="download-btn" onclick="downloadSectionPDF('BulkResizePhotos.com')">Download BulkResizePhotos Report</button>
+      <button class="download-btn" onclick="downloadSectionPDF('comp-bulk','BulkResizePhotos Report')">Download BulkResizePhotos Report</button>
     </div>
 
     <!-- Birme.net -->
-    <div>
-      <h3>Birme.net</h3>
-      <p>Traffic: ~2.1K/month</p>
-      <p>Keywords: ~1.2K</p>
-      <p>Backlinks: ~5.1K</p>
+    <div id="comp-birme" class="competitor-card">
+      <div class="stats">
+        <h3>Birme.net</h3>
+        <p>Traffic: ~2.1K/month</p>
+        <p>Keywords: ~1.2K</p>
+        <p>Backlinks: ~5.1K</p>
+      </div>
       <div class="chart-grid">
         <canvas id="birmeTraffic"></canvas>
         <canvas id="birmeIntent"></canvas>
         <canvas id="birmeBacklinks"></canvas>
       </div>
-      <button class="download-btn" onclick="downloadSectionPDF('Birme.net')">Download Birme.net Report</button>
+      <button class="download-btn" onclick="downloadSectionPDF('comp-birme','Birme.net Report')">Download Birme.net Report</button>
     </div>
 
-<! -- Batch 2 continuation -->
+    <!-- Batch 2 continuation -->
 
     <!-- SimpleImageResizer.com -->
-    <div>
-      <h3>SimpleImageResizer.com</h3>
-      <p>Traffic: ~1.8K/month</p>
-      <p>Keywords: ~900</p>
-      <p>Backlinks: ~4.8K</p>
+    <div id="comp-simple" class="competitor-card">
+      <div class="stats">
+        <h3>SimpleImageResizer.com</h3>
+        <p>Traffic: ~1.8K/month</p>
+        <p>Keywords: ~900</p>
+        <p>Backlinks: ~4.8K</p>
+      </div>
       <div class="chart-grid">
         <canvas id="simpleTraffic"></canvas>
         <canvas id="simpleIntent"></canvas>
         <canvas id="simpleBacklinks"></canvas>
       </div>
-      <button class="download-btn" onclick="downloadSectionPDF('SimpleImageResizer.com')">Download SimpleImageResizer Report</button>
+      <button class="download-btn" onclick="downloadSectionPDF('comp-simple','SimpleImageResizer Report')">Download SimpleImageResizer Report</button>
     </div>
 
     <!-- RedKetchup.io -->
-    <div>
-      <h3>RedKetchup.io</h3>
-      <p>Traffic: ~3.2K/month</p>
-      <p>Keywords: ~1.6K</p>
-      <p>Backlinks: ~6.2K</p>
+    <div id="comp-red" class="competitor-card">
+      <div class="stats">
+        <h3>RedKetchup.io</h3>
+        <p>Traffic: ~3.2K/month</p>
+        <p>Keywords: ~1.6K</p>
+        <p>Backlinks: ~6.2K</p>
+      </div>
       <div class="chart-grid">
         <canvas id="redTraffic"></canvas>
         <canvas id="redIntent"></canvas>
         <canvas id="redBacklinks"></canvas>
       </div>
-      <button class="download-btn" onclick="downloadSectionPDF('RedKetchup.io')">Download RedKetchup.io Report</button>
+      <button class="download-btn" onclick="downloadSectionPDF('comp-red','RedKetchup.io Report')">Download RedKetchup.io Report</button>
     </div>
 
     <!-- ILoveIMG.com -->
-    <div>
-      <h3>ILoveIMG.com</h3>
-      <p>Traffic: ~15K/month</p>
-      <p>Keywords: ~7.5K</p>
-      <p>Backlinks: ~25K</p>
+    <div id="comp-ilove" class="competitor-card">
+      <div class="stats">
+        <h3>ILoveIMG.com</h3>
+        <p>Traffic: ~15K/month</p>
+        <p>Keywords: ~7.5K</p>
+        <p>Backlinks: ~25K</p>
+      </div>
       <div class="chart-grid">
         <canvas id="iloveTraffic"></canvas>
         <canvas id="iloveIntent"></canvas>
         <canvas id="iloveBacklinks"></canvas>
       </div>
-      <button class="download-btn" onclick="downloadSectionPDF('ILoveIMG.com')">Download ILoveIMG Report</button>
+      <button class="download-btn" onclick="downloadSectionPDF('comp-ilove','ILoveIMG Report')">Download ILoveIMG Report</button>
     </div>
 
-<! -- Batch 3 continuation -->
+    <!-- Batch 3 continuation -->
 
     <!-- Canva.com -->
-    <div>
-      <h3>Canva.com</h3>
-      <p>Traffic: ~12M/month</p>
-      <p>Keywords: ~2.5M</p>
-      <p>Backlinks: ~1.2B</p>
+    <div id="comp-canva" class="competitor-card">
+      <div class="stats">
+        <h3>Canva.com</h3>
+        <p>Traffic: ~12M/month</p>
+        <p>Keywords: ~2.5M</p>
+        <p>Backlinks: ~1.2B</p>
+      </div>
       <div class="chart-grid">
         <canvas id="canvaTraffic"></canvas>
         <canvas id="canvaIntent"></canvas>
         <canvas id="canvaBacklinks"></canvas>
       </div>
-      <button class="download-btn" onclick="downloadSectionPDF('Canva.com')">Download Canva Report</button>
+      <button class="download-btn" onclick="downloadSectionPDF('comp-canva','Canva Report')">Download Canva Report</button>
     </div>
 
     <!-- Adobe Express -->
-    <div>
-      <h3>Adobe Express</h3>
-      <p>Traffic: ~5.5M/month</p>
-      <p>Keywords: ~1.2M</p>
-      <p>Backlinks: ~900M</p>
+    <div id="comp-adobe" class="competitor-card">
+      <div class="stats">
+        <h3>Adobe Express</h3>
+        <p>Traffic: ~5.5M/month</p>
+        <p>Keywords: ~1.2M</p>
+        <p>Backlinks: ~900M</p>
+      </div>
       <div class="chart-grid">
         <canvas id="adobeTraffic"></canvas>
         <canvas id="adobeIntent"></canvas>
         <canvas id="adobeBacklinks"></canvas>
       </div>
-      <button class="download-btn" onclick="downloadSectionPDF('Adobe Express')">Download Adobe Express Report</button>
+      <button class="download-btn" onclick="downloadSectionPDF('comp-adobe','Adobe Express Report')">Download Adobe Express Report</button>
     </div>
-
-  </div> <!-- Closing Competitor Analysis Content -->
+  </div>
 
   <!-- Recommendations -->
   <div id="recommendations" class="content">
@@ -219,93 +274,154 @@
     <ul id="recommendations-list"></ul>
   </div>
 
+  <!-- Logic -->
   <script>
-    function makeChart(id, type, labels, data, colors) {
-  const ctx = document.getElementById(id);
-  if (!ctx) return; // prevent errors if canvas doesn't exist
-  new Chart(ctx, {
-    type: type,
-    data: {
-      labels: labels,
-      datasets: [{
-        data: data,
-        backgroundColor: colors,
-        borderColor: colors,
-        fill: type === 'line' ? false : true
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          labels: { color: '#f5f5f7' },
-          display: type !== 'bar' // hide legend for bar charts
+    /* ---------- Chart helpers ---------- */
+    function makeChart(id, type, labels, data, colors, label){
+      const el = document.getElementById(id);
+      if(!el) return;
+      const isPie = type==='pie';
+      const isBar = type==='bar';
+      new Chart(el.getContext('2d'),{
+        type,
+        data:{
+          labels,
+          datasets:[{
+            label: label || (type==='line' ? 'Organic Traffic' : ''),
+            data, backgroundColor: colors, borderColor: colors[0] || colors, fill: type!=='line', tension:.35
+          }]
+        },
+        options:{
+          responsive:true, maintainAspectRatio:false,
+          plugins:{ legend:{ display: !isBar, position: isPie?'bottom':'top', labels:{ color:'#f5f5f7', boxWidth:12, padding:10 } } },
+          scales: isPie ? {} : {
+            x:{ ticks:{ color:'#aaa' }, grid:{ color:'#333' } },
+            y:{ ticks:{ color:'#aaa' }, grid:{ color:'#333' }, beginAtZero:true }
+          }
         }
-      },
-      scales: {
-        x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
-        y: { ticks: { color: '#aaa' }, grid: { color: '#333' } }
-      }
+      });
     }
-  });
-}
-// BulkResizePhotos charts
-makeChart('trafficChart','line', ["Jan","Feb","Mar","Apr","May","Jun","Jul"], [6000,6200,6500,6700,7000,7300,7400],["#0a84ff"]);
-makeChart('intentChart','bar', ["Transactional","Informational","Navigational","Commercial"],[2000,1500,500,300],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
-makeChart('backlinkChart','pie', ["Follow","No-Follow"],[21000,10300],["#0a84ff","#636366"]);
 
-// Birme charts
-makeChart('birmeTraffic','line', ["Jan","Feb","Mar","Apr","May","Jun","Jul"],[1800,1850,1900,1950,2000,2100,2100],["#0a84ff"]);
-makeChart('birmeIntent','bar', ["Transactional","Informational","Navigational","Commercial"],[800,250,100,50],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
-makeChart('birmeBacklinks','pie', ["Follow","No-Follow"],[3500,1600],["#0a84ff","#636366"]);
+    let competitorChartsReady = false;
+    let impactReady = false;
 
-// SimpleImageResizer charts
-makeChart('simpleTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[1500,1600,1650,1700,1750,1800,1800],["#0a84ff"]);
-makeChart('simpleIntent','bar',["Transactional","Informational","Navigational","Commercial"],[500,250,100,50],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
-makeChart('simpleBacklinks','pie',["Follow","No-Follow"],[3000,1800],["#0a84ff","#636366"]);
+    function initCompetitorCharts(){
+      if(competitorChartsReady) return;
 
-// RedKetchup charts
-makeChart('redTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[2500,2600,2700,2800,3000,3100,3200],["#0a84ff"]);
-makeChart('redIntent','bar',["Transactional","Informational","Navigational","Commercial"],[700,500,200,200],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
-makeChart('redBacklinks','pie',["Follow","No-Follow"],[4000,2200],["#0a84ff","#636366"]);
+      // BulkResizePhotos
+      makeChart('trafficChart','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[6000,6200,6500,6700,7000,7300,7400],["#0a84ff"]);
+      makeChart('intentChart','bar',["Transactional","Informational","Navigational","Commercial"],[2000,1500,500,300],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
+      makeChart('backlinkChart','pie',["Follow","No-Follow"],[21000,10300],["#0a84ff","#636366"]);
 
-// ILoveIMG charts
-makeChart('iloveTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[12000,12500,13000,13500,14000,14500,15000],["#0a84ff"]);
-makeChart('iloveIntent','bar',["Transactional","Informational","Navigational","Commercial"],[3500,2500,1200,800],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
-makeChart('iloveBacklinks','pie',["Follow","No-Follow"],[18000,7000],["#0a84ff","#636366"]);
-```
-    
-    // Canva charts
-    makeChart('canvaTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[11000000,11300000,11500000,11700000,11800000,11900000,12000000],["#0a84ff"]);
-    makeChart('canvaIntent','bar',["Transactional","Informational","Navigational","Commercial"],[800000,700000,500000,300000],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
-    makeChart('canvaBacklinks','pie',["Follow","No-Follow"],[800000000,400000000],["#0a84ff","#636366"]);
+      // Birme
+      makeChart('birmeTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[1800,1850,1900,1950,2000,2100,2100],["#0a84ff"]);
+      makeChart('birmeIntent','bar',["Transactional","Informational","Navigational","Commercial"],[800,250,100,50],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
+      makeChart('birmeBacklinks','pie',["Follow","No-Follow"],[3500,1600],["#0a84ff","#636366"]);
 
-    // Adobe Express charts
-    makeChart('adobeTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[5200000,5300000,5400000,5450000,5500000,5520000,5550000],["#0a84ff"]);
-    makeChart('adobeIntent','bar',["Transactional","Informational","Navigational","Commercial"],[600000,300000,200000,100000],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
-    makeChart('adobeBacklinks','pie',["Follow","No-Follow"],[600000000,300000000],["#0a84ff","#636366"]);
-  </script>
+      // SimpleImageResizer
+      makeChart('simpleTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[1500,1600,1650,1700,1750,1800,1800],["#0a84ff"]);
+      makeChart('simpleIntent','bar',["Transactional","Informational","Navigational","Commercial"],[500,250,100,50],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
+      makeChart('simpleBacklinks','pie',["Follow","No-Follow"],[3000,1800],["#0a84ff","#636366"]);
 
-  <script>
-    // Tab switching
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+      // RedKetchup
+      makeChart('redTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[2500,2600,2700,2800,3000,3100,3200],["#0a84ff"]);
+      makeChart('redIntent','bar',["Transactional","Informational","Navigational","Commercial"],[700,500,200,200],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
+      makeChart('redBacklinks','pie',["Follow","No-Follow"],[4000,2200],["#0a84ff","#636366"]);
+
+      // ILoveIMG
+      makeChart('iloveTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[12000,12500,13000,13500,14000,14500,15000],["#0a84ff"]);
+      makeChart('iloveIntent','bar',["Transactional","Informational","Navigational","Commercial"],[3500,2500,1200,800],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
+      makeChart('iloveBacklinks','pie',["Follow","No-Follow"],[18000,7000],["#0a84ff","#636366"]);
+
+      // Canva
+      makeChart('canvaTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[11000000,11300000,11500000,11700000,11800000,11900000,12000000],["#0a84ff"]);
+      makeChart('canvaIntent','bar',["Transactional","Informational","Navigational","Commercial"],[800000,700000,500000,300000],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
+      makeChart('canvaBacklinks','pie',["Follow","No-Follow"],[800000000,400000000],["#0a84ff","#636366"]);
+
+      // Adobe
+      makeChart('adobeTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[5200000,5300000,5400000,5450000,5500000,5520000,5550000],["#0a84ff"]);
+      makeChart('adobeIntent','bar',["Transactional","Informational","Navigational","Commercial"],[600000,300000,200000,100000],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
+      makeChart('adobeBacklinks','pie',["Follow","No-Follow"],[600000000,300000000],["#0a84ff","#636366"]);
+
+      competitorChartsReady = true;
+    }
+
+    function initImpact(){
+      if(impactReady) return;
+      const ctx = document.getElementById('seoChart').getContext('2d');
+      new Chart(ctx,{
+        type:'bar',
+        data:{
+          labels:["Meta Titles","Alt Text","Schema","Page Speed"],
+          datasets:[{ label:'Impact (1–10)', data:[8,7,9,6], backgroundColor:["#0a84ff","#30d158","#ffd60a","#ff453a"] }]
+        },
+        options:{
+          responsive:true, maintainAspectRatio:false,
+          plugins:{ legend:{ labels:{ color:'#f5f5f7' } } },
+          scales:{ x:{ ticks:{ color:'#aaa' }, grid:{ color:'#333' } }, y:{ beginAtZero:true, ticks:{ color:'#aaa' }, grid:{ color:'#333' } } }
+        }
+      });
+      impactReady = true;
+    }
+
+    /* ---------- Tabs & Subtabs ---------- */
+    document.querySelectorAll('.tab').forEach(tab=>{
+      tab.addEventListener('click', ()=>{
+        document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+        document.querySelectorAll('.content').forEach(c=>c.classList.remove('active'));
         tab.classList.add('active');
-        document.getElementById(tab.dataset.tab).classList.add('active');
+        const panel = document.getElementById(tab.dataset.tab);
+        panel.classList.add('active');
+        if(tab.dataset.tab==='competitors') initCompetitorCharts();
+        if(tab.dataset.tab==='charts') initImpact();
       });
     });
 
-    // Subtab switching
-    document.querySelectorAll('.subtab').forEach(sub => {
-      sub.addEventListener('click', () => {
-        document.querySelectorAll('.subtab').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.subcontent').forEach(sc => sc.classList.remove('active'));
+    document.querySelectorAll('.subtab').forEach(sub=>{
+      sub.addEventListener('click', ()=>{
+        document.querySelectorAll('.subtab').forEach(s=>s.classList.remove('active'));
+        document.querySelectorAll('.subcontent').forEach(sc=>sc.classList.remove('active'));
         sub.classList.add('active');
         document.getElementById(sub.dataset.sub).classList.add('active');
       });
     });
+
+    // Safety: if Competitors or Impact is default-visible (not in this file), init immediately.
+    if(document.getElementById('competitors').classList.contains('active')) initCompetitorCharts();
+    if(document.getElementById('charts').classList.contains('active')) initImpact();
+
+    /* ---------- Per-section PDF download ---------- */
+    async function downloadSectionPDF(sectionId, fileName){
+      const el = document.getElementById(sectionId);
+      if(!el) return;
+      const { jsPDF } = window.jspdf;
+      const canvas = await html2canvas(el, { scale:2, backgroundColor:'#121212', useCORS:true });
+      const img = canvas.toDataURL('image/png');
+
+      const pdf = new jsPDF('p','pt','a4');
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+
+      const imgW = pageW;                       // fit to width
+      const imgH = canvas.height * (imgW / canvas.width);
+
+      let y = 0;
+      let remaining = imgH;
+
+      // Add first page
+      pdf.addImage(img, 'PNG', 0, y, imgW, imgH);
+      remaining -= pageH;
+
+      // If image extends beyond a page, add more pages shifting up
+      while(remaining > 0){
+        pdf.addPage();
+        y -= pageH;
+        pdf.addImage(img, 'PNG', 0, y, imgW, imgH);
+        remaining -= pageH;
+      }
+
+      pdf.save(fileName || 'section.pdf');
+    }
   </script>
 </body>
 </html>
