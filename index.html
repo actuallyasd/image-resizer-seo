@@ -11,19 +11,15 @@
     .tab.active { background: #0a84ff; color: white; box-shadow: 0 4px 12px rgba(10,132,255,0.5); }
     .content { display: none; background: #1c1c1e; padding: 20px; border-radius: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); animation: fadeIn 0.4s ease; }
     .content.active { display: block; }
-    .subtabs { display: flex; margin-top: 10px; }
-    .subtab { padding: 6px 12px; cursor: pointer; background: #2c2c2e; border-radius: 8px; margin-right: 5px; transition: 0.3s; color: #f5f5f7; }
-    .subtab.active { background: #30d158; color: white; box-shadow: 0 3px 10px rgba(48,209,88,0.4); }
-    .subcontent { display: none; margin-top: 15px; }
-    .subcontent.active { display: block; }
-    iframe { width: 100%; height: 600px; border: none; margin-top: 15px; border-radius: 10px; background: #2c2c2e; }
-    .download-btn { display: block; margin: 20px auto; padding: 12px 24px; background: #30d158; color: #fff; border: none; border-radius: 10px; cursor: pointer; font-size: 16px; font-weight: 600; transition: 0.3s; }
+    .chart-grid { display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px; margin-top: 15px; }
+    canvas { background: #1c1c1e; border-radius: 12px; padding: 15px; max-width: 300px; max-height: 220px; }
+    .download-btn { display: block; margin: 20px auto; padding: 10px 20px; background: #30d158; color: #fff; border: none; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 600; transition: 0.3s; }
     .download-btn:hover { background: #248a3d; }
-    canvas { background: #1c1c1e; border-radius: 12px; padding: 15px; }
-
     @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
   <h1>SEO Strategy Report – Client</h1>
@@ -71,20 +67,29 @@
 
     <!-- Informational Keywords -->
     <div id="informational" class="subcontent">
-      <p>Upload or embed your Informational keywords here.</p>
+      <h3>Prepositions</h3>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqeNceKSuzCMCNskX1XSyTA-GFN3Xcx8ye2GqGZLMF00duVSdJcLyCccxq-fQwxyHIS9NJMN9z3inD/pubhtml?gid=689662762&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+      <h3>Questions V1</h3>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqeNceKSuzCMCNskX1XSyTA-GFN3Xcx8ye2GqGZLMF00duVSdJcLyCccxq-fQwxyHIS9NJMN9z3inD/pubhtml?gid=1707919888&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+      <h3>Questions V2</h3>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSqeNceKSuzCMCNskX1XSyTA-GFN3Xcx8ye2GqGZLMF00duVSdJcLyCccxq-fQwxyHIS9NJMN9z3inD/pubhtml?gid=985068758&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
     </div>
 
     <!-- Navigational Keywords -->
     <div id="navigational" class="subcontent">
-      <p>Upload or embed your Navigational keywords here.</p>
+      <h3>Navigational big brands</h3>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSYVLKWv9BOHHqE-Lj4izr5ne3lzL58ZT8DFZl5P7ap4HeHmCFxkuZ2H4mfTkHOmrzCyWXg0aj8TU1d/pubhtml?gid=313868502&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+      <h3>Navigational medium competition</h3>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSYVLKWv9BOHHqE-Lj4izr5ne3lzL58ZT8DFZl5P7ap4HeHmCFxkuZ2H4mfTkHOmrzCyWXg0aj8TU1d/pubhtml?gid=775491972&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
     </div>
 
     <!-- Commercial Keywords -->
     <div id="commercial" class="subcontent">
-      <p>Upload or embed your Commercial keywords here.</p>
+      <h3>Commercial Comparison</h3>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmWxvrBMzEzrBQKc6vCGwfEZvUdRm9JWVxex4xqzVt5kqI_vab5Egoqao3BgUsZNKWrvYyCRvtQKQE/pubhtml?widget=true&amp;headers=false"></iframe>
     </div>
   </div>
-
+  
   <!-- Impact Analysis -->
   <div id="charts" class="content">
     <h2>SEO Impact Analysis</h2>
@@ -96,92 +101,108 @@
     <h2>Competitor Analysis</h2>
 
     <!-- BulkResizePhotos.com -->
-    <h3>BulkResizePhotos.com</h3>
-    <p>Traffic: ~7.4K/month</p>
-    <p>Keywords: ~4.3K</p>
-    <p>Backlinks: ~31.3K</p>
-    <p>Top Keyword: bulk image resizer (#1)</p>
-    <p>Strength: Dominates bulk resizing terms</p>
-    <p>Weakness: Backlink profile looks inflated/low quality</p>
-    <h4>Traffic Trend</h4>
-    <canvas id="trafficChart"></canvas>
-    <h4>Keyword Intent Breakdown</h4>
-    <canvas id="intentChart"></canvas>
-    <h4>Backlink Distribution</h4>
-    <canvas id="backlinkChart"></canvas>
+    <div>
+      <h3>BulkResizePhotos.com</h3>
+      <p>Traffic: ~7.4K/month</p>
+      <p>Keywords: ~4.3K</p>
+      <p>Backlinks: ~31.3K</p>
+      <div class="chart-grid">
+        <canvas id="trafficChart"></canvas>
+        <canvas id="intentChart"></canvas>
+        <canvas id="backlinkChart"></canvas>
+      </div>
+      <button class="download-btn" onclick="downloadSectionPDF('BulkResizePhotos.com')">Download BulkResizePhotos Report</button>
+    </div>
 
     <!-- Birme.net -->
-    <h3>Birme.net</h3>
-    <p>Traffic: ~2.1K/month</p>
-    <p>Keywords: ~1.2K</p>
-    <p>Backlinks: ~5.1K</p>
-    <p>Top Keyword: birme bulk image editor</p>
-    <p>Strength: Strong niche presence</p>
-    <p>Weakness: Limited growth compared to bigger players</p>
-    <canvas id="birmeTraffic"></canvas>
-    <canvas id="birmeIntent"></canvas>
-    <canvas id="birmeBacklinks"></canvas>
+    <div>
+      <h3>Birme.net</h3>
+      <p>Traffic: ~2.1K/month</p>
+      <p>Keywords: ~1.2K</p>
+      <p>Backlinks: ~5.1K</p>
+      <div class="chart-grid">
+        <canvas id="birmeTraffic"></canvas>
+        <canvas id="birmeIntent"></canvas>
+        <canvas id="birmeBacklinks"></canvas>
+      </div>
+      <button class="download-btn" onclick="downloadSectionPDF('Birme.net')">Download Birme.net Report</button>
+    </div>
 
-        <!-- SimpleImageResizer.com -->
-    <h3>SimpleImageResizer.com</h3>
-    <p>Traffic: ~1.8K/month</p>
-    <p>Keywords: ~900</p>
-    <p>Backlinks: ~4.8K</p>
-    <p>Top Keyword: simple image resizer</p>
-    <p>Strength: Very simple, lightweight tool</p>
-    <p>Weakness: Limited functionality vs. competitors</p>
-    <canvas id="simpleTraffic"></canvas>
-    <canvas id="simpleIntent"></canvas>
-    <canvas id="simpleBacklinks"></canvas>
+<! -- Batch 2 continuation -->
+
+    <!-- SimpleImageResizer.com -->
+    <div>
+      <h3>SimpleImageResizer.com</h3>
+      <p>Traffic: ~1.8K/month</p>
+      <p>Keywords: ~900</p>
+      <p>Backlinks: ~4.8K</p>
+      <div class="chart-grid">
+        <canvas id="simpleTraffic"></canvas>
+        <canvas id="simpleIntent"></canvas>
+        <canvas id="simpleBacklinks"></canvas>
+      </div>
+      <button class="download-btn" onclick="downloadSectionPDF('SimpleImageResizer.com')">Download SimpleImageResizer Report</button>
+    </div>
 
     <!-- RedKetchup.io -->
-    <h3>RedKetchup.io</h3>
-    <p>Traffic: ~3.2K/month</p>
-    <p>Keywords: ~1.6K</p>
-    <p>Backlinks: ~6.2K</p>
-    <p>Top Keyword: redketchup image tools</p>
-    <p>Strength: Wide suite of free image tools</p>
-    <p>Weakness: Jack of all trades, lacks deep specialization</p>
-    <canvas id="redTraffic"></canvas>
-    <canvas id="redIntent"></canvas>
-    <canvas id="redBacklinks"></canvas>
+    <div>
+      <h3>RedKetchup.io</h3>
+      <p>Traffic: ~3.2K/month</p>
+      <p>Keywords: ~1.6K</p>
+      <p>Backlinks: ~6.2K</p>
+      <div class="chart-grid">
+        <canvas id="redTraffic"></canvas>
+        <canvas id="redIntent"></canvas>
+        <canvas id="redBacklinks"></canvas>
+      </div>
+      <button class="download-btn" onclick="downloadSectionPDF('RedKetchup.io')">Download RedKetchup.io Report</button>
+    </div>
 
     <!-- ILoveIMG.com -->
-    <h3>ILoveIMG.com</h3>
-    <p>Traffic: ~15K/month</p>
-    <p>Keywords: ~7.5K</p>
-    <p>Backlinks: ~25K</p>
-    <p>Top Keyword: iloveimg resize</p>
-    <p>Strength: Strong brand, wide adoption</p>
-    <p>Weakness: Heavy competition from Canva and Adobe</p>
-    <canvas id="iloveTraffic"></canvas>
-    <canvas id="iloveIntent"></canvas>
-    <canvas id="iloveBacklinks"></canvas>
+    <div>
+      <h3>ILoveIMG.com</h3>
+      <p>Traffic: ~15K/month</p>
+      <p>Keywords: ~7.5K</p>
+      <p>Backlinks: ~25K</p>
+      <div class="chart-grid">
+        <canvas id="iloveTraffic"></canvas>
+        <canvas id="iloveIntent"></canvas>
+        <canvas id="iloveBacklinks"></canvas>
+      </div>
+      <button class="download-btn" onclick="downloadSectionPDF('ILoveIMG.com')">Download ILoveIMG Report</button>
+    </div>
+
+<! -- Batch 3 continuation -->
 
     <!-- Canva.com -->
-    <h3>Canva.com</h3>
-    <p>Traffic: ~12M/month</p>
-    <p>Keywords: ~2.5M</p>
-    <p>Backlinks: ~1.2B</p>
-    <p>Top Keyword: canva photo editor</p>
-    <p>Strength: Market leader in design + editing tools</p>
-    <p>Weakness: Expensive, bloated for simple needs</p>
-    <canvas id="canvaTraffic"></canvas>
-    <canvas id="canvaIntent"></canvas>
-    <canvas id="canvaBacklinks"></canvas>
+    <div>
+      <h3>Canva.com</h3>
+      <p>Traffic: ~12M/month</p>
+      <p>Keywords: ~2.5M</p>
+      <p>Backlinks: ~1.2B</p>
+      <div class="chart-grid">
+        <canvas id="canvaTraffic"></canvas>
+        <canvas id="canvaIntent"></canvas>
+        <canvas id="canvaBacklinks"></canvas>
+      </div>
+      <button class="download-btn" onclick="downloadSectionPDF('Canva.com')">Download Canva Report</button>
+    </div>
 
     <!-- Adobe Express -->
-    <h3>Adobe Express</h3>
-    <p>Traffic: ~5.5M/month</p>
-    <p>Keywords: ~1.2M</p>
-    <p>Backlinks: ~900M</p>
-    <p>Top Keyword: adobe image resizer</p>
-    <p>Strength: Massive brand power, integrated tools</p>
-    <p>Weakness: Complexity, paywall for advanced features</p>
-    <canvas id="adobeTraffic"></canvas>
-    <canvas id="adobeIntent"></canvas>
-    <canvas id="adobeBacklinks"></canvas>
-  </div>
+    <div>
+      <h3>Adobe Express</h3>
+      <p>Traffic: ~5.5M/month</p>
+      <p>Keywords: ~1.2M</p>
+      <p>Backlinks: ~900M</p>
+      <div class="chart-grid">
+        <canvas id="adobeTraffic"></canvas>
+        <canvas id="adobeIntent"></canvas>
+        <canvas id="adobeBacklinks"></canvas>
+      </div>
+      <button class="download-btn" onclick="downloadSectionPDF('Adobe Express')">Download Adobe Express Report</button>
+    </div>
+
+  </div> <!-- Closing Competitor Analysis Content -->
 
   <!-- Recommendations -->
   <div id="recommendations" class="content">
@@ -189,65 +210,9 @@
     <ul id="recommendations-list"></ul>
   </div>
 
-  <button class="download-btn" onclick="downloadPDF()">Download Report as PDF</button>
-
   <script>
-    // Tab switching
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById(tab.dataset.tab).classList.add('active');
-      });
-    });
-
-    document.querySelectorAll('.subtab').forEach(sub => {
-      sub.addEventListener('click', () => {
-        document.querySelectorAll('.subtab').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.subcontent').forEach(sc => sc.classList.remove('active'));
-        sub.classList.add('active');
-        document.getElementById(sub.dataset.sub).classList.add('active');
-      });
-    });
-
-    // Chart.js helper
-    function makeChart(id, type, labels, data, colors) {
-      new Chart(document.getElementById(id), {
-        type: type,
-        data: { labels: labels, datasets: [{ data: data, backgroundColor: colors, borderColor: colors, fill: type==='line'?false:true }]},
-        options: { responsive: true, plugins: { legend: { labels: { color: '#f5f5f7' }}} , scales: { x: { ticks: { color: '#aaa'}}, y: { ticks: { color: '#aaa'}} } }
-      });
-    }
-
-    // BulkResizePhotos charts
-    makeChart('trafficChart','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[6000,6200,6500,6700,7000,7300,7400],["#0a84ff"]);
-    makeChart('intentChart','bar',["Transactional","Informational","Navigational","Commercial"],[2000,1500,500,300],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
-    makeChart('backlinkChart','pie',["Follow","No-Follow"],[21000,10300],["#0a84ff","#636366"]);
-
-    // Birme charts
-    makeChart('birmeTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[1800,1850,1900,1950,2000,2100,2100],["#0a84ff"]);
-    makeChart('birmeIntent','bar',["Transactional","Informational","Navigational","Commercial"],[800,250,100,50],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
-    makeChart('birmeBacklinks','pie',["Follow","No-Follow"],[3500,1600],["#0a84ff","#636366"]);
-
-    // SimpleImageResizer charts
-    makeChart('simpleTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[1500,1600,1650,1700,1750,1800,1800],["#0a84ff"]);
-    makeChart('simpleIntent','bar',["Transactional","Informational","Navigational","Commercial"],[500,250,100,50],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
-    makeChart('simpleBacklinks','pie',["Follow","No-Follow"],[3000,1800],["#0a84ff","#636366"]);
-
-    // RedKetchup charts
-    makeChart('redTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[2500,2600,2700,2800,3000,3100,3200],["#0a84ff"]);
-    makeChart('redIntent','bar',["Transactional","Informational","Navigational","Commercial"],[700,500,200,200],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
-    makeChart('redBacklinks','pie',["Follow","No-Follow"],[4000,2200],["#0a84ff","#636366"]);
-
-    // ILoveIMG charts
-    makeChart('iloveTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[12000,12500,13000,13500,14000,14500,15000],["#0a84ff"]);
-    makeChart('iloveIntent','bar',["Transactional","Informational","Navigational","Commercial"],[3500,2500,1200,800],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
-    makeChart('iloveBacklinks','pie',["Follow","No-Follow"],[18000,7000],["#0a84ff","#636366"]);
-
     // Canva charts
     makeChart('canvaTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[11000000,11300000,11500000,11700000,11800000,11900000,12000000],["#0a84ff"]);
-        // Canva continued
     makeChart('canvaIntent','bar',["Transactional","Informational","Navigational","Commercial"],[800000,700000,500000,300000],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
     makeChart('canvaBacklinks','pie',["Follow","No-Follow"],[800000000,400000000],["#0a84ff","#636366"]);
 
@@ -255,42 +220,7 @@
     makeChart('adobeTraffic','line',["Jan","Feb","Mar","Apr","May","Jun","Jul"],[5200000,5300000,5400000,5450000,5500000,5520000,5550000],["#0a84ff"]);
     makeChart('adobeIntent','bar',["Transactional","Informational","Navigational","Commercial"],[600000,300000,200000,100000],["#0a84ff","#30d158","#ffd60a","#ff453a"]);
     makeChart('adobeBacklinks','pie',["Follow","No-Follow"],[600000000,300000000],["#0a84ff","#636366"]);
-
-    // SEO Impact Analysis Example Chart
-    new Chart(document.getElementById('seoChart'), {
-      type: 'bar',
-      data: {
-        labels: ["Meta Titles","Alt Text","Schema","Page Speed"],
-        datasets: [{
-          label: 'Impact (1-10)',
-          data: [8, 7, 9, 6],
-          backgroundColor: ["#0a84ff","#30d158","#ffd60a","#ff453a"]
-        }]
-      },
-      options: { responsive: true, maintainAspectRatio: false, aspectRatio: 2,
-        scales: { y: { beginAtZero: true, ticks: { color: '#aaa' } }, x: { ticks: { color: '#aaa' } } },
-        plugins: { legend: { labels: { color: '#f5f5f7' } } }
-      }
-    });
-
-    // PDF Download Function
-    async function downloadPDF() {
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF('p', 'pt', 'a4');
-      const report = document.body;
-      await html2canvas(report, { scale: 2 }).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save('SEO_Report.pdf');
-      });
-    }
   </script>
-  <style>
-    canvas { max-width: 400px; max-height: 250px; margin: 15px; display: inline-block; vertical-align: top; }
-    .chart-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-  </style>
+
 </body>
 </html>
