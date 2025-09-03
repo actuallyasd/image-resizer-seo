@@ -80,6 +80,13 @@
     .impact-wrap{ background:var(--panel-2); padding:14px; border-radius:14px; }
     #seoChart{ width:100%; height:320px !important; }
     .gridish{ background:var(--grid); border-radius:12px; }
+
+    /* Recommendations styling */
+    #recommendations-content { color: var(--ink-2); line-height:1.6; }
+    #recommendations-content h3{ color: var(--ink); margin: 18px 0 8px; }
+    #recommendations-content p{ margin: 0 0 14px; }
+    #recommendations-content a { color: var(--blue); text-decoration:none; }
+    #recommendations-content a:hover { text-decoration:underline; }
   </style>
 
   <!-- Chart.js -->
@@ -89,7 +96,7 @@
 <body>
   <h1>SEO Strategy Report – bestimageresizer.com</h1>
 
-  <!-- Top tabs (no On-Page tab) -->
+  <!-- Top tabs (order requested; default: Keyword Research) -->
   <div class="tabs">
     <div class="tab active" data-tab="keywords">Keyword Research</div>
     <div class="tab" data-tab="competitors">Competitor Analysis</div>
@@ -97,13 +104,14 @@
     <div class="tab" data-tab="technical">Technical SEO</div>
     <div class="tab" data-tab="recommendations">Recommendations</div>
   </div>
-  <!-- Technical -->
+
+  <!-- ===== Technical ===== -->
   <div id="technical" class="content">
     <h2>Technical SEO</h2>
     <ul id="technical-list"></ul>
   </div>
 
-  <!-- Keyword Research -->
+  <!-- ===== Keyword Research ===== -->
   <div id="keywords" class="content active">
     <h2>Keyword Research</h2>
 
@@ -145,7 +153,7 @@
     </div>
   </div>
 
-  <!-- Impact -->
+  <!-- ===== Impact Analysis ===== -->
   <div id="impact" class="content">
     <h2>SEO Impact Analysis</h2>
     <div class="impact-wrap gridish">
@@ -153,7 +161,7 @@
     </div>
   </div>
 
-  <!-- Competitor Analysis -->
+  <!-- ===== Competitor Analysis ===== -->
   <div id="competitors" class="content">
     <h2>Competitor Analysis</h2>
 
@@ -242,14 +250,14 @@
     </section>
   </div>
 
-  <!-- Recommendations -->
+  <!-- ===== Recommendations ===== -->
   <div id="recommendations" class="content">
     <h2>Recommendations & Next Steps</h2>
-    <ul id="recommendations-list"></ul>
+    <div id="recommendations-content">Loading recommendations…</div>
   </div>
 
   <script>
-    /* CSV paths (exact filenames you uploaded to /assets) */
+    /* CSV paths (exact filenames uploaded to /assets) */
     const CSV = {
       brp:   'assets/bulkresizephotos.com-organic.Positions-us-20250901-2025-09-03T04_55_04Z.csv',
       birme: 'assets/birme.net-organic.Positions-us-20250901-2025-09-03T04_44_20Z.csv',
@@ -265,7 +273,7 @@
       document.body.appendChild(a); a.click(); a.remove();
     }
 
-    /* Chart defaults + internal label plugin */
+    /* Chart defaults + internal label plugin (for in-chart titles) */
     Chart.defaults.color = '#d8d8de';
     Chart.defaults.borderColor = 'rgba(255,255,255,.08)';
     const titleInside = {
@@ -317,7 +325,7 @@
     makeChart('seoChart','bar',['Meta Titles','Alt Text','Schema','Page Speed'],[8,7,9,6],
       ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false});
 
-    /* Competitor charts (same as before, with in-chart titles) */
+    /* Competitor charts (with in-chart titles) */
     // BulkResizePhotos
     makeChart('brp-traffic','line',['Feb','Mar','Apr','May','Jun','Jul','Aug'],[43023,43957,41634,88463,50970,62131,65313],['#0a84ff'],{label:'Organic Traffic'});
     makeChart('brp-intent','bar',['Transactional','Informational','Navigational','Commercial'],[504,15809,519,9455],
@@ -359,6 +367,59 @@
     makeChart('adobe-intent','bar',['Transactional','Informational','Navigational','Commercial'],[597,8487,435,3797],
       ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
     makeChart('adobe-backlinks','pie',['Follow','No-Follow'],[4860,573],['#0a84ff','#636366'],{titleInside:{text:'Backlinks'}});
+
+    /* ===== Recommendations loader ===== */
+    const RECS_URL = 'assets/SEO%20insights%20text.txt'; // your uploaded file
+
+    function autoLink(str){
+      const urlRe = /(https?:\/\/[^\s)]+)|(www\.[^\s)]+)/gi;
+      return str.replace(urlRe, (m)=>{
+        const url = m.startsWith('http') ? m : `https://${m}`;
+        return `<a href="${url}" target="_blank" rel="noopener">${m}</a>`;
+      });
+    }
+
+    function renderRecommendations(txt){
+      // Split into blocks by blank lines
+      const blocks = txt.trim().split(/\n{2,}/);
+      let html = '';
+      for(const blockRaw of blocks){
+        const block = blockRaw.trim().replace(/\n+/g,' ');
+        // Pattern 1: URL heading like "https://domain.com: text"
+        let m = block.match(/^(https?:\/\/[^\s:]+):\s*(.*)$/i);
+        if(m){
+          const url = m[1];
+          const rest = m[2];
+          const label = url.replace(/^https?:\/\/(www\.)?/i,'');
+          html += `<h3><a href="${url}" target="_blank" rel="noopener">${label}</a></h3>`;
+          html += `<p>${autoLink(rest)}</p>`;
+          continue;
+        }
+        // Pattern 2: Domain-style heading like "Birme.net: text"
+        m = block.match(/^([A-Za-z0-9.-]+):\s*(.*)$/);
+        if(m){
+          html += `<h3>${m[1]}</h3><p>${autoLink(m[2])}</p>`;
+          continue;
+        }
+        // Default: paragraph
+        html += `<p>${autoLink(block)}</p>`;
+      }
+      return html;
+    }
+
+    async function loadRecommendations(){
+      const mount = document.getElementById('recommendations-content');
+      try{
+        const res = await fetch(RECS_URL);
+        if(!res.ok) throw new Error('Fetch failed');
+        const txt = await res.text();
+        mount.innerHTML = renderRecommendations(txt);
+      }catch(err){
+        mount.innerHTML = `<p style="color:#ff9f0a">Couldn’t load recommendations from <code>${RECS_URL}</code>. Make sure the file exists in <code>/assets</code>. You can rename it and just update <code>RECS_URL</code> in the script.</p>`;
+      }
+    }
+
+    loadRecommendations();
 
     /* Tabs */
     document.querySelectorAll('.tab').forEach(tab=>{
