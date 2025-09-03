@@ -1,0 +1,34 @@
+﻿Birme
+
+
+Birme.net: Has the feature that we are banking on. Their entire search volume is based on organic SEO. No paid ads at all (a feature we see across almost all competitors). The reliance on banklinks is huge, again a metric that is widely seen across all competitors. They have no blog, which gives us an opportunity to fill that gap. UI/UX is also quite basic, and the images that come out after focal point resizing are blurry and not up to the mark. However, this tool has been around for a while, for more than 12-13 years, and has been regularly updated with features. It seems to be a personal project rather than a commercial tool. 
+
+
+Red Ketchup
+
+
+https://redketchup.io/: Their main feature seems to be the Twitter video/gif download feature, because that is generating them an insane amount of traffic. So, rather than the image resizer generating the traffic volume, the majority of it is generated through the Twitter download feature. So it could be said that the Twitter download feature is their USP, and the other tools that they have act as byproducts. Comparatively, the traffic that their image resizer tool generates is minuscule in comparison to their total volume. 
+
+
+Simple Image Resizer
+
+
+https://www.simpleimageresizer.com: A straightforward tool that compresses, converts and resizes images, among other things. A thing noticeable about them is that they have certain articles/snippets that mention resizing images for certain needs (resize images for social media, or compress them for faster web loads, and also mention different needs for different agents, such as marketers, developers, real estate agents, etc.), which helps in their SEO. 
+
+
+
+
+Bulk Resize Photos
+
+
+https://bulkresizephotos.com/en: A tool that I have personally used before. It has different ways to resize according to percentages, file dimensions, longest side, file size, and others. It has no focal size differentiator. But it has a good showing in terms of traffic and robustness of the tool. A big plus is that it is completely free to use, and has unlimited use. A very minimal site with no fuss and straight to the point. They do not have a blog, which does give us an opportunity to capitalise on the keywords that it ranks for and for the keywords that it doesn’t.  
+Iloveimg
+
+
+https://www.iloveimg.com/: I love img is a tool that has a massive brand image with Ilovepdf. That is why the backlinks and traffic are on such an incredible level. It has premium features that you can pay for, but for normal usage, most of it is free. Again, they don't have a blog, but their traffic comes from their brand value of iLovePDF, so their tools act as landing pages and serve the purpose of SEO very well. Their already established brand image, backlink bank meant that they already had an early advantage. 
+
+
+Canva and Adobe
+
+
+The same goes for Canva and Adobe as well. The data that you see for both is not for the whole website (because that will give us figures that will correspond to their whole website and not a true indication of the traffic that they pull for their image resizing tools. Rather, it is the data for the two URLs: https://www.canva.com/features/image-resizer/ and https://www.adobe.com/express/feature/image/resize. They pull in the numbers with their brand identity, of course, but it is also important to note that the traffic for these specific tools is low compared to their main websites. The CSV for these two is also just for the URLs and not the entire website. It also gives us an idea of what keywords they are positioning themselves with.
