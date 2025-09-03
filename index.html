@@ -218,7 +218,10 @@
         <div class="chart-box"><canvas id="brp-intent"></canvas></div>
         <div class="chart-box"><canvas id="brp-backlinks"></canvas></div>
       </div>
-      <button class="download-btn" onclick="downloadSectionPDF('comp-brp','BulkResizePhotos_Report.pdf')">Download BulkResizePhotos Report</button>
+      <div class="dl-row" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
+        <button class="download-btn" onclick="downloadSectionPDF('comp-brp','BulkResizePhotos_Report.pdf')">Download PDF</button>
+        <button class="download-btn" style="background:#0a84ff" onclick="downloadCSV(BRP_CSV_URL,'BulkResizePhotos_Keywords.csv')">Download Keywords CSV</button>
+      </div>
     </section>
 
     <!-- Birme -->
@@ -289,9 +292,9 @@
     <section id="comp-canva" class="comp-card">
       <div class="comp-head"><h3>Canva.com</h3></div>
       <div class="meta">
-        <p>Traffic: ~12M/month</p>
-        <p>Keywords: ~2.5M</p>
-        <p>Backlinks: ~1.2B</p>
+        <p>Traffic: ~46.6k/month</p>
+        <p>Keywords: ~7.4k</p>
+        <p>Backlinks: ~105</p>
       </div>
       <div class="charts">
         <div class="chart-box"><canvas id="canva-traffic"></canvas></div>
@@ -305,9 +308,9 @@
     <section id="comp-adobe" class="comp-card">
       <div class="comp-head"><h3>Adobe Express</h3></div>
       <div class="meta">
-        <p>Traffic: ~5.5M/month</p>
-        <p>Keywords: ~1.2M</p>
-        <p>Backlinks: ~900M</p>
+        <p>Traffic: ~186.9k/month</p>
+        <p>Keywords: ~10.1k</p>
+        <p>Backlinks: ~5.4k</p>
       </div>
       <div class="charts">
         <div class="chart-box"><canvas id="adobe-traffic"></canvas></div>
@@ -326,7 +329,27 @@
 
   <!-- ===== Scripts ===== -->
   <script>
-    // Global Chart defaults for dark mode
+  /* ====== CSV download config (BulkResizePhotos) ======
+     1) Put the CSV in your repo and set BRP_CSV_URL to its path (e.g. assets/bulkresizephotos_keywords.csv)
+        — or use a raw GitHub URL.
+     2) The CSV button below will download it as BulkResizePhotos_Keywords.csv
+  */
+  const BRP_CSV_URL = "assets/bulkresizephotos.com-organic.Positions-us-20250901.csv"; // <-- update this path to where you commit the CSV
+
+  function downloadCSV(url, filename){
+    if(!url){
+      alert('CSV URL missing. Set BRP_CSV_URL at the top of the script.');
+      return;
+    }
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename || 'export.csv';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  // Global Chart defaults for dark mode
     Chart.defaults.color = '#d8d8de';
     Chart.defaults.borderColor = 'rgba(255,255,255,.08)';
 
@@ -412,14 +435,14 @@
     makeChart('ilove-backlinks','pie',['Follow','No-Follow'],[548660,230910],['#0a84ff','#636366']);
 
     // Canva
-    makeChart('canva-traffic','line',['Jan','Feb','Mar','Apr','May','Jun','Jul'],[11000000,11300000,11500000,11700000,11800000,11900000,12000000],['#0a84ff'],{label:'Organic Traffic'});
-    makeChart('canva-intent','bar',['Transactional','Informational','Navigational','Commercial'],[800000,700000,500000,300000],['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false});
-    makeChart('canva-backlinks','pie',['Follow','No-Follow'],[800000000,400000000],['#0a84ff','#636366']);
+    makeChart('canva-traffic','line',['Feb','Mar','Apr','May','Jun','Jul','Aug'],[26313,25785,33964,33611,35162,40668,43903],['#0a84ff'],{label:'Organic Traffic'});
+    makeChart('canva-intent','bar',['Transactional','Informational','Navigational','Commercial'],[269,6635,95,2415],['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false});
+    makeChart('canva-backlinks','pie',['Follow','No-Follow'],[89,18],['#0a84ff','#636366']);
 
     // Adobe
-    makeChart('adobe-traffic','line',['Jan','Feb','Mar','Apr','May','Jun','Jul'],[5200000,5300000,5400000,5450000,5500000,5520000,5550000],['#0a84ff'],{label:'Organic Traffic'});
-    makeChart('adobe-intent','bar',['Transactional','Informational','Navigational','Commercial'],[600000,300000,200000,100000],['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false});
-    makeChart('adobe-backlinks','pie',['Follow','No-Follow'],[600000000,300000000],['#0a84ff','#636366']);
+    makeChart('adobe-traffic','line',['Feb','Mar','Apr','May','Jun','Jul','Aug'],[181307,184623,187117,184220,185792,195150,192922],['#0a84ff'],{label:'Organic Traffic'});
+    makeChart('adobe-intent','bar',['Transactional','Informational','Navigational','Commercial'],[597,8487,435,3797],['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false});
+    makeChart('adobe-backlinks','pie',['Follow','No-Follow'],[4860,573],['#0a84ff','#636366']);
 
     // ------- PDF per competitor -------
     async function downloadSectionPDF(sectionId, filename){
