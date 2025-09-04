@@ -260,14 +260,15 @@
 
     <!-- Subtab 3: SEO Insights (same doc as Next Steps) -->
     <div id="comp-insights" class="subcontent">
-      <div id="seo-insights-content" class="richtext">Loading…</div>
+      <iframe src="https://docs.google.com/document/d/e/2PACX-1vQLEn_2HV2T3-O7Xidzca6kmNh-XdQbt1oiS-cNM1WmeIu1niWpZRUr7gLRVwa0MG7H7XwayI2X58n6/pub?embedded=true"></iframe>
+    </div>
     </div>
   </div>
 
   <!-- ===== Next Steps ===== -->
   <div id="nextsteps" class="content">
     <h2>Next Steps</h2>
-    <div id="nextsteps-content" class="richtext">Loading next steps…</div>
+  </div>
   </div>
 
   <script>
@@ -415,12 +416,11 @@
         sub.classList.add('active');
         const target = document.getElementById(sub.dataset.sub); if(target) target.classList.add('active');
         if(sub.dataset.sub==='comp-gap') loadKeywordGap();
-        if(sub.dataset.sub==='comp-insights') loadTextInto('seo-insights-content');
+        
       });
     });
 
     // initial mounts
-    loadTextInto('nextsteps-content');
   </script>
 </body>
 </html>
