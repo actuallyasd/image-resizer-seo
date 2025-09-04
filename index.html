@@ -40,7 +40,7 @@
     .content.active{ display:block; }
     @keyframes fade{ from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)} }
 
-    /* Keyword subtabs */
+    /* Subtabs */
     .subtabs{ display:flex; gap:8px; margin:10px 0 14px; flex-wrap:wrap; }
     .subtab{
       padding:6px 12px; border-radius:9px; background:#2c2c2e; color:var(--ink);
@@ -50,59 +50,47 @@
     .subcontent{ display:none; }
     .subcontent.active{ display:block; }
 
-    /* Google Sheets iframes */
-    iframe{
-      width:100%; height:520px; border:none; border-radius:12px;
-      background:#2c2c2e; margin:12px 0 22px; box-shadow:0 10px 24px rgba(0,0,0,.22);
-    }
+    /* iframes (GSheets) */
+    iframe{ width:100%; height:520px; border:none; border-radius:12px; background:#2c2c2e; margin:12px 0 22px; box-shadow:0 10px 24px rgba(0,0,0,.22); }
 
-    /* Competitor cards */
+    /* competitor cards */
     .comp-card{ background:var(--panel-2); border-radius:16px; padding:18px 18px 22px; margin:18px 0 26px; box-shadow:var(--shadow); }
     .comp-head h3{ margin:0 0 8px; }
     .meta p{ margin:4px 0; color:var(--ink-2); }
-    .charts{
-      margin-top:14px; display:grid; gap:18px;
-      grid-template-columns:repeat(3, minmax(280px, 1fr)); align-items:stretch;
-    }
-    .chart-box{
-      background:var(--panel); border-radius:12px; padding:10px 12px; box-shadow:var(--shadow);
-      height:260px; display:flex; align-items:center;
-    }
+    .charts{ margin-top:14px; display:grid; gap:18px; grid-template-columns:repeat(3, minmax(280px, 1fr)); align-items:stretch; }
+    .chart-box{ background:var(--panel); border-radius:12px; padding:10px 12px; box-shadow:var(--shadow); height:260px; display:flex; align-items:center; }
     .chart-box canvas{ width:100% !important; height:100% !important; }
 
-    .download-btn{
-      display:inline-flex; align-items:center; gap:8px;
-      margin-top:14px; padding:10px 16px; background:var(--blue); color:#fff;
-      border:0; border-radius:10px; font-weight:700; cursor:pointer; transition:.2s;
-    }
+    .download-btn{ display:inline-flex; align-items:center; gap:8px; margin-top:14px; padding:10px 16px; background:var(--blue); color:#fff; border:0; border-radius:10px; font-weight:700; cursor:pointer; transition:.2s; }
     .download-btn:hover{ filter:brightness(.95); transform:translateY(-1px); }
 
     .impact-wrap{ background:var(--panel-2); padding:14px; border-radius:14px; }
     #seoChart{ width:100%; height:320px !important; }
     .gridish{ background:var(--grid); border-radius:12px; }
 
-    /* Recommendations styling */
-    #recommendations-content { color: var(--ink-2); line-height:1.6; }
-    #recommendations-content h3{ color: var(--ink); margin: 18px 0 8px; }
-    #recommendations-content p{ margin: 0 0 14px; }
-    #recommendations-content a { color: var(--blue); text-decoration:none; }
-    #recommendations-content a:hover { text-decoration:underline; }
+    /* Rich text (Next Steps & Insights) */
+    .richtext { color: var(--ink-2); line-height:1.6; }
+    .richtext h3{ color: var(--ink); margin: 18px 0 8px; }
+    .richtext p{ margin: 0 0 14px; }
+    .richtext a { color: var(--blue); text-decoration:none; }
+    .richtext a:hover { text-decoration:underline; }
   </style>
 
-  <!-- Chart.js -->
+  <!-- Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 </head>
 
 <body>
   <h1>SEO Strategy Report – bestimageresizer.com</h1>
 
-  <!-- Tabs (order + default = Keyword Research) -->
+  <!-- Top tabs (order + default) -->
   <div class="tabs">
     <div class="tab active" data-tab="keywords">Keyword Research</div>
     <div class="tab" data-tab="competitors">Competitor Analysis</div>
     <div class="tab" data-tab="impact">Impact Analysis</div>
     <div class="tab" data-tab="technical">Technical SEO</div>
-    <div class="tab" data-tab="recommendations">Recommendations</div>
+    <div class="tab" data-tab="nextsteps">Next Steps</div>
   </div>
 
   <!-- ===== Technical ===== -->
@@ -165,95 +153,121 @@
   <div id="competitors" class="content">
     <h2>Competitor Analysis</h2>
 
-    <!-- BulkResizePhotos -->
-    <section id="comp-brp" class="comp-card">
-      <div class="comp-head"><h3>BulkResizePhotos.com</h3></div>
-      <div class="meta"><p>Traffic: ~55.8k/month</p><p>Keywords: ~17.8K</p><p>Backlinks: ~31.3K</p></div>
-      <div class="charts">
-        <div class="chart-box"><canvas id="brp-traffic"></canvas></div>
-        <div class="chart-box"><canvas id="brp-intent"></canvas></div>
-        <div class="chart-box"><canvas id="brp-backlinks"></canvas></div>
-      </div>
-      <button class="download-btn" onclick="downloadCSV(CSV.brp,'BulkResizePhotos_Keywords.csv')">Download Keywords CSV</button>
-    </section>
+    <div class="subtabs">
+      <div class="subtab active" data-sub="comp-stats">Competitor Stats</div>
+      <div class="subtab" data-sub="comp-gap">Keyword Gap (Birme vs. Others)</div>
+      <div class="subtab" data-sub="comp-insights">SEO Insights</div>
+    </div>
 
-    <!-- Birme -->
-    <section id="comp-birme" class="comp-card">
-      <div class="comp-head"><h3>Birme.net</h3></div>
-      <div class="meta"><p>Traffic: ~15.9k/month</p><p>Keywords: ~11.3k</p><p>Backlinks: ~3.7k</p></div>
-      <div class="charts">
-        <div class="chart-box"><canvas id="birme-traffic"></canvas></div>
-        <div class="chart-box"><canvas id="birme-intent"></canvas></div>
-        <div class="chart-box"><canvas id="birme-backlinks"></canvas></div>
-      </div>
-      <button class="download-btn" onclick="downloadCSV(CSV.birme,'Birme_Keywords.csv')">Download Keywords CSV</button>
-    </section>
+    <!-- Subtab 1: cards -->
+    <div id="comp-stats" class="subcontent active">
+      <!-- BulkResizePhotos -->
+      <section id="comp-brp" class="comp-card">
+        <div class="comp-head"><h3>BulkResizePhotos.com</h3></div>
+        <div class="meta"><p>Traffic: ~55.8k/month</p><p>Keywords: ~17.8K</p><p>Backlinks: ~31.3K</p></div>
+        <div class="charts">
+          <div class="chart-box"><canvas id="brp-traffic"></canvas></div>
+          <div class="chart-box"><canvas id="brp-intent"></canvas></div>
+          <div class="chart-box"><canvas id="brp-backlinks"></canvas></div>
+        </div>
+        <button class="download-btn" onclick="downloadCSV(CSV.brp,'BulkResizePhotos_Keywords.csv')">Download Keywords CSV</button>
+      </section>
 
-    <!-- SimpleImageResizer -->
-    <section id="comp-simple" class="comp-card">
-      <div class="comp-head"><h3>SimpleImageResizer.com</h3></div>
-      <div class="meta"><p>Traffic: ~1.3M/month</p><p>Keywords: ~224k</p><p>Backlinks: ~10.3K</p></div>
-      <div class="charts">
-        <div class="chart-box"><canvas id="simple-traffic"></canvas></div>
-        <div class="chart-box"><canvas id="simple-intent"></canvas></div>
-        <div class="chart-box"><canvas id="simple-backlinks"></canvas></div>
-      </div>
-      <button class="download-btn" onclick="downloadCSV(CSV.simple,'SimpleImageResizer_Keywords.csv')">Download Keywords CSV</button>
-    </section>
+      <!-- Birme -->
+      <section id="comp-birme" class="comp-card">
+        <div class="comp-head"><h3>Birme.net</h3></div>
+        <div class="meta"><p>Traffic: ~15.9k/month</p><p>Keywords: ~11.3k</p><p>Backlinks: ~3.7k</p></div>
+        <div class="charts">
+          <div class="chart-box"><canvas id="birme-traffic"></canvas></div>
+          <div class="chart-box"><canvas id="birme-intent"></canvas></div>
+          <div class="chart-box"><canvas id="birme-backlinks"></canvas></div>
+        </div>
+        <button class="download-btn" onclick="downloadCSV(CSV.birme,'Birme_Keywords.csv')">Download Keywords CSV</button>
+      </section>
 
-    <!-- RedKetchup -->
-    <section id="comp-red" class="comp-card">
-      <div class="comp-head"><h3>RedKetchup.io</h3></div>
-      <div class="meta"><p>Traffic: ~684k/month</p><p>Keywords: ~105k</p><p>Backlinks: ~9.7k</p></div>
-      <div class="charts">
-        <div class="chart-box"><canvas id="red-traffic"></canvas></div>
-        <div class="chart-box"><canvas id="red-intent"></canvas></div>
-        <div class="chart-box"><canvas id="red-backlinks"></canvas></div>
-      </div>
-      <button class="download-btn" onclick="downloadCSV(CSV.red,'RedKetchup_Keywords.csv')">Download Keywords CSV</button>
-    </section>
+      <!-- SimpleImageResizer -->
+      <section id="comp-simple" class="comp-card">
+        <div class="comp-head"><h3>SimpleImageResizer.com</h3></div>
+        <div class="meta"><p>Traffic: ~1.3M/month</p><p>Keywords: ~224k</p><p>Backlinks: ~10.3K</p></div>
+        <div class="charts">
+          <div class="chart-box"><canvas id="simple-traffic"></canvas></div>
+          <div class="chart-box"><canvas id="simple-intent"></canvas></div>
+          <div class="chart-box"><canvas id="simple-backlinks"></canvas></div>
+        </div>
+        <button class="download-btn" onclick="downloadCSV(CSV.simple,'SimpleImageResizer_Keywords.csv')">Download Keywords CSV</button>
+      </section>
 
-    <!-- ILoveIMG -->
-    <section id="comp-ilove" class="comp-card">
-      <div class="comp-head"><h3>ILoveIMG.com</h3></div>
-      <div class="meta"><p>Traffic: ~10.4M/month</p><p>Keywords: ~660k</p><p>Backlinks: ~777k</p></div>
-      <div class="charts">
-        <div class="chart-box"><canvas id="ilove-traffic"></canvas></div>
-        <div class="chart-box"><canvas id="ilove-intent"></canvas></div>
-        <div class="chart-box"><canvas id="ilove-backlinks"></canvas></div>
-      </div>
-      <button class="download-btn" onclick="downloadCSV(CSV.ilove,'ILoveIMG_Keywords.csv')">Download Keywords CSV</button>
-    </section>
+      <!-- RedKetchup -->
+      <section id="comp-red" class="comp-card">
+        <div class="comp-head"><h3>RedKetchup.io</h3></div>
+        <div class="meta"><p>Traffic: ~684k/month</p><p>Keywords: ~105k</p><p>Backlinks: ~9.7k</p></div>
+        <div class="charts">
+          <div class="chart-box"><canvas id="red-traffic"></canvas></div>
+          <div class="chart-box"><canvas id="red-intent"></canvas></div>
+          <div class="chart-box"><canvas id="red-backlinks"></canvas></div>
+        </div>
+        <button class="download-btn" onclick="downloadCSV(CSV.red,'RedKetchup_Keywords.csv')">Download Keywords CSV</button>
+      </section>
 
-    <!-- Canva -->
-    <section id="comp-canva" class="comp-card">
-      <div class="comp-head"><h3>Canva.com</h3></div>
-      <div class="meta"><p>Traffic: ~46.6k/month</p><p>Keywords: ~7.4k</p><p>Backlinks: ~105</p></div>
-      <div class="charts">
-        <div class="chart-box"><canvas id="canva-traffic"></canvas></div>
-        <div class="chart-box"><canvas id="canva-intent"></canvas></div>
-        <div class="chart-box"><canvas id="canva-backlinks"></canvas></div>
-      </div>
-      <button class="download-btn" onclick="downloadCSV(CSV.canva,'Canva_Keywords.csv')">Download Keywords CSV</button>
-    </section>
+      <!-- ILoveIMG -->
+      <section id="comp-ilove" class="comp-card">
+        <div class="comp-head"><h3>ILoveIMG.com</h3></div>
+        <div class="meta"><p>Traffic: ~10.4M/month</p><p>Keywords: ~660k</p><p>Backlinks: ~777k</p></div>
+        <div class="charts">
+          <div class="chart-box"><canvas id="ilove-traffic"></canvas></div>
+          <div class="chart-box"><canvas id="ilove-intent"></canvas></div>
+          <div class="chart-box"><canvas id="ilove-backlinks"></canvas></div>
+        </div>
+        <button class="download-btn" onclick="downloadCSV(CSV.ilove,'ILoveIMG_Keywords.csv')">Download Keywords CSV</button>
+      </section>
 
-    <!-- Adobe Express -->
-    <section id="comp-adobe" class="comp-card">
-      <div class="comp-head"><h3>Adobe Express</h3></div>
-      <div class="meta"><p>Traffic: ~186.9k/month</p><p>Keywords: ~10.1k</p><p>Backlinks: ~5.4k</p></div>
-      <div class="charts">
-        <div class="chart-box"><canvas id="adobe-traffic"></canvas></div>
-        <div class="chart-box"><canvas id="adobe-intent"></canvas></div>
-        <div class="chart-box"><canvas id="adobe-backlinks"></canvas></div>
+      <!-- Canva -->
+      <section id="comp-canva" class="comp-card">
+        <div class="comp-head"><h3>Canva.com</h3></div>
+        <div class="meta"><p>Traffic: ~46.6k/month</p><p>Keywords: ~7.4k</p><p>Backlinks: ~105</p></div>
+        <div class="charts">
+          <div class="chart-box"><canvas id="canva-traffic"></canvas></div>
+          <div class="chart-box"><canvas id="canva-intent"></canvas></div>
+          <div class="chart-box"><canvas id="canva-backlinks"></canvas></div>
+        </div>
+        <button class="download-btn" onclick="downloadCSV(CSV.canva,'Canva_Keywords.csv')">Download Keywords CSV</button>
+      </section>
+
+      <!-- Adobe -->
+      <section id="comp-adobe" class="comp-card">
+        <div class="comp-head"><h3>Adobe Express</h3></div>
+        <div class="meta"><p>Traffic: ~186.9k/month</p><p>Keywords: ~10.1k</p><p>Backlinks: ~5.4k</p></div>
+        <div class="charts">
+          <div class="chart-box"><canvas id="adobe-traffic"></canvas></div>
+          <div class="chart-box"><canvas id="adobe-intent"></canvas></div>
+          <div class="chart-box"><canvas id="adobe-backlinks"></canvas></div>
+        </div>
+        <button class="download-btn" onclick="downloadCSV(CSV.adobe,'AdobeExpress_Keywords.csv')">Download Keywords CSV</button>
+      </section>
+    </div>
+
+    <!-- Subtab 2: Keyword Gap table -->
+    <div id="comp-gap" class="subcontent">
+      <h3>Keyword Gap: Birme vs. bestimageresizer.com</h3>
+      <div class="meta"><p>Data source: <code>assets/Birme keyword gap.csv</code> (first ~1000 rows shown).</p></div>
+      <div class="gridish" style="overflow:auto; border-radius:12px; padding:8px;">
+        <table id="gap-table" style="width:100%; border-collapse:collapse; color:#eaeaea; font-size:14px;">
+          <thead id="gap-thead"></thead>
+          <tbody id="gap-tbody"></tbody>
+        </table>
       </div>
-      <button class="download-btn" onclick="downloadCSV(CSV.adobe,'AdobeExpress_Keywords.csv')">Download Keywords CSV</button>
-    </section>
+    </div>
+
+    <!-- Subtab 3: SEO Insights (same doc as Next Steps) -->
+    <div id="comp-insights" class="subcontent">
+      <div id="seo-insights-content" class="richtext">Loading…</div>
+    </div>
   </div>
 
-  <!-- ===== Recommendations ===== -->
-  <div id="recommendations" class="content">
-    <h2>Recommendations & Next Steps</h2>
-    <div id="recommendations-content">Loading recommendations…</div>
+  <!-- ===== Next Steps ===== -->
+  <div id="nextsteps" class="content">
+    <h2>Next Steps</h2>
+    <div id="nextsteps-content" class="richtext">Loading next steps…</div>
   </div>
 
   <script>
@@ -273,7 +287,55 @@
       document.body.appendChild(a); a.click(); a.remove();
     }
 
-    /* Chart defaults + internal label plugin (for in-chart titles) */
+    /* ===== Recommendations / Insights loader ===== */
+    const RECS_URL = 'assets/SEO%20insights%20text.txt';
+    function autoLink(str){
+      const urlRe = /(https?:\/\/[^\s)]+)|(www\.[^\s)]+)/gi;
+      return str.replace(urlRe, (m)=>{
+        const url = m.startsWith('http') ? m : `https://${m}`;
+        return `<a href="${url}" target="_blank" rel="noopener">${m}</a>`;
+      });
+    }
+    function renderRecommendations(txt){
+      const blocks = txt.trim().split(/\n{2,}/);
+      let html = '';
+      for(const raw of blocks){
+        const block = raw.trim().replace(/\n+/g,' ');
+        let m = block.match(/^(https?:\/\/[^\s:]+):\s*(.*)$/i);
+        if(m){
+          const url=m[1], rest=m[2], label=url.replace(/^https?:\/\/(www\.)?/i,'');
+          html += `<h3><a href="${url}" target="_blank" rel="noopener">${label}</a></h3><p>${autoLink(rest)}</p>`;
+          continue;
+        }
+        m = block.match(/^([A-Za-z0-9.-]+):\s*(.*)$/);
+        if(m){ html += `<h3>${m[1]}</h3><p>${autoLink(m[2])}</p>`; continue; }
+        html += `<p>${autoLink(block)}</p>`;
+      }
+      return html;
+    }
+    async function loadTextInto(mountId){
+      const mount = document.getElementById(mountId); if(!mount) return;
+      try{ const res=await fetch(RECS_URL); if(!res.ok) throw 0; const txt=await res.text(); mount.innerHTML = renderRecommendations(txt); }
+      catch{ mount.innerHTML = `<p style="color:#ff9f0a">Couldn’t load text from <code>${RECS_URL}</code>.</p>`; }
+    }
+
+    /* ===== Keyword Gap loader ===== */
+    const GAP_CSV = 'assets/Birme%20keyword%20gap.csv';
+    function renderGapTable(rows, limit=1000){
+      const thead = document.getElementById('gap-thead');
+      const tbody = document.getElementById('gap-tbody');
+      if(!thead||!tbody||!rows||!rows.length) return;
+      const cols = Object.keys(rows[0]);
+      thead.innerHTML = '<tr>' + cols.map(c=>`<th style="text-align:left;padding:8px;border-bottom:1px solid rgba(255,255,255,.08)">${c}</th>`).join('') + '</tr>';
+      tbody.innerHTML = rows.slice(0,limit).map(r=>('<tr>' + cols.map(c=>`<td style="padding:8px;border-bottom:1px solid rgba(255,255,255,.06)">${(r[c]??'')}</td>`).join('') + '</tr>')).join('');
+    }
+    function loadKeywordGap(){
+      if(!document.getElementById('gap-table')) return;
+      if(typeof Papa==='undefined'){ console.warn('PapaParse not loaded'); return; }
+      Papa.parse(GAP_CSV,{ download:true, header:true, skipEmptyLines:true, complete:(res)=>{ renderGapTable(res.data); }});
+    }
+
+    /* ===== Charts ===== */
     Chart.defaults.color = '#d8d8de';
     Chart.defaults.borderColor = 'rgba(255,255,255,.08)';
     const titleInside = {
@@ -282,16 +344,10 @@
         const opts = chart.options.plugins.titleInside || {};
         if(!opts.text) return;
         const {ctx, chartArea:{left, top, width, height}} = chart;
-        ctx.save();
-        ctx.fillStyle = opts.color || '#cfcfd3';
+        ctx.save(); ctx.fillStyle = opts.color || '#cfcfd3';
         ctx.font = (opts.fontSize||14) + "px -apple-system,BlinkMacSystemFont,'San Francisco',Arial,sans-serif";
-        if(opts.align === 'topleft'){
-          ctx.textAlign='left'; ctx.textBaseline='top';
-          ctx.fillText(opts.text, left+8, top+6);
-        }else{
-          ctx.textAlign='center'; ctx.textBaseline='middle';
-          ctx.fillText(opts.text, left+width/2, top+height/2);
-        }
+        if(opts.align === 'topleft'){ ctx.textAlign='left'; ctx.textBaseline='top'; ctx.fillText(opts.text, left+8, top+6); }
+        else{ ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(opts.text, left+width/2, top+height/2); }
         ctx.restore();
       }
     };
@@ -301,127 +357,48 @@
       const el = document.getElementById(id); if(!el) return;
       const options = {
         responsive:true, maintainAspectRatio:false,
-        plugins:{
-          legend:{ display: (opts.legend!==undefined) ? opts.legend : (type!=='bar'), labels:{boxWidth:12} },
-          tooltip:{ enabled:true },
-          titleInside: (opts.titleInside || undefined)
-        },
+        plugins:{ legend:{ display:(opts.legend!==undefined)?opts.legend:(type!=='bar'), labels:{boxWidth:12} }, tooltip:{enabled:true}, titleInside:(opts.titleInside||undefined) },
         scales:{}
       };
       if(type!=='pie' && type!=='doughnut'){
-        options.scales = {
-          x:{ ticks:{color:'#aaa'}, grid:{color:'rgba(255,255,255,.06)'} },
-          y:{ ticks:{color:'#aaa'}, grid:{color:'rgba(255,255,255,.06)'} }
-        };
+        options.scales = { x:{ticks:{color:'#aaa'}, grid:{color:'rgba(255,255,255,.06)'}}, y:{ticks:{color:'#aaa'}, grid:{color:'rgba(255,255,255,.06)'}} };
       }
-      new Chart(el.getContext('2d'),{
-        type,
-        data:{ labels, datasets:[{ label:opts.label||'', data, backgroundColor:colors, borderColor:colors, tension:.32, fill:(type==='line')?false:true, pointRadius:(type==='line')?3:0 }] },
-        options
-      });
+      new Chart(el.getContext('2d'),{ type, data:{ labels, datasets:[{ label:opts.label||'', data, backgroundColor:colors, borderColor:colors, tension:.32, fill:(type==='line')?false:true, pointRadius:(type==='line')?3:0 }] }, options });
     }
 
-    /* Impact example */
-    makeChart('seoChart','bar',['Meta Titles','Alt Text','Schema','Page Speed'],[8,7,9,6],
-      ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false});
+    // Impact example
+    makeChart('seoChart','bar',['Meta Titles','Alt Text','Schema','Page Speed'],[8,7,9,6], ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false});
 
-    /* Competitor charts (with in-chart titles) */
-    // BulkResizePhotos
+    // Competitors
     makeChart('brp-traffic','line',['Feb','Mar','Apr','May','Jun','Jul','Aug'],[43023,43957,41634,88463,50970,62131,65313],['#0a84ff'],{label:'Organic Traffic'});
-    makeChart('brp-intent','bar',['Transactional','Informational','Navigational','Commercial'],[504,15809,519,9455],
-      ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
+    makeChart('brp-intent','bar',['Transactional','Informational','Navigational','Commercial'],[504,15809,519,9455], ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
     makeChart('brp-backlinks','pie',['Follow','No-Follow'],[17430,13960],['#0a84ff','#636366'],{titleInside:{text:'Backlinks'}});
 
-    // Birme
     makeChart('birme-traffic','line',['Feb','Mar','Apr','May','Jun','Jul','Aug'],[13787,14607,13907,14553,13090,19484,15760],['#0a84ff'],{label:'Organic Traffic'});
-    makeChart('birme-intent','bar',['Transactional','Informational','Navigational','Commercial'],[396,10305,385,5317],
-      ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
+    makeChart('birme-intent','bar',['Transactional','Informational','Navigational','Commercial'],[396,10305,385,5317], ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
     makeChart('birme-backlinks','pie',['Follow','No-Follow'],[1920,1780],['#0a84ff','#636366'],{titleInside:{text:'Backlinks'}});
 
-    // SimpleImageResizer
     makeChart('simple-traffic','line',['Feb','Mar','Apr','May','Jun','Jul','Aug'],[928513,1055791,1061545,1182587,1168962,1243294,1316999],['#0a84ff'],{label:'Organic Traffic'});
-    makeChart('simple-intent','bar',['Transactional','Informational','Navigational','Commercial'],[6300,207130,3261,69376],
-      ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
+    makeChart('simple-intent','bar',['Transactional','Informational','Navigational','Commercial'],[6300,207130,3261,69376], ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
     makeChart('simple-backlinks','pie',['Follow','No-Follow'],[6680,3600],['#0a84ff','#636366'],{titleInside:{text:'Backlinks'}});
 
-    // RedKetchup
     makeChart('red-traffic','line',['Feb','Mar','Apr','May','Jun','Jul','Aug'],[670415,631466,629743,620825,620679,664841,688441],['#0a84ff'],{label:'Organic Traffic'});
-    makeChart('red-intent','bar',['Transactional','Informational','Navigational','Commercial'],[4804,94389,4739,47350],
-      ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
+    makeChart('red-intent','bar',['Transactional','Informational','Navigational','Commercial'],[4804,94389,4739,47350], ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
     makeChart('red-backlinks','pie',['Follow','No-Follow'],[7730,1990],['#0a84ff','#636366'],{titleInside:{text:'Backlinks'}});
 
-    // ILoveIMG
     makeChart('ilove-traffic','line',['Feb','Mar','Apr','May','Jun','Jul','Aug'],[9937521,10696700,10822249,10861749,11127964,10317908,10407081],['#0a84ff'],{label:'Organic Traffic'});
-    makeChart('ilove-intent','bar',['Transactional','Informational','Navigational','Commercial'],[25287,569042,39032,254318],
-      ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
+    makeChart('ilove-intent','bar',['Transactional','Informational','Navigational','Commercial'],[25287,569042,39032,254318], ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
     makeChart('ilove-backlinks','pie',['Follow','No-Follow'],[548660,230910],['#0a84ff','#636366'],{titleInside:{text:'Backlinks'}});
 
-    // Canva
     makeChart('canva-traffic','line',['Feb','Mar','Apr','May','Jun','Jul','Aug'],[26313,25785,33964,33611,35162,40668,43903],['#0a84ff'],{label:'Organic Traffic'});
-    makeChart('canva-intent','bar',['Transactional','Informational','Navigational','Commercial'],[269,6635,95,2415],
-      ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
+    makeChart('canva-intent','bar',['Transactional','Informational','Navigational','Commercial'],[269,6635,95,2415], ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
     makeChart('canva-backlinks','pie',['Follow','No-Follow'],[89,18],['#0a84ff','#636366'],{titleInside:{text:'Backlinks'}});
 
-    // Adobe
     makeChart('adobe-traffic','line',['Feb','Mar','Apr','May','Jun','Jul','Aug'],[181307,184623,187117,184220,185792,195150,192922],['#0a84ff'],{label:'Organic Traffic'});
-    makeChart('adobe-intent','bar',['Transactional','Informational','Navigational','Commercial'],[597,8487,435,3797],
-      ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
+    makeChart('adobe-intent','bar',['Transactional','Informational','Navigational','Commercial'],[597,8487,435,3797], ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
     makeChart('adobe-backlinks','pie',['Follow','No-Follow'],[4860,573],['#0a84ff','#636366'],{titleInside:{text:'Backlinks'}});
 
-    /* ===== Recommendations loader ===== */
-    const RECS_URL = 'assets/SEO%20insights%20text.txt'; // your uploaded file
-
-    function autoLink(str){
-      const urlRe = /(https?:\/\/[^\s)]+)|(www\.[^\s)]+)/gi;
-      return str.replace(urlRe, (m)=>{
-        const url = m.startsWith('http') ? m : `https://${m}`;
-        return `<a href="${url}" target="_blank" rel="noopener">${m}</a>`;
-      });
-    }
-
-    function renderRecommendations(txt){
-      // Split into blocks by blank lines
-      const blocks = txt.trim().split(/\n{2,}/);
-      let html = '';
-      for(const blockRaw of blocks){
-        const block = blockRaw.trim().replace(/\n+/g,' ');
-        // Pattern 1: URL heading like "https://domain.com: text"
-        let m = block.match(/^(https?:\/\/[^\s:]+):\s*(.*)$/i);
-        if(m){
-          const url = m[1];
-          const rest = m[2];
-          const label = url.replace(/^https?:\/\/(www\.)?/i,'');
-          html += `<h3><a href="${url}" target="_blank" rel="noopener">${label}</a></h3>`;
-          html += `<p>${autoLink(rest)}</p>`;
-          continue;
-        }
-        // Pattern 2: Domain-style heading like "Birme.net: text"
-        m = block.match(/^([A-Za-z0-9.-]+):\s*(.*)$/);
-        if(m){
-          html += `<h3>${m[1]}</h3><p>${autoLink(m[2])}</p>`;
-          continue;
-        }
-        // Default: paragraph
-        html += `<p>${autoLink(block)}</p>`;
-      }
-      return html;
-    }
-
-    async function loadRecommendations(){
-      const mount = document.getElementById('recommendations-content');
-      try{
-        const res = await fetch(RECS_URL);
-        if(!res.ok) throw new Error('Fetch failed');
-        const txt = await res.text();
-        mount.innerHTML = renderRecommendations(txt);
-      }catch(err){
-        mount.innerHTML = `<p style="color:#ff9f0a">Couldn’t load recommendations from <code>${RECS_URL}</code>. Make sure the file exists in <code>/assets</code>. You can rename it and just update <code>RECS_URL</code> in the script.</p>`;
-      }
-    }
-
-    loadRecommendations();
-
-    /* Tabs */
+    /* ===== Tab logic ===== */
     document.querySelectorAll('.tab').forEach(tab=>{
       tab.addEventListener('click',()=>{
         document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -432,13 +409,18 @@
     });
     document.querySelectorAll('.subtab').forEach(sub=>{
       sub.addEventListener('click',()=>{
-        const parent = sub.closest('#keywords');
-        parent.querySelectorAll('.subtab').forEach(s=>s.classList.remove('active'));
-        parent.querySelectorAll('.subcontent').forEach(s=>s.classList.remove('active'));
+        const wrap = sub.closest('.content'); if(!wrap) return;
+        wrap.querySelectorAll('.subtab').forEach(s=>s.classList.remove('active'));
+        wrap.querySelectorAll('.subcontent').forEach(sc=>sc.classList.remove('active'));
         sub.classList.add('active');
-        document.getElementById(sub.dataset.sub).classList.add('active');
+        const target = document.getElementById(sub.dataset.sub); if(target) target.classList.add('active');
+        if(sub.dataset.sub==='comp-gap') loadKeywordGap();
+        if(sub.dataset.sub==='comp-insights') loadTextInto('seo-insights-content');
       });
     });
+
+    // initial mounts
+    loadTextInto('nextsteps-content');
   </script>
 </body>
 </html>
