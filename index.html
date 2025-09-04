@@ -52,6 +52,8 @@
 
     /* iframes (GSheets) */
     iframe{ width:100%; height:520px; border:none; border-radius:12px; background:#2c2c2e; margin:12px 0 22px; box-shadow:0 10px 24px rgba(0,0,0,.22); }
+/* Taller view just for embedded Google Docs */
+iframe.doc-iframe{ height:80vh !important; background:transparent; box-shadow:none; border-radius:12px; }
 
     /* competitor cards */
     .comp-card{ background:var(--panel-2); border-radius:16px; padding:18px 18px 22px; margin:18px 0 26px; box-shadow:var(--shadow); }
@@ -248,7 +250,7 @@
 
     <!-- Subtab 2: Keyword Gap table -->
     <div id="comp-gap" class="subcontent">
-      <h3>Keyword Gap: Birme vs. bestimageresizer.com</h3>
+      <h3>Keyword Gap: Birme vs. other competitors</h3>
       <div class="meta"><p>Data source: <code>assets/Birme keyword gap.csv</code> (first ~1000 rows shown).</p></div>
       <div class="gridish" style="overflow:auto; border-radius:12px; padding:8px;">
         <table id="gap-table" style="width:100%; border-collapse:collapse; color:#eaeaea; font-size:14px;">
@@ -260,7 +262,7 @@
 
     <!-- Subtab 3: SEO Insights (same doc as Next Steps) -->
     <div id="comp-insights" class="subcontent">
-      <iframe src="https://docs.google.com/document/d/e/2PACX-1vQLEn_2HV2T3-O7Xidzca6kmNh-XdQbt1oiS-cNM1WmeIu1niWpZRUr7gLRVwa0MG7H7XwayI2X58n6/pub?embedded=true"></iframe>
+      <iframe class="doc-iframe" src="https://docs.google.com/document/d/e/2PACX-1vQLEn_2HV2T3-O7Xidzca6kmNh-XdQbt1oiS-cNM1WmeIu1niWpZRUr7gLRVwa0MG7H7XwayI2X58n6/pub?embedded=true"></iframe>
     </div>
     </div>
   </div>
@@ -424,3 +426,4 @@
   </script>
 </body>
 </html>
+
