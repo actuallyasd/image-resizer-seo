@@ -163,18 +163,7 @@ iframe.doc-iframe{ height:80vh !important; background:transparent; box-shadow:no
 
     <!-- Subtab 1: cards -->
     <div id="comp-stats" class="subcontent active">
-      <!-- BulkResizePhotos -->
-      <section id="comp-brp" class="comp-card">
-        <div class="comp-head"><h3>BulkResizePhotos.com</h3></div>
-        <div class="meta"><p>Traffic: ~55.8k/month</p><p>Keywords: ~17.8K</p><p>Backlinks: ~31.3K</p></div>
-        <div class="charts">
-          <div class="chart-box"><canvas id="brp-traffic"></canvas></div>
-          <div class="chart-box"><canvas id="brp-intent"></canvas></div>
-          <div class="chart-box"><canvas id="brp-backlinks"></canvas></div>
-        </div>
-        <button class="download-btn" onclick="downloadCSV(CSV.brp,'BulkResizePhotos_Keywords.csv')">Download Keywords CSV</button>
-      </section>
-
+      
       <!-- Birme -->
       <section id="comp-birme" class="comp-card">
         <div class="comp-head"><h3>Birme.net</h3></div>
@@ -185,6 +174,18 @@ iframe.doc-iframe{ height:80vh !important; background:transparent; box-shadow:no
           <div class="chart-box"><canvas id="birme-backlinks"></canvas></div>
         </div>
         <button class="download-btn" onclick="downloadCSV(CSV.birme,'Birme_Keywords.csv')">Download Keywords CSV</button>
+      </section>
+
+      <!-- BulkResizePhotos -->
+      <section id="comp-brp" class="comp-card">
+        <div class="comp-head"><h3>BulkResizePhotos.com</h3></div>
+        <div class="meta"><p>Traffic: ~55.8k/month</p><p>Keywords: ~17.8K</p><p>Backlinks: ~31.3K</p></div>
+        <div class="charts">
+          <div class="chart-box"><canvas id="brp-traffic"></canvas></div>
+          <div class="chart-box"><canvas id="brp-intent"></canvas></div>
+          <div class="chart-box"><canvas id="brp-backlinks"></canvas></div>
+        </div>
+        <button class="download-btn" onclick="downloadCSV(CSV.brp,'BulkResizePhotos_Keywords.csv')">Download Keywords CSV</button>
       </section>
 
       <!-- SimpleImageResizer -->
@@ -388,13 +389,13 @@ iframe.doc-iframe{ height:80vh !important; background:transparent; box-shadow:no
     makeChart('seoChart','bar',['Meta Titles','Alt Text','Schema','Page Speed'],[8,7,9,6], ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false});
 
     // Competitors
-    makeChart('brp-traffic','line',['Feb','Mar','Apr','May','Jun','Jul','Aug'],[43023,43957,41634,88463,50970,62131,65313],['#0a84ff'],{label:'Organic Traffic'});
-    makeChart('brp-intent','bar',['Transactional','Informational','Navigational','Commercial'],[504,15809,519,9455], ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
-    makeChart('brp-backlinks','pie',['Follow','No-Follow'],[17430,13960],['#0a84ff','#636366'],{titleInside:{text:'Backlinks'}});
-
     makeChart('birme-traffic','line',['Feb','Mar','Apr','May','Jun','Jul','Aug'],[13787,14607,13907,14553,13090,19484,15760],['#0a84ff'],{label:'Organic Traffic'});
     makeChart('birme-intent','bar',['Transactional','Informational','Navigational','Commercial'],[396,10305,385,5317], ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
     makeChart('birme-backlinks','pie',['Follow','No-Follow'],[1920,1780],['#0a84ff','#636366'],{titleInside:{text:'Backlinks'}});
+
+    makeChart('brp-traffic','line',['Feb','Mar','Apr','May','Jun','Jul','Aug'],[43023,43957,41634,88463,50970,62131,65313],['#0a84ff'],{label:'Organic Traffic'});
+    makeChart('brp-intent','bar',['Transactional','Informational','Navigational','Commercial'],[504,15809,519,9455], ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
+    makeChart('brp-backlinks','pie',['Follow','No-Follow'],[17430,13960],['#0a84ff','#636366'],{titleInside:{text:'Backlinks'}});
 
     makeChart('simple-traffic','line',['Feb','Mar','Apr','May','Jun','Jul','Aug'],[928513,1055791,1061545,1182587,1168962,1243294,1316999],['#0a84ff'],{label:'Organic Traffic'});
     makeChart('simple-intent','bar',['Transactional','Informational','Navigational','Commercial'],[6300,207130,3261,69376], ['#0a84ff','#30d158','#ffd60a','#ff453a'],{legend:false,titleInside:{text:'Type of Keywords',align:'topleft'}});
@@ -441,3 +442,4 @@ iframe.doc-iframe{ height:80vh !important; background:transparent; box-shadow:no
   </script>
 </body>
 </html>
+
