@@ -177,75 +177,82 @@
     </div>
   </div>
 
-  <!-- Analytics -->
-  <div id="analytics" class="content">
-    <h2>Analytics</h2>
+ <!-- ===== Analytics (UPDATED) ===== -->
+<div id="analytics" class="content">
+  <h2>Analytics</h2>
 
-    <div class="subtabs">
-      <div class="subtab active" data-sub="analytics-overview">Overview</div>
-      <div class="subtab" data-sub="analytics-campaigns">Campaigns</div>
-      <div class="subtab" data-sub="analytics-retention">Retention</div>
-      <div class="subtab" data-sub="analytics-stickiness">Stickiness</div>
-      <div class="subtab" data-sub="analytics-funnel">Funnel</div>
-      <div class="subtab" data-sub="analytics-reports">Reports</div>
-      <div class="subtab" data-sub="analytics-insights">Insights</div>
+  <!-- Subtabs (new order) -->
+  <div class="subtabs">
+    <div class="subtab active" data-sub="ana-overview">Overview</div>
+    <div class="subtab" data-sub="ana-retention">Retention</div>
+    <div class="subtab" data-sub="ana-campaigns">Campaigns</div>
+    <div class="subtab" data-sub="ana-stickiness">Stickiness</div>
+    <div class="subtab" data-sub="ana-funnel">Funnel</div>
+    <div class="subtab" data-sub="ana-reports">Reports</div>
+    <div class="subtab" data-sub="ana-insights">Insights</div>
+  </div>
+
+  <!-- ===== Overview ===== -->
+  <div id="ana-overview" class="subcontent active">
+    <div class="tile-grid" id="ov-tiles"></div>
+    <div class="chart-box" style="margin-top:16px;"><canvas id="ov-chart"></canvas></div>
+
+    <h3 style="margin-top:22px;">Events: Event name (attached)</h3>
+    <div id="ov-attachments"></div>
+  </div>
+
+  <!-- ===== Retention (Overall) ===== -->
+  <div id="ana-retention" class="subcontent">
+    <div class="tile-grid" id="ret-tiles"></div>
+    <h3 style="margin-top:12px;">Overall Retention (Week 0–6)</h3>
+    <div class="gridish" style="overflow:auto; border-radius:12px; padding:8px;">
+      <table id="ret-table" style="width:100%; border-collapse:collapse; color:#eaeaea; font-size:14px;"></table>
     </div>
 
-    <!-- Overview -->
-    <div id="analytics-overview" class="subcontent active">
-      <div class="tile-grid" id="analytics-tiles"></div>
-      <div class="chart-box" style="margin-top:16px;"><canvas id="analytics-ratio-chart"></canvas></div>
-      <h3 style="margin-top:22px;">Events: Event name (attached)</h3>
-      <iframe class="doc-iframe" src="assets/Events_Event_name.pdf"></iframe>
+    <h3 style="margin-top:22px;">Overall Retention (attached report)</h3>
+    <div id="ret-attachments"></div>
+  </div>
+
+  <!-- ===== Campaigns ===== -->
+  <div id="ana-campaigns" class="subcontent">
+    <div id="camp-tiles" class="tile-grid"></div>
+
+    <h3 style="margin-top:12px;">Campaign Retention (Week 0–6)</h3>
+    <div class="gridish" style="overflow:auto; border-radius:12px; padding:8px;">
+      <table id="camp-ret-table" style="width:100%; border-collapse:collapse; color:#eaeaea; font-size:14px;"></table>
     </div>
 
-    <!-- Campaigns -->
-    <div id="analytics-campaigns" class="subcontent">
-      <div class="tile-grid" id="campaign-tiles"></div>
-      <div class="chart-box" style="margin-top:16px;"><canvas id="campaign-compare-chart"></canvas></div>
-      <h3 style="margin-top:22px;">Event count & retention by campaign (attached)</h3>
-      <iframe class="doc-iframe" src="assets/Event count and retention by campaign.pdf"></iframe>
-    </div>
+    <h3 style="margin-top:22px;">Campaign Reports (attached)</h3>
+    <div id="camp-attachments"></div>
+  </div>
 
-    <!-- Retention -->
-    <div id="analytics-retention" class="subcontent">
-      <div class="tile-grid" id="retention-tiles"></div>
-      <h3 style="margin-top:6px;">Overall Retention (Cohort)</h3>
-      <iframe class="doc-iframe" src="assets/Overall retention.pdf"></iframe>
-    </div>
+  <!-- ===== Stickiness ===== -->
+  <div id="ana-stickiness" class="subcontent">
+    <div class="tile-grid" id="stk-tiles"></div>
+    <!-- No chart here by request -->
+    <h3 style="margin-top:22px;">User Stickiness (attached)</h3>
+    <div id="stk-attachments"></div>
+  </div>
 
-    <!-- Stickiness -->
-    <div id="analytics-stickiness" class="subcontent">
-      <div class="tile-grid" id="stickiness-tiles"></div>
-      <div class="chart-box" style="margin-top:16px;"><canvas id="stickiness-chart"></canvas></div>
-      <h3 style="margin-top:22px;">User Stickiness Report</h3>
-      <iframe class="doc-iframe" src="assets/User stickiness.pdf"></iframe>
-    </div>
+  <!-- ===== Funnel ===== -->
+  <div id="ana-funnel" class="subcontent">
+    <h3>User Funnel (attached)</h3>
+    <div id="fun-attachments"></div>
+  </div>
 
-    <!-- Funnel -->
-    <div id="analytics-funnel" class="subcontent">
-      <h3>User Funnel</h3>
-      <iframe class="doc-iframe" src="assets/User funnel.pdf"></iframe>
-    </div>
+  <!-- ===== Reports gallery ===== -->
+  <div id="ana-reports" class="subcontent">
+    <h3>All Attached Reports</h3>
+    <div id="rep-attachments"></div>
+  </div>
 
-    <!-- Reports (all five in one place) -->
-    <div id="analytics-reports" class="subcontent">
-      <h3>All Attached GA4 PDFs</h3>
-      <iframe class="doc-iframe" src="assets/Events_Event_name.pdf"></iframe>
-      <iframe class="doc-iframe" src="assets/Event count and retention by campaign.pdf"></iframe>
-      <iframe class="doc-iframe" src="assets/Overall retention.pdf"></iframe>
-      <iframe class="doc-iframe" src="assets/User stickiness.pdf"></iframe>
-      <iframe class="doc-iframe" src="assets/User funnel.pdf"></iframe>
-    </div>
-
-    <!-- Insights placeholder -->
-    <div id="analytics-insights" class="subcontent">
-      <div class="richtext">
-        <h3>Analysis & Next Steps (to fill)</h3>
-        <p>Use the tiles above to call out: (1) sticky usage vs acquisition quality, (2) campaign-level retention deltas, (3) funnel bottlenecks (redirect→login vs login→resize), and (4) week-1 returners by campaign.</p>
-      </div>
+  <!-- ===== Insights (placeholder) ===== -->
+  <div id="ana-insights" class="subcontent">
+    <div class="richtext">
+      <p>We’ll capture commentary & next steps here once you finalise the latest numbers.</p>
     </div>
   </div>
+</div>
 
   <!-- Next Steps -->
   <div id="nextsteps" class="content">
@@ -307,203 +314,190 @@
       Papa.parse(GAP_CSV,{download:true,header:true,skipEmptyLines:true,complete:(res)=>renderGapTable(res.data)});
     }
 
-    /* ===================== Analytics Config ===================== */
-    const CURRENT_ANALYTICS_FILE = ''; // if you host JSON later
+    /***** Analytics wiring (reads assets/analytics-config.json) *****/
+const CURRENT_ANALYTICS_FILE = 'assets/analytics-config.json';
 
-    const ANALYTICS_DEFAULT = {
-      period: "Sep 16 – Oct 20, 2025",
-      sources: {
-        wix: { page_view_users: 7127, app_redirect_users: 5826 },
-        app: { login_users: 4851, export_images_users: 3111 }
-      },
-      // Stickiness inputs (set with real GA4 if you have them)
-      stickiness: {
-        dau: 1200,   // 1-day active users (example)
-        wau: 4200,   // 7-day active users
-        mau: 11000   // 30-day active users
-      },
-      // Cohort/retention highlight (optional, for tiles)
-      retention: {
-        week1_returners: 38,   // absolute count or %
-        week2_returners: 5,
-        week3_returners: 1
-      },
-      campaigns: {
-        global: null, // {page_view_users, app_redirect_users, login_users, export_images_users}
-        europe: null
+const ANA_DEFAULT = {
+  period: '',
+  overview: { wix:{page_view:0, app_redirect:0}, app:{login:0, export_images:0} },
+  campaigns: {
+    global: { wix:{page_view:0, app_redirect:0}, app:{login:0, export_images:0}, retention_pct:[100,0,0,0,0,0,0] },
+    europe: { wix:{page_view:0, app_redirect:0}, app:{login:0, export_images:0}, retention_pct:[100,0,0,0,0,0,0] }
+  },
+  retention_overall_pct:[100,0,0,0,0,0,0],
+  stickiness:{dau:0, wau:0, mau:0},
+  attachments:{
+    overview:[], retention:[], campaigns:[], stickiness:[], funnel:[], reports:[]
+  }
+};
+
+let ANA = structuredClone(ANA_DEFAULT);
+function fmt(n){ return (n??0).toLocaleString(); }
+function pct(n){ return (n*100).toFixed(1)+'%'; }
+function pct100(n){ return (n).toFixed(1)+'%'; }  // value already 0–100
+function ratio(num, den){ return (!den||!num)?0:(num/den); }
+
+async function loadANA(){
+  try{
+    const r = await fetch(CURRENT_ANALYTICS_FILE, {cache:'no-store'});
+    if(!r.ok) throw 0;
+    ANA = await r.json();
+  }catch(e){
+    console.warn('Using ANA_DEFAULT (config not found).');
+    ANA = structuredClone(ANA_DEFAULT);
+  }
+}
+
+/* ---------- Render helpers ---------- */
+function makeTile(label, value, sub=''){
+  return `<div class="tile">
+    <div class="label">${label}</div>
+    <div class="value">${value}</div>
+    ${sub?`<div class="sub">${sub}</div>`:''}
+  </div>`;
+}
+function renderIframes(mountId, paths=[]){
+  const mount = document.getElementById(mountId);
+  if(!mount) return;
+  if(!paths || !paths.length){ mount.innerHTML = `<p class="richtext">No attachments.</p>`; return; }
+  mount.innerHTML = paths.map(p=>`<iframe src="${p}"></iframe>`).join('');
+}
+
+/* ---------- Overview ---------- */
+function renderOverview(){
+  const o = ANA.overview || {};
+  const pv = o.wix?.page_view||0, ar=o.wix?.app_redirect||0, lg=o.app?.login||0, rz=o.app?.export_images||0;
+
+  const tiles = [
+    makeTile('CTA click-through (Wix → App)', pct(ratio(ar,pv)), `${fmt(ar)} / ${fmt(pv)} users`),
+    makeTile('Redirect → Login',               pct(ratio(lg,ar)),  `${fmt(lg)} / ${fmt(ar)} users`),
+    makeTile('Login → Resize (init.)',         pct(ratio(rz,lg)),  `${fmt(rz)} / ${fmt(lg)} users`),
+    makeTile('Page → Resize (overall)',        pct(ratio(rz,pv)),  `${fmt(rz)} / ${fmt(pv)} users`)
+  ];
+  document.getElementById('ov-tiles').innerHTML = tiles.join('');
+
+  // Simple bar of just the 4 ratios (keep this chart)
+  const labels = ['CTA','Redirect→Login','Login→Resize','Page→Resize'];
+  const data = [
+    ratio(ar,pv)*100, ratio(lg,ar)*100, ratio(rz,lg)*100, ratio(rz,pv)*100
+  ];
+  makeChart('ov-chart','bar',labels,data,['#0a84ff','#30d158','#ffd60a','#7a7aff'],{legend:false,titleInside:{text:ANA.period,align:'topleft'}});
+
+  renderIframes('ov-attachments', ANA.attachments?.overview||[]);
+}
+
+/* ---------- Retention (Overall) ---------- */
+function renderRetention(){
+  const arr = ANA.retention_overall_pct || [100,0,0,0,0,0,0];
+  const [w0,w1,w2,w3,w4,w5,w6] = arr;
+
+  const tiles = [
+    makeTile('Week-1 Returners', fmt(Math.round(w1)), 'Users returning in week 1'),
+    makeTile('Week-2 Returners', fmt(Math.round(w2)), 'Users returning in week 2'),
+    makeTile('Week-3 Returners', fmt(Math.round(w3)), 'Users returning in week 3')
+  ];
+  document.getElementById('ret-tiles').innerHTML = tiles.join('');
+
+  const t = document.getElementById('ret-table');
+  const hdr = ['Week 0','Week 1','Week 2','Week 3','Week 4','Week 5','Week 6'];
+  const row = arr.map(v=>`<td style="padding:10px;border-bottom:1px solid rgba(255,255,255,.06)">${pct100(v)}</td>`).join('');
+  t.innerHTML = `<thead><tr>${hdr.map(h=>`<th style="text-align:left;padding:10px;border-bottom:1px solid rgba(255,255,255,.08)">${h}</th>`).join('')}</tr></thead>
+                 <tbody><tr>${row}</tr></tbody>`;
+
+  renderIframes('ret-attachments', ANA.attachments?.retention||[]);
+}
+
+/* ---------- Campaigns ---------- */
+function renderCampaigns(){
+  const g = ANA.campaigns?.global || {}, e = ANA.campaigns?.europe || {};
+  const tiles = [];
+
+  function ratios(c, label){
+    const pv=c.wix?.page_view||0, ar=c.wix?.app_redirect||0, lg=c.app?.login||0, rz=c.app?.export_images||0;
+    return [
+      makeTile(`${label}: CTA`,              pct(ratio(ar,pv)), `${fmt(ar)} / ${fmt(pv)} users`),
+      makeTile(`${label}: Redirect→Login`,   pct(ratio(lg,ar)), `${fmt(lg)} / ${fmt(ar)} users`),
+      makeTile(`${label}: Login→Resize`,     pct(ratio(rz,lg)), `${fmt(rz)} / ${fmt(lg)} users`),
+      makeTile(`${label}: Page→Resize`,      pct(ratio(rz,pv)), `${fmt(rz)} / ${fmt(pv)} users`)
+    ];
+  }
+  tiles.push(...ratios(g,'Global'), ...ratios(e,'Europe'));
+  document.getElementById('camp-tiles').innerHTML = tiles.join('');
+
+  // retention mini-table: two rows (Global, Europe), week0..6
+  const hdr = ['Campaign','W0','W1','W2','W3','W4','W5','W6'];
+  const gr = (g.retention_pct||[100,0,0,0,0,0,0]).map(v=>pct100(v));
+  const er = (e.retention_pct||[100,0,0,0,0,0,0]).map(v=>pct100(v));
+  const campT = document.getElementById('camp-ret-table');
+  campT.innerHTML =
+    `<thead><tr>${hdr.map(h=>`<th style="text-align:left;padding:10px;border-bottom:1px solid rgba(255,255,255,.08)">${h}</th>`).join('')}</tr></thead>
+     <tbody>
+       <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,.06)">Global</td>${gr.map(v=>`<td style="padding:10px;border-bottom:1px solid rgba(255,255,255,.06)">${v}</td>`).join('')}</tr>
+       <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,.06)">Europe</td>${er.map(v=>`<td style="padding:10px;border-bottom:1px solid rgba(255,255,255,.06)">${v}</td>`).join('')}</tr>
+     </tbody>`;
+
+  renderIframes('camp-attachments', ANA.attachments?.campaigns||[]);
+}
+
+/* ---------- Stickiness ---------- */
+function renderStickiness(){
+  const s = ANA.stickiness || {dau:0, wau:0, mau:0};
+  const dau=s.dau||0, wau=s.wau||0, mau=s.mau||0;
+
+  const tiles = [
+    makeTile('DAU', fmt(dau), 'Daily active users'),
+    makeTile('WAU', fmt(wau), '7-day active users'),
+    makeTile('MAU', fmt(mau), '30-day active users'),
+    makeTile('DAU / WAU', pct(ratio(dau,wau))),
+    makeTile('WAU / MAU', pct(ratio(wau,mau))),
+    makeTile('DAU / MAU', pct(ratio(dau,mau)))
+  ];
+  document.getElementById('stk-tiles').innerHTML = tiles.join('');
+  renderIframes('stk-attachments', ANA.attachments?.stickiness||[]);
+}
+
+/* ---------- Funnel & Reports ---------- */
+function renderFunnel(){ renderIframes('fun-attachments', ANA.attachments?.funnel||[]); }
+function renderReports(){ renderIframes('rep-attachments', ANA.attachments?.reports||[]); }
+
+/* ---------- Mount when the Analytics tab opens ---------- */
+async function initAnalytics(){
+  await loadANA();
+  renderOverview();
+  renderRetention();
+  renderCampaigns();
+  renderStickiness();
+  renderFunnel();
+  renderReports();
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.content').forEach(c=>c.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.tab).classList.add('active');
+
+      // ✅ Only this for Analytics
+      if(tab.dataset.tab==='analytics'){
+        initAnalytics();
       }
-    };
-
-    let ANALYTICS = deepClone(ANALYTICS_DEFAULT);
-
-    async function loadAnalyticsJSON(){
-      if(!CURRENT_ANALYTICS_FILE) return ANALYTICS;
-      try{
-        const res = await fetch(CURRENT_ANALYTICS_FILE);
-        if(!res.ok) throw new Error('fetch failed');
-        ANALYTICS = await res.json();
-      }catch(e){
-        console.warn('Analytics JSON load failed, using defaults.', e);
-        ANALYTICS = deepClone(ANALYTICS_DEFAULT);
-      }
-      return ANALYTICS;
-    }
-
-    const fmt = (n)=> (n??0).toLocaleString();
-    const pct = (n)=> (n*100).toLocaleString(undefined,{maximumFractionDigits:1})+'%';
-
-    /* ---------- Overview tiles & ratios ---------- */
-    function renderAnalyticsOverview(){
-      const a = ANALYTICS;
-      const pv = a.sources.wix.page_view_users||0;
-      const ar = a.sources.wix.app_redirect_users||0;
-      const lg = a.sources.app.login_users||0;
-      const rz = a.sources.app.export_images_users||0;
-
-      const ratios = {
-        cta: pv? ar/pv : 0,
-        redirectLogin: ar? lg/ar : 0,
-        loginResize: lg? rz/lg : 0,
-        pageResize: pv? rz/pv : 0
-      };
-
-      // DAU/WAU/MAU & stickiness
-      const D = a.stickiness.dau||0, W=a.stickiness.wau||0, M=a.stickiness.mau||0;
-      const dau_wau = W? D/W : 0;
-      const wau_mau = M? W/M : 0;
-      const dau_mau = M? D/M : 0;
-
-      const tiles = [
-        { label:'CTA click-through (Wix → App)', value:pct(ratios.cta), sub:`${fmt(ar)} / ${fmt(pv)} users` },
-        { label:'Redirect → Login', value:pct(ratios.redirectLogin), sub:`${fmt(lg)} / ${fmt(ar)} users` },
-        { label:'Login → Resize (init.)', value:pct(ratios.loginResize), sub:`${fmt(rz)} / ${fmt(lg)} users` },
-        { label:'Page → Resize (overall)', value:pct(ratios.pageResize), sub:`${fmt(rz)} / ${fmt(pv)} users` },
-        { label:'DAU / WAU', value:pct(dau_wau), sub:`${fmt(D)} / ${fmt(W)}` },
-        { label:'WAU / MAU', value:pct(wau_mau), sub:`${fmt(W)} / ${fmt(M)}` },
-        { label:'DAU / MAU', value:pct(dau_mau), sub:`${fmt(D)} / ${fmt(M)}` },
-        { label:'30-day Active Users (MAU)', value:fmt(M), sub:'Users active in last 30 days' }
-      ];
-
-      const mount = document.getElementById('analytics-tiles');
-      mount.innerHTML = tiles.map(t=>(
-        `<div class="tile"><div class="label">${t.label}</div><div class="value">${t.value}</div><div class="sub">${t.sub}</div></div>`
-      )).join('');
-
-      makeChart('analytics-ratio-chart','bar',
-        ['CTA','Redirect→Login','Login→Resize','Page→Resize','DAU/WAU','WAU/MAU','DAU/MAU'],
-        [ratios.cta*100, ratios.redirectLogin*100, ratios.loginResize*100, ratios.pageResize*100, dau_wau*100, wau_mau*100, dau_mau*100],
-        ['#0a84ff','#30d158','#ffd60a','#7a7aff','#0a84ff','#30d158','#ffd60a'],
-        {legend:false}
-      );
-    }
-
-    /* ---------- Campaign comparison ---------- */
-    function renderAnalyticsCampaigns(){
-      const c = ANALYTICS.campaigns||{};
-      const g = c.global, e=c.europe;
-      const tilesMount = document.getElementById('campaign-tiles');
-      tilesMount.innerHTML = '';
-
-      if(!g || !e){
-        tilesMount.innerHTML = `<div class="tile" style="grid-column:1/-1">
-          <div class="label">Campaign comparison</div>
-          <div class="value">Waiting for segment data</div>
-          <div class="sub">Add counts to <code>campaigns.global</code> and <code>campaigns.europe</code> in the JSON.</div>
-        </div>`;
-        return;
-      }
-
-      function ratios(x){
-        const pv=x.page_view_users||0, ar=x.app_redirect_users||0, lg=x.login_users||0, rz=x.export_images_users||0;
-        return { cta: pv?ar/pv:0, redirectLogin:ar?lg/ar:0, loginResize:lg?rz/lg:0, pageResize:pv?rz/pv:0 };
-      }
-      const rg=ratios(g), re=ratios(e);
-      const rows = [
-        { name:'CTA', g:rg.cta, e:re.cta },
-        { name:'Redirect→Login', g:rg.redirectLogin, e:re.redirectLogin },
-        { name:'Login→Resize', g:rg.loginResize, e:re.loginResize },
-        { name:'Page→Resize', g:rg.pageResize, e:re.pageResize }
-      ];
-
-      tilesMount.innerHTML = rows.map(r=>(
-        `<div class="tile"><div class="label">${r.name}</div><div class="value">Global ${pct(r.g)} · Europe ${pct(r.e)}</div></div>`
-      )).join('');
-
-      const ctx = document.getElementById('campaign-compare-chart').getContext('2d');
-      new Chart(ctx,{type:'bar',data:{
-        labels: rows.map(r=>r.name),
-        datasets:[
-          { label:'Global', data: rows.map(r=>r.g*100), backgroundColor:'#0a84ff' },
-          { label:'Europe', data: rows.map(r=>r.e*100), backgroundColor:'#30d158' }
-        ]},
-        options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:true}} }
-      });
-    }
-
-    /* ---------- Retention tiles (optional) ---------- */
-    function renderRetentionTiles(){
-      const r = ANALYTICS.retention||{};
-      const target = document.getElementById('retention-tiles');
-      target.innerHTML = [
-        {label:'Week-1 Returners', value:fmt(r.week1_returners), sub:'Users returning in week 1'},
-        {label:'Week-2 Returners', value:fmt(r.week2_returners), sub:'Users returning in week 2'},
-        {label:'Week-3 Returners', value:fmt(r.week3_returners), sub:'Users returning in week 3'}
-      ].map(t=>`<div class="tile"><div class="label">${t.label}</div><div class="value">${t.value}</div><div class="sub">${t.sub}</div></div>`).join('');
-    }
-
-    /* ---------- Stickiness area ---------- */
-    function renderStickiness(){
-      const s = ANALYTICS.stickiness||{};
-      const D=s.dau||0, W=s.wau||0, M=s.mau||0;
-      const tiles = [
-        {label:'DAU', value:fmt(D), sub:'Daily active users'},
-        {label:'WAU', value:fmt(W), sub:'7-day active users'},
-        {label:'MAU', value:fmt(M), sub:'30-day active users'},
-        {label:'DAU / MAU', value:pct(M?D/M:0), sub:'Stickiness (daily vs monthly)'}
-      ];
-      document.getElementById('stickiness-tiles').innerHTML = tiles.map(t=>(
-        `<div class="tile"><div class="label">${t.label}</div><div class="value">${t.value}</div><div class="sub">${t.sub}</div></div>`
-      )).join('');
-
-      makeChart('stickiness-chart','line',
-        ['DAU','WAU','MAU'],
-        [D,W,M],
-        ['#0a84ff'],
-        {label:'Active users'}
-      );
-    }
-
-    /* ---------- Tabs ---------- */
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.tab').forEach(tab=>{
-        tab.addEventListener('click',()=>{
-          document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-          document.querySelectorAll('.content').forEach(c=>c.classList.remove('active'));
-          tab.classList.add('active');
-          document.getElementById(tab.dataset.tab).classList.add('active');
-
-          if(tab.dataset.tab==='analytics'){
-            loadAnalyticsJSON().then(()=>{
-              renderAnalyticsOverview();
-              renderAnalyticsCampaigns();
-              renderRetentionTiles();
-              renderStickiness();
-            });
-          }
-        });
-      });
-
-      document.querySelectorAll('.subtab').forEach(sub=>{
-        sub.addEventListener('click',()=>{
-          const wrap = sub.closest('.content'); if(!wrap) return;
-          wrap.querySelectorAll('.subtab').forEach(s=>s.classList.remove('active'));
-          wrap.querySelectorAll('.subcontent').forEach(sc=>sc.classList.remove('active'));
-          sub.classList.add('active');
-          const target = document.getElementById(sub.dataset.sub); if(target) target.classList.add('active');
-          if(sub.dataset.sub==='comp-gap') loadKeywordGap();
-        });
-      });
     });
+  });
+
+  // Subtabs (keep just this one)
+  document.querySelectorAll('.subtab').forEach(sub=>{
+    sub.addEventListener('click',()=>{
+      const wrap = sub.closest('.content'); if(!wrap) return;
+      wrap.querySelectorAll('.subtab').forEach(s=>s.classList.remove('active'));
+      wrap.querySelectorAll('.subcontent').forEach(sc=>sc.classList.remove('active'));
+      sub.classList.add('active');
+      const target = document.getElementById(sub.dataset.sub); if(target) target.classList.add('active');
+
+      if(sub.dataset.sub==='comp-gap') loadKeywordGap();
+    });
+  });
+});
 
     // Small demo chart so Competitor tab isn’t empty
     makeChart('birme-traffic','line',['Feb','Mar','Apr','May','Jun','Jul','Aug'],[13787,14607,13907,14553,13090,19484,15760],['#0a84ff'],{label:'Organic Traffic'});
