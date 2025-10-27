@@ -1,0 +1,32 @@
+{
+  "period": "Sep 16 – Oct 26, 2025",
+  "overview": {
+    "wix": { "page_view": 7127, "app_redirect": 5826 },
+    "app": { "login": 4851, "export_images": 3111 }
+  },
+  "retention_overall_pct": [100, 0.88, 0.33, 0.19, 0.23, 0, 0],
+  "campaigns": {
+    "global": {
+      "wix": { "page_view": 7541, "app_redirect": 7635 },
+      "app": { "login": 2612, "export_images": 1674 },
+      "retention_pct": [100, 1.13, 0.45, 0.17, 0.17, 0, 0]
+    },
+    "europe": {
+      "wix": { "page_view": 368, "app_redirect": 303 },
+      "app": { "login": 0, "export_images": 0 },
+      "retention_pct": [100, 1.00, 1.18, 1.29, 2.73, 2.40, 1.00]
+    }
+  },
+  "stickiness": { "dau": 1200, "wau": 4200, "mau": 11000 },
+  "attachments": {
+    "overview": ["assets/Events_Event_name.pdf"],
+    "retention": ["assets/Overall retention.pdf"],
+    "campaigns": [
+      "assets/Event count and retention by campaign.pdf",
+      "assets/Event count and retention by campaign (1).pdf"
+    ],
+    "stickiness": ["assets/User stickiness.pdf"],
+    "funnel": ["assets/User funnel.pdf"],
+    "reports": ["assets/Retention_overview.pdf"]
+  }
+}
