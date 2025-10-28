@@ -221,7 +221,6 @@ iframe.doc-iframe{
 
   <!-- ===== Retention (Overall) ===== -->
   <div id="ana-retention" class="subcontent">
-    <div class="tile-grid" id="ret-tiles"></div>
     <h3 style="margin-top:12px;">Overall Retention (Week 0–6)</h3>
     <div class="gridish" style="overflow:auto; border-radius:12px; padding:8px;">
       <table id="ret-table" style="width:100%; border-collapse:collapse; color:#eaeaea; font-size:14px;"></table>
@@ -413,14 +412,7 @@ function renderOverview(){
 function renderRetention(){
   const arr = ANA.retention_overall_pct || [100,0,0,0,0,0,0];
   const [w0,w1,w2,w3,w4,w5,w6] = arr;
-
-  const tiles = [
-    makeTile('Week-1 Returners', fmt(Math.round(w1)), 'Users returning in week 1'),
-    makeTile('Week-2 Returners', fmt(Math.round(w2)), 'Users returning in week 2'),
-    makeTile('Week-3 Returners', fmt(Math.round(w3)), 'Users returning in week 3')
-  ];
-  document.getElementById('ret-tiles').innerHTML = tiles.join('');
-
+  
   const t = document.getElementById('ret-table');
   const hdr = ['Week 0','Week 1','Week 2','Week 3','Week 4','Week 5','Week 6'];
   const row = arr.map(v=>`<td style="padding:10px;border-bottom:1px solid rgba(255,255,255,.06)">${pct100(v)}</td>`).join('');
