@@ -63,25 +63,22 @@
   "global": { "dau_wau": 28.6, "wau_mau": 38.2, "dau_mau": 10.9 },
   "europe": { "dau_wau": 24.1, "wau_mau": 35.0, "dau_mau": 8.9 }
 },
-    "attachments": {
-        "overview": [
-            "assets/Events_Event_name.pdf"
-        ],
-        "retention": [
-            "assets/Overall retention.pdf"
-        ],
-        "campaigns": [
-            "assets/Event count and retention by campaign.pdf",
-            "assets/Event count and retention by campaign (1).pdf"
-        ],
-        "stickiness": [
-            "assets/User stickiness.pdf"
-        ],
-        "funnel": [
-            "assets/User funnel.pdf"
-        ],
-        "reports": [
-            "assets/Retention_overview.pdf"
-        ]
-    }
+ "attachments": {
+  "overview": ["assets/Events_Event_name.pdf"],
+  "retention": ["assets/Overall retention.pdf"],
+  "campaigns": [
+    "assets/Event count and retention by campaign.pdf",
+    "assets/Event count and retention by campaign (1).pdf"
+  ],
+  "stickiness": ["assets/User stickiness.pdf"],
+  "funnel": ["assets/User funnel.pdf"],
+  "reports": [
+    "assets/Retention_overview.pdf",
+    "assets/Events_Event_name.pdf",
+    "assets/Overall retention.pdf",
+    "assets/Event count and retention by campaign.pdf",
+    "assets/Event count and retention by campaign (1).pdf",
+    "assets/User stickiness.pdf",
+    "assets/User funnel.pdf"
+  ]
 }
