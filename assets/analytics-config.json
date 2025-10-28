@@ -59,11 +59,10 @@
             ]
         }
     },
-    "stickiness": {
-        "dau": 1200,
-        "wau": 4200,
-        "mau": 11000
-    },
+    "stickiness_pct": {
+  "global": { "dau_wau": 28.6, "wau_mau": 38.2, "dau_mau": 10.9 },
+  "europe": { "dau_wau": 24.1, "wau_mau": 35.0, "dau_mau": 8.9 }
+},
     "attachments": {
         "overview": [
             "assets/Events_Event_name.pdf"
