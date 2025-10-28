@@ -463,21 +463,23 @@ function renderCampaigns(){
 }
 
 /* ---------- Stickiness ---------- */
-function renderStickiness(){
-  const s = ANA.stickiness || {dau:0, wau:0, mau:0};
-  const dau=s.dau||0, wau=s.wau||0, mau=s.mau||0;
+    function renderStickiness(){
+  const s = ANA.stickiness_pct; // use the pct block if you choose this model
+  if(!s){ document.getElementById('stk-tiles').innerHTML = ''; return; }
 
-  const tiles = [
-    makeTile('DAU', fmt(dau), 'Daily active users'),
-    makeTile('WAU', fmt(wau), '7-day active users'),
-    makeTile('MAU', fmt(mau), '30-day active users'),
-    makeTile('DAU / WAU', pct(ratio(dau,wau))),
-    makeTile('WAU / MAU', pct(ratio(wau,mau))),
-    makeTile('DAU / MAU', pct(ratio(dau,mau)))
-  ];
+  const tiles = [];
+  const regions = ['global','europe'].filter(k => s[k]);
+  for(const k of regions){
+    tiles.push(
+      makeTile(`${k[0].toUpperCase()+k.slice(1)}: DAU / WAU`, (s[k].dau_wau??0).toFixed(1)+'%'),
+      makeTile(`${k[0].toUpperCase()+k.slice(1)}: WAU / MAU`, (s[k].wau_mau??0).toFixed(1)+'%'),
+      makeTile(`${k[0].toUpperCase()+k.slice(1)}: DAU / MAU`, (s[k].dau_mau??0).toFixed(1)+'%')
+    );
+  }
   document.getElementById('stk-tiles').innerHTML = tiles.join('');
   renderIframes('stk-attachments', ANA.attachments?.stickiness||[]);
 }
+
 
 /* ---------- Funnel & Reports ---------- */
 function renderFunnel(){ renderIframes('fun-attachments', ANA.attachments?.funnel||[]); }
