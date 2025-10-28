@@ -46,8 +46,26 @@
     .subcontent{ display:none; }
     .subcontent.active{ display:block; }
 
-    iframe{ width:100%; height:520px; border:none; border-radius:12px; background:#2c2c2e; margin:12px 0 22px; box-shadow:var(--shadow); }
-    iframe.doc-iframe{ height:80vh !important; background:transparent; box-shadow:none; border-radius:12px; }
+iframe{
+  width:100%;
+  min-height:520px;       
+  height:70vh;             
+  border:none;
+  border-radius:12px;
+  background:#2c2c2e;
+  margin:12px 0 22px;
+  box-shadow:var(--shadow);
+}
+
+/* PDFs / long docs get extra height */
+iframe.doc-iframe{
+  height:85vh !important;
+}
+
+@media (max-width: 900px){
+  iframe{ height:65vh; }
+  iframe.doc-iframe{ height:80vh !important; }
+}
 
     .tile-grid{ display:grid; gap:14px; grid-template-columns:repeat(2, minmax(220px, 1fr)); }
     @media (min-width:980px){ .tile-grid{ grid-template-columns:repeat(4, minmax(220px, 1fr)); } }
@@ -359,10 +377,15 @@ function makeTile(label, value, sub=''){
 function renderIframes(mountId, paths=[]){
   const mount = document.getElementById(mountId);
   if(!mount) return;
-  if(!paths || !paths.length){ mount.innerHTML = `<p class="richtext">No attachments.</p>`; return; }
-  mount.innerHTML = paths.map(p=>`<iframe src="${p}"></iframe>`).join('');
+  if(!paths || !paths.length){
+    mount.innerHTML = `<p class="richtext">No attachments.</p>`;
+    return;
+  }
+  mount.innerHTML = paths.map(p=>{
+    const isPDF = /\.pdf(?:$|\?)/i.test(p);
+    return `<iframe ${isPDF ? 'class="doc-iframe"' : ''} src="${p}"></iframe>`;
+  }).join('');
 }
-
 /* ---------- Overview ---------- */
 function renderOverview(){
   const o = ANA.overview || {};
