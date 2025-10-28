@@ -13,8 +13,8 @@
     },
     "europe": {
       "wix": { "page_view": 368, "app_redirect": 303 },
-      "app": { "login": 0, "export_images": 0 },
-      "retention_pct": [100, 1.00, 1.18, 1.29, 2.73, 2.40, 1.00]
+      "app": { "login": 102, "export_images": 81 },
+      "retention_pct": [100, 1.00 1.18, 1.29, 2.73, 2.40, 1.00]
     }
   },
   "stickiness": { "dau": 1200, "wau": 4200, "mau": 11000 },
