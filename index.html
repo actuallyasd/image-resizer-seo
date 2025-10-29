@@ -263,13 +263,51 @@ iframe.doc-iframe{
     <div id="rep-attachments"></div>
   </div>
 
-  <!-- ===== Insights (placeholder) ===== -->
-  <div id="ana-insights" class="subcontent">
-    <div class="richtext">
-      <p>We’ll capture commentary & next steps here once you finalise the latest numbers.</p>
-    </div>
+  <!-- ===== Insights (static text only) ===== -->
+<div id="ana-insights" class="subcontent">
+  <div class="richtext">
+    <h3>Funnel (overall, Wix → App)</h3>
+    <ul>
+      <li><strong>CTA click-through (Wix → App):</strong> ~81.8% (5,826 / 7,127) — very strong; your CTA placement/copy is working.</li>
+      <li><strong>Redirect → Login:</strong> ~83.3% (4,851 / 5,826) — low friction after the redirect.</li>
+      <li><strong>Login → First resize:</strong> ~64.1% (3,111 / 4,851) — biggest remaining drop.</li>
+      <li><strong>Page → First resize (end-to-end):</strong> ~43.7% (3,111 / 7,127).</li>
+    </ul>
+
+    <h3>By campaign</h3>
+    <h4 style="margin:8px 0 6px;">Global</h4>
+    <ul>
+      <li><strong>CTA:</strong> ~96.1% (7,635 / 7,947) — unusually high; likely very intent-driven traffic.</li>
+      <li><strong>Redirect → Login:</strong> ~34.2% (2,612 / 7,635) — this is where the leak is for campaign traffic.</li>
+      <li><strong>Login → Resize:</strong> ~64.1% (1,674 / 2,612).</li>
+      <li><strong>Page → Resize overall:</strong> ~21.1% (1,674 / 7,947).</li>
+    </ul>
+
+    <h4 style="margin:10px 0 6px;">Europe</h4>
+    <ul>
+      <li><strong>CTA:</strong> ~82.3% (303 / 368).</li>
+      <li><strong>Redirect → Login:</strong> ~33.7% (102 / 303) — similar leak to Global.</li>
+      <li><strong>Login → Resize:</strong> ~79.4% (81 / 102) — meaningfully stronger than Global (64%).</li>
+      <li><strong>Page → Resize overall:</strong> ~22.0% (81 / 368).</li>
+    </ul>
+
+    <h3>Interpretation</h3>
+    <ul>
+      <li>Campaign traffic gets to the app (CTA stellar) but fails to log in at a high rate (≈34%). The issue is likely expectation mismatch (ad copy vs landing), account friction (signup prompt, permissions), or cold geo/device cohorts.</li>
+      <li>Once logged in, Europe resizes more efficiently (79% vs 64%) — suggests UI text/locale or device profile differences you can replicate globally.</li>
+      <li>Retention (overall) is tiny (wk1 ~0.88%, wk2 ~0.33%, wk3 ~0.19%) — the tool is used “as-needed.” Retention should be framed as episodic utility, not classic app stickiness.</li>
+      <li>Stickiness (global): DAU/WAU 28.6%, WAU/MAU 38.2%, DAU/MAU 10.9% — consistent with a utility used in bursts; raises the stakes on first-session success and smart re-entry triggers (email/download follow-ups).</li>
+    </ul>
+
+    <h3>Quick wins (3)</h3>
+    <ol>
+      <li><strong>Fix Redirect → Login for campaign cohorts.</strong> Mirror ad promise above the fold on the app landing (“Bulk resize in 10 seconds. No signup needed / 1-click login”). If signup is required, show guest mode or social login first; move email wall to export.</li>
+      <li><strong>Borrow what works in Europe.</strong> Reuse the locale/microcopy/button placement that’s likely driving the higher Login → Resize completion.</li>
+      <li><strong>Post-session nudge.</strong> On download/export, add a tiny banner: “Need Facebook/Instagram exact sizes next? Save this link.” (Keeps re-entry lightweight.)</li>
+    </ol>
   </div>
 </div>
+
 
   <!-- Next Steps -->
   <div id="nextsteps" class="content">
