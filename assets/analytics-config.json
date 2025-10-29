@@ -61,14 +61,14 @@
     },
     "stickiness_pct": {
         "global": {
-            "dau_wau": 28.6,
-            "wau_mau": 38.2,
-            "dau_mau": 10.9
+            "dau_wau": 19.4,
+            "wau_mau": 29.7,
+            "dau_mau": 5.8
         },
         "europe": {
-            "dau_wau": 24.1,
-            "wau_mau": 35,
-            "dau_mau": 8.9
+            "dau_wau": 14.9,
+            "wau_mau": 82.7,
+            "dau_mau": 12.3
         }
     },
     "attachments": {
