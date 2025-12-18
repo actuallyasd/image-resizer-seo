@@ -97,6 +97,7 @@
     .richtext h3{ color: var(--ink); margin: 18px 0 8px; }
     .richtext p{ margin: 0 0 14px; }
     .richtext ul { list-style: disc; padding-left: 1.2rem; }
+    .richtext em { color: var(--muted); }
   </style>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -115,11 +116,13 @@
     <div class="tab" data-tab="nextsteps">Next Steps</div>
   </div>
 
+  <!-- Technical -->
   <div id="technical" class="content">
     <h2>Technical SEO</h2>
     <ul id="technical-list"></ul>
   </div>
 
+  <!-- Keyword Research -->
   <div id="keywords" class="content active">
     <h2>Keyword Research</h2>
     <div class="subtabs">
@@ -160,6 +163,7 @@
     </div>
   </div>
 
+  <!-- Impact -->
   <div id="impact" class="content">
     <h2>SEO Impact Analysis</h2>
     <div class="impact-wrap gridish">
@@ -167,6 +171,7 @@
     </div>
   </div>
 
+  <!-- Competitors -->
   <div id="competitors" class="content">
     <h2>Competitor Analysis</h2>
     <div class="subtabs">
@@ -196,13 +201,16 @@
     </div>
   </div>
 
+  <!-- ===== Analytics Master Tab ===== -->
   <div id="analytics" class="content">
     
+    <!-- Version Switcher -->
     <div class="version-switch">
       <div class="v-btn active" onclick="switchAnaVersion('1.0')">Analytics 1.0</div>
       <div class="v-btn" onclick="switchAnaVersion('2.0')">Analytics 2.0</div>
     </div>
 
+    <!-- ===== ANALYTICS 1.0 (Legacy) ===== -->
     <div id="ana-v1" class="ana-version-wrapper" style="display:block;">
       <h2>Analytics 1.0 (Historical)</h2>
       <div class="subtabs">
@@ -274,9 +282,14 @@
         </div>
       </div>
     </div>
+    <!-- End V1 -->
+
+
+    <!-- ===== ANALYTICS 2.0 (New) ===== -->
     <div id="ana-v2" class="ana-version-wrapper" style="display:none;">
       <h2>Analytics 2.0 (New)</h2>
 
+      <!-- V2 Subtabs -->
       <div class="subtabs">
         <div class="subtab active" data-sub="v2-traffic">Traffic Acquisition</div>
         <div class="subtab" data-sub="v2-events">Events</div>
@@ -285,12 +298,13 @@
         <div class="subtab" data-sub="v2-insights">Insights</div>
       </div>
 
+      <!-- 1. Traffic Acquisition -->
       <div id="v2-traffic" class="subcontent active">
         <div class="tile-grid">
            <div class="tile">
              <div class="label">Top Source</div>
              <div class="value">IndieHackers</div>
-             <div class="sub">11 sessions</div>
+             <div class="sub">15 sessions</div>
            </div>
            <div class="tile">
              <div class="label">Runner Up</div>
@@ -299,7 +313,7 @@
            </div>
            <div class="tile">
              <div class="label">Engagement (IndieHackers)</div>
-             <div class="value">54.5%</div>
+             <div class="value">42.3%</div>
              <div class="sub">Engagement Rate</div>
            </div>
            <div class="tile">
@@ -317,6 +331,7 @@
         <iframe class="doc-iframe" src="assets/Traffic acuisition overview.pdf"></iframe>
       </div>
 
+      <!-- 2. Events -->
       <div id="v2-events" class="subcontent">
         <div class="tile-grid">
           <div class="tile">
@@ -349,6 +364,7 @@
         <iframe class="doc-iframe" src="assets/Events.pdf"></iframe>
       </div>
 
+      <!-- 3. Retention -->
       <div id="v2-retention" class="subcontent">
         <div class="tile-grid">
           <div class="tile">
@@ -381,6 +397,7 @@
         <iframe class="doc-iframe" src="assets/Retention_overview.pdf"></iframe>
       </div>
 
+      <!-- 4. Reports (Gallery) -->
       <div id="v2-reports" class="subcontent">
         <h3>Traffic Acquisition Overview</h3>
         <iframe class="doc-iframe" src="assets/Traffic acuisition overview.pdf" style="margin-bottom:30px;"></iframe>
@@ -392,15 +409,127 @@
         <iframe class="doc-iframe" src="assets/Retention_overview.pdf"></iframe>
       </div>
 
+      <!-- 5. Insights -->
       <div id="v2-insights" class="subcontent">
         <div class="richtext">
-          <p><em>Pending analysis...</em></p>
+          <h2 style="margin-top:0;">Overall context</h2>
+          <p>Date range analysed: <strong>Nov 13 – Dec 18, 2025</strong><br>
+          Paid ads paused. Focus on <strong>Organic, Referral, Email</strong> discovery and early product usage.</p>
+          <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
+
+          <h3>Traffic Acquisition – High-level insights</h3>
+          <ul>
+            <li><strong>Traffic is still very low overall</strong>, which is expected at this stage. Absolute numbers matter less than <em>signal quality</em>.</li>
+            <li><strong>Referral is currently our strongest channel</strong> in terms of volume and meaningful engagement.</li>
+            <li><strong>Organic Search is effectively zero</strong> right now → this is not a red flag, just confirmation that SEO has not started compounding yet.</li>
+            <li><strong>Organic Social exists</strong>, but volume is extremely small and sporadic.</li>
+          </ul>
+          <p><strong>Interpretation:</strong></p>
+          <ul>
+            <li>We are still in the <em>distribution seeding phase</em>, not the growth phase.</li>
+            <li>Directories + communities are doing more work than search engines today.</li>
+          </ul>
+          <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
+
+          <h3>Referral traffic – what’s working</h3>
+          <p>Top referral sources observed:</p>
+          <ul>
+            <li><strong>indiehackers.com</strong> → highest volume + decent engagement</li>
+            <li><strong>startuptile.com</strong> → volume present but <em>low engagement</em> (likely curiosity clicks)</li>
+            <li><strong>manage.wix.com</strong> → internal / builder-related traffic (not true acquisition)</li>
+            <li><strong>tagassistant.google.com</strong> → developer/debug traffic, ignore for growth analysis</li>
+          </ul>
+          <p><strong>Key takeaways:</strong></p>
+          <ul>
+            <li>IndieHacker-style communities are high-intent. So posting more on Indie Hackers and similar communities. </li>
+            <li>Some directory traffic brings volume but not depth → still useful for awareness.</li>
+            <li>Internal / tooling referrals should be excluded when judging traction.</li>
+          </ul>
+          <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
+
+          <h3>Events & product usage (most important signal)</h3>
+          <p>Events observed (core funnel):</p>
+          <ul>
+            <li><code>page_view</code></li>
+            <li><code>image_upload</code></li>
+            <li><code>export_images</code></li>
+            <li><code>download_zip</code></li>
+          </ul>
+          <p><strong>Insights:</strong></p>
+          <ul>
+            <li>Users are <strong>not just bouncing</strong> — uploads and exports are happening.</li>
+            <li>Drop-off exists between upload → export → download, which is normal.</li>
+            <li>Very few users reach <em>advanced actions</em> (edit_export, download_assets).</li>
+          </ul>
+          <p><strong>Interpretation:</strong></p>
+          <ul>
+            <li>You already have <strong>product–problem fit</strong> for the users who arrive.</li>
+            <li>The bottleneck is <strong>traffic quality & volume</strong>, not UX fundamentals.</li>
+          </ul>
+          <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
+
+          <h3>Retention overview – what’s really happening</h3>
+          <p>Headline numbers:</p>
+          <ul>
+            <li><strong>New users: 195</strong></li>
+            <li><strong>Returning users: 38</strong> (~19–20%)</li>
+          </ul>
+          <p><strong>What this means:</strong></p>
+          <ul>
+            <li>For a utility tool, this is actually <strong>not bad early-stage retention</strong>.</li>
+            <li>Most users are <em>single-use by nature</em>, so retention will always be capped.</li>
+          </ul>
+          <p><strong>User retention curve:</strong></p>
+          <ul>
+            <li>Sharp drop after Day 1 → normal for utilities</li>
+            <li>Very small but real Day 7 returns → signal that some users bookmark / reuse. In the future maybe adding a tiny feature after they have resized their images that asks them to bookmark the website? It can be a good retention strategy.</li>
+          </ul>
+          <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
+
+          <h3>Stickiness (DAU / WAU / MAU)</h3>
+          <p>Observed:</p>
+          <ul>
+            <li><strong>DAU / MAU ≈ 28%</strong></li>
+            <li><strong>DAU / WAU ≈ 35.8%</strong></li>
+            <li><strong>WAU / MAU ≈ 78%</strong></li>
+          </ul>
+          <p><strong>Interpretation:</strong></p>
+          <ul>
+            <li>WAU/MAU is inflated due to low volume. So even if it looks good we should not take it as a great signal. Studying it over a longer priod of time would make more sense.</li>
+            <li>DAU ratios suggest <strong>bursty usage</strong>, not daily habit. This is more or less expected for our tool where one time usage is more prevalent.</li>
+          </ul>
+          <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
+
+          <h3>What is NOT a problem (important)</h3>
+          <ul>
+            <li>Low Organic Search → expected</li>
+            <li>Low retention curve → expected for utilities</li>
+            <li>No revenue → expected at this phase</li>
+          </ul>
+          <p>None of these indicate failure.</p>
+          <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
+
+          <h3>What IS the real signal to act on</h3>
+          <ul>
+            <li>Referral channels are working. We should continue to prioritise and double down on the following:
+              <ul>
+                <li>Directories</li>
+                <li>Emails and other referrals</li>
+                <li>Tool roundups</li>
+              </ul>
+            </li>
+            <li>Users who arrive <strong>do use the product</strong> → distribution is the constraint</li>
+            <li>SEO needs <strong>time + motive-driven landing pages</strong> (which you’re already building)</li>
+          </ul>
         </div>
       </div>
 
     </div>
-    </div>
+    <!-- End V2 -->
 
+  </div>
+
+  <!-- Next Steps -->
   <div id="nextsteps" class="content">
     <h2>Next Steps</h2>
     <div id="nextsteps-content">
@@ -510,7 +639,7 @@
     /* --- V2 Analytics Logic (New) --- */
     function initAnalyticsV2(){
       // Traffic Chart (Source)
-      makeChart('v2-traffic-chart', 'bar', ['IndieHackers','StartupTile','Wix','Google Tag','Firebase'], [11,7,4,3,1], ['#ff9f0a','#30d158','#0a84ff','#muted','#muted'], {label:'Sessions by Source'});
+      makeChart('v2-traffic-chart', 'bar', ['IndieHackers','StartupTile','Wix','Google Tag','Firebase'], [15,7,4,3,1], ['#ff9f0a','#30d158','#0a84ff','#muted','#muted'], {label:'Sessions by Source'});
 
       // Events Chart
       makeChart('v2-events-chart', 'bar', ['Page View','Session Start','Image Upload','Download Zip','Export Img'], [250,178,143,135,73], ['#7a7aff','#0a84ff','#30d158','#ffd60a','#ff453a'], {label:'Event Counts'});
@@ -576,4 +705,3 @@
   </script>
 </body>
 </html>
-
