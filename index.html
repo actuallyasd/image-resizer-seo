@@ -206,9 +206,10 @@
     
     <!-- Version Switcher -->
     <div class="version-switch">
-      <div class="v-btn active" onclick="switchAnaVersion('1.0')">Analytics 1.0</div>
-      <div class="v-btn" onclick="switchAnaVersion('2.0')">Analytics 2.0</div>
-    </div>
+  <div class="v-btn active" onclick="switchAnaVersion('1.0')">Analytics 1.0</div>
+  <div class="v-btn" onclick="switchAnaVersion('2.0')">Analytics 2.0</div>
+  <div class="v-btn" onclick="switchAnaVersion('3.0')">Analytics 3.0</div>
+</div>
 
     <!-- ===== ANALYTICS 1.0 (Legacy) ===== -->
     <div id="ana-v1" class="ana-version-wrapper" style="display:block;">
@@ -527,6 +528,90 @@
     </div>
     <!-- End V2 -->
 
+    <div id="ana-v3" class="ana-version-wrapper" style="display:none;">
+  <h2>Analytics 3.0</h2>
+
+  <!-- V3 Subtabs (order exactly as requested) -->
+  <div class="subtabs">
+    <div class="subtab active" data-sub="v3-traffic">Traffic Acquisition</div>
+    <div class="subtab" data-sub="v3-events">Events</div>
+    <div class="subtab" data-sub="v3-retention">Retention</div>
+    <div class="subtab" data-sub="v3-funnel">Campaigns Funnel</div>
+    <div class="subtab" data-sub="v3-reports">Reports</div>
+    <div class="subtab" data-sub="v3-insights">Insights</div>
+  </div>
+
+  <!-- 1) Traffic Acquisition -->
+  <div id="v3-traffic" class="subcontent active">
+    <h3>Traffic Acquisition</h3>
+    <iframe class="doc-iframe" src="assets/Traffic_acquisition_Session_primary_channel_group_(Default_Channel_Group).pdf"></iframe>
+  </div>
+
+  <!-- 2) Events -->
+  <div id="v3-events" class="subcontent">
+    <h3>Events</h3>
+    <iframe class="doc-iframe" src="assets/Events_Event_name (3).pdf"></iframe>
+  </div>
+
+  <!-- 3) Retention -->
+  <div id="v3-retention" class="subcontent">
+    <h3>Retention</h3>
+    <iframe class="doc-iframe" src="assets/Retention_overview (2).pdf"></iframe>
+    <iframe class="doc-iframe" src="assets/Retention_overview (1).pdf"></iframe>
+  </div>
+
+  <!-- 4) Campaigns Funnel -->
+  <div id="v3-funnel" class="subcontent">
+    <h3>Campaigns Funnel</h3>
+    <iframe class="doc-iframe" src="assets/data (3).pdf"></iframe>
+    <iframe class="doc-iframe" src="assets/data (4).pdf"></iframe>
+  </div>
+
+  <!-- 5) Reports (ALL attached together) -->
+  <div id="v3-reports" class="subcontent">
+    <h3>All Reports (Analytics 3.0)</h3>
+
+    <h4 style="margin: 18px 0 10px; color: var(--ink);">Traffic Acquisition</h4>
+    <iframe class="doc-iframe" src="assets/Traffic_acquisition_Session_primary_channel_group_(Default_Channel_Group).pdf"></iframe>
+
+    <hr style="border:1px solid #333; margin:30px 0;">
+
+    <h4 style="margin: 18px 0 10px; color: var(--ink);">Events</h4>
+    <iframe class="doc-iframe" src="assets/Events_Event_name (3).pdf"></iframe>
+
+    <hr style="border:1px solid #333; margin:30px 0;">
+
+    <h4 style="margin: 18px 0 10px; color: var(--ink);">Retention</h4>
+    <iframe class="doc-iframe" src="assets/Retention_overview (2).pdf"></iframe>
+    <iframe class="doc-iframe" src="assets/Retention_overview (1).pdf"></iframe>
+
+    <hr style="border:1px solid #333; margin:30px 0;">
+
+    <h4 style="margin: 18px 0 10px; color: var(--ink);">Campaigns Funnel</h4>
+    <iframe class="doc-iframe" src="assets/data (3).pdf"></iframe>
+    <iframe class="doc-iframe" src="assets/data (4).pdf"></iframe>
+  </div>
+
+  <!-- 6) Insights (paste the plain-English insights) -->
+  <div id="v3-insights" class="subcontent">
+    <div class="richtext">
+      <h3 style="margin-top:0;">Plain-English insights from the reports</h3>
+      <ul>
+        <li><strong>Your December Search campaign is doing almost all the work.</strong> The Europe campaign is tiny by comparison, so it will look “weird” just because the sample size is small.</li>
+        <li><strong>Traffic quality is strong.</strong> People who arrive are not instantly bouncing — they’re engaging and triggering actions.</li>
+        <li><strong>Europe traffic quality isn’t worse — it’s just lower volume.</strong> The issue is reach/scale, not relevance.</li>
+        <li><strong>The big drop after “App redirect” is expected.</strong> Users move from Wix to your Firebase tool — that handoff is a real step change in the journey.</li>
+        <li><strong>The real bottleneck is activation (getting users to actually start using the tool).</strong> You want more people to upload an image after landing, not just click “Try for free”.</li>
+        <li><strong>Right now Google Ads is optimising for the conversion you gave it.</strong> If “app_redirect” is the conversion, the system will try to maximise button clicks — not image uploads.</li>
+        <li><strong>You won’t get historical keyword → image_upload performance if you change conversions today.</strong> The past stays tied to the old conversion. Changing the conversion affects learning going forward.</li>
+        <li><strong>Retention is naturally capped for a utility tool.</strong> Many users are one-and-done; the real win is the small group who come back and reuse it.</li>
+      </ul>
+      <p><strong>One-line takeaway:</strong> You don’t have a traffic problem — you have an activation + measurement problem.</p>
+    </div>
+  </div>
+</div>
+<!-- End V3 -->
+
   </div>
 
   <!-- Next Steps -->
@@ -649,21 +734,41 @@
     }
 
     /* --- Switching Logic --- */
-    function switchAnaVersion(ver){
-      // Toggle Buttons
-      document.querySelectorAll('.v-btn').forEach(b => {
-        b.classList.remove('active');
-        if(b.textContent.includes(ver)) b.classList.add('active');
-      });
-      // Toggle Containers
-      document.querySelectorAll('.ana-version-wrapper').forEach(el => el.style.display = 'none');
-      if(ver === '1.0') document.getElementById('ana-v1').style.display = 'block';
-      if(ver === '2.0') {
-        document.getElementById('ana-v2').style.display = 'block';
-        // Trigger charts resize
-        initAnalyticsV2();
+    <script>
+  function switchAnaVersion(v){
+    // toggle buttons
+    document.querySelectorAll('.version-switch .v-btn').forEach(btn=>btn.classList.remove('active'));
+    const btn = Array.from(document.querySelectorAll('.version-switch .v-btn'))
+      .find(b => b.textContent.trim() === `Analytics ${v}`);
+    if(btn) btn.classList.add('active');
+
+    // show/hide version wrappers
+    const v1 = document.getElementById('ana-v1');
+    const v2 = document.getElementById('ana-v2');
+    const v3 = document.getElementById('ana-v3');
+
+    if(v1) v1.style.display = (v === '1.0') ? 'block' : 'none';
+    if(v2) v2.style.display = (v === '2.0') ? 'block' : 'none';
+    if(v3) v3.style.display = (v === '3.0') ? 'block' : 'none';
+
+    // OPTIONAL: reset subtabs inside the shown version to first tab
+    // (Only if your existing code doesn’t already handle this)
+    const shown = (v === '1.0') ? v1 : (v === '2.0') ? v2 : v3;
+    if(shown){
+      // activate first subtab and corresponding subcontent within the shown wrapper
+      const subtabs = shown.querySelectorAll('.subtab');
+      const subs = shown.querySelectorAll('.subcontent');
+      if(subtabs.length && subs.length){
+        subtabs.forEach(s=>s.classList.remove('active'));
+        subs.forEach(c=>c.classList.remove('active'));
+        subtabs[0].classList.add('active');
+        const firstId = subtabs[0].getAttribute('data-sub');
+        const first = document.getElementById(firstId);
+        if(first) first.classList.add('active');
       }
     }
+  }
+</script>
 
     document.addEventListener('DOMContentLoaded', () => {
       // Main Tabs
