@@ -821,6 +821,10 @@
     const v2 = document.getElementById('ana-v2');
     const v3 = document.getElementById('ana-v3');
 
+    if(v === '3.0') initAnalyticsV3();
+if(v === '2.0') initAnalyticsV2();
+  
+
     if(v1) v1.style.display = (v === '1.0') ? 'block' : 'none';
     if(v2) v2.style.display = (v === '2.0') ? 'block' : 'none';
     if(v3) v3.style.display = (v === '3.0') ? 'block' : 'none';
@@ -839,6 +843,9 @@
         const firstId = subtabs[0].getAttribute('data-sub');
         const first = document.getElementById(firstId);
         if(first) first.classList.add('active');
+        if(v === '2.0') initAnalyticsV2();
+if(v === '3.0') initAnalyticsV3();
+
       }
     }
   }
@@ -875,7 +882,8 @@
           if(target) target.classList.add('active');
 
           if(sub.dataset.sub==='comp-gap') loadKeywordGap();
-          if(sub.dataset.sub.startsWith('v2-')) initAnalyticsV2(); // Redraw V2 charts just in case
+          if(sub.dataset.sub.startsWith('v2-')) initAnalyticsV2();
+          if(sub.dataset.sub.startsWith('v3-')) initAnalyticsV3();
         });
       });
     });
