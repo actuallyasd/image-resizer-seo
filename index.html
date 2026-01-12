@@ -544,18 +544,45 @@
   <!-- 1) Traffic Acquisition -->
   <div id="v3-traffic" class="subcontent active">
     <h3>Traffic Acquisition</h3>
+    <div class="tile-grid">
+  <div class="tile"><div class="label">Sessions</div><div class="value">—</div><div class="sub">Placeholder (hook to your numbers later)</div></div>
+  <div class="tile"><div class="label">Engaged sessions</div><div class="value">—</div><div class="sub">Placeholder</div></div>
+  <div class="tile"><div class="label">Engagement rate</div><div class="value">—</div><div class="sub">Placeholder</div></div>
+  <div class="tile"><div class="label">Top channel</div><div class="value">—</div><div class="sub">Placeholder</div></div>
+</div>
+<div class="chart-box" style="margin-top:16px;">
+  <canvas id="v3-traffic-chart"></canvas>
+</div>
     <iframe class="doc-iframe" src="assets/Traffic_acquisition_Session_primary_channel_group_(Default_Channel_Group).pdf"></iframe>
   </div>
 
   <!-- 2) Events -->
   <div id="v3-events" class="subcontent">
     <h3>Events</h3>
+    <div class="tile-grid">
+  <div class="tile"><div class="label">Image uploads</div><div class="value">—</div><div class="sub">Placeholder</div></div>
+  <div class="tile"><div class="label">Exports</div><div class="value">—</div><div class="sub">Placeholder</div></div>
+  <div class="tile"><div class="label">Downloads</div><div class="value">—</div><div class="sub">Placeholder</div></div>
+  <div class="tile"><div class="label">Logins</div><div class="value">—</div><div class="sub">Placeholder</div></div>
+</div>
+<div class="chart-box" style="margin-top:16px;">
+  <canvas id="v3-events-chart"></canvas>
+</div>
     <iframe class="doc-iframe" src="assets/Events_Event_name (3).pdf"></iframe>
   </div>
 
   <!-- 3) Retention -->
   <div id="v3-retention" class="subcontent">
     <h3>Retention</h3>
+    <div class="tile-grid">
+  <div class="tile"><div class="label">New users</div><div class="value">—</div><div class="sub">Placeholder</div></div>
+  <div class="tile"><div class="label">Returning users</div><div class="value">—</div><div class="sub">Placeholder</div></div>
+  <div class="tile"><div class="label">Day 1 retention</div><div class="value">—</div><div class="sub">Placeholder</div></div>
+  <div class="tile"><div class="label">Day 7 retention</div><div class="value">—</div><div class="sub">Placeholder</div></div>
+</div>
+<div class="chart-box" style="margin-top:16px;">
+  <canvas id="v3-retention-chart"></canvas>
+</div>
     <iframe class="doc-iframe" src="assets/Retention_overview (2).pdf"></iframe>
     <iframe class="doc-iframe" src="assets/Retention_overview (1).pdf"></iframe>
   </div>
@@ -563,6 +590,9 @@
   <!-- 4) Campaigns Funnel -->
   <div id="v3-funnel" class="subcontent">
     <h3>Campaigns Funnel</h3>
+<div class="chart-box" style="margin-top:16px;">
+  <canvas id="v3-funnel-chart"></canvas>
+</div>
     <iframe class="doc-iframe" src="assets/data (3).pdf"></iframe>
     <iframe class="doc-iframe" src="assets/data (4).pdf"></iframe>
   </div>
@@ -733,8 +763,53 @@
       makeChart('v2-retention-chart', 'line', ['16 Nov','23 Nov','30 Nov','07 Dec','14 Dec'], [20,15,18,22,65], ['#30d158'], {label:'Returning Users Trend'});
     }
 
+    function initAnalyticsV3(){
+  // safe: only draw if canvases exist
+  // (Use real numbers later — for now this gives you the same “look” as V1/V2.)
+
+  // Traffic acquisition (channels)
+  makeChart(
+    'v3-traffic-chart',
+    'bar',
+    ['Organic Search','Paid Search','Referral','Direct','Social'],
+    [12, 48, 20, 14, 6],
+    ['#0a84ff','#ff9f0a','#30d158','#9c9ca3','#7a7aff'],
+    { label:'Sessions by channel', legend:false }
+  );
+
+  // Events (core actions)
+  makeChart(
+    'v3-events-chart',
+    'bar',
+    ['app_redirect','login','image_upload','export_images','download_zip'],
+    [100, 78, 55, 41, 36],
+    ['#9c9ca3','#0a84ff','#30d158','#ffd60a','#ff453a'],
+    { label:'Event counts', legend:false }
+  );
+
+  // Retention (example line)
+  makeChart(
+    'v3-retention-chart',
+    'line',
+    ['Day 0','Day 1','Day 2','Day 3','Day 7','Day 14'],
+    [100, 22, 14, 10, 6, 4],
+    ['#30d158'],
+    { label:'Retention % (example)', legend:false }
+  );
+
+  // Funnel (step conversion)
+  makeChart(
+    'v3-funnel-chart',
+    'bar',
+    ['Landing','App redirect','Login','Upload','Export','Download'],
+    [100, 82, 68, 52, 41, 36],
+    ['#0a84ff','#30d158','#ffd60a','#7a7aff','#ff9f0a','#ff453a'],
+    { label:'Funnel completion %', legend:false }
+  );
+}
+
     /* --- Switching Logic --- */
-  function switchAnaVersion(v){
+    function switchAnaVersion(v){
     // toggle buttons
     document.querySelectorAll('.version-switch .v-btn').forEach(btn=>btn.classList.remove('active'));
     const btn = Array.from(document.querySelectorAll('.version-switch .v-btn'))
